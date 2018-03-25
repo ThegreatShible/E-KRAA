@@ -6,6 +6,6 @@ import play.api.inject.Module;
 public class dbModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind
+
     }
 }
