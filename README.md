@@ -1,4 +1,4 @@
-projet 2cs
+projet 2cs - experimental back end
 
 
 team : One Dot
