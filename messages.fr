@@ -1,0 +1,23 @@
+hello = Bonjour
+Dashboard = Tableau de bord
+ACTIONS = ACTIONS
+Add New PDF = Ajouter un nouveau PDF
+Generate a New PDF = Générer un nouveau fichier
+Book Title = Titre de livre
+Your Book Title Goes Here = Votre titre de livre va ici
+Difficulty = Difficulté
+Easy = Facile
+Intermediate = Intermédiaire
+Hard = Difficile
+Chose The Book's Difficulty = Choisissez la difficulté du livre
+Category = Catégorie
+Language = La langue
+Chose The Book's Language = Choisissez la langue du livre
+add your Text here = Ajoutez votre texte ici
+Submit = Soumettre
+Cancel = Annuler
+Upload an Existing PDF = Télécharger un PDF existant
+File Browser = Navigateur de fichiers
+Browse = télécharger
+
+
