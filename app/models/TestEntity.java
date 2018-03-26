@@ -9,6 +9,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "test", schema = "public", catalog = "projet2CS")
 public class TestEntity {
+
+
     private String name;
 
     @Id

@@ -2,6 +2,10 @@ package models;
 
 
 public class testClass {
+    public testClass(String name) {
+        this.name = name;
+    }
+
     private String name;
 
 

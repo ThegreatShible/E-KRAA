@@ -1,26 +1,20 @@
 package controllers;
 
 import Persistance.TestDAO;
-import Persistance.UserDAO;
-
-import forms.UserForm;
-import models.users.User;
-import org.springframework.context.annotation.Role;
-
-import play.data.Form;
-import play.data.FormFactory;
+import models.TestEntity;
+import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.i18n.MessagesApi;
-import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.concurrent.ExecutionContext;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 public class Authcontoller extends Controller {
 
@@ -76,6 +70,16 @@ public class Authcontoller extends Controller {
         return testDAO.test(name).thenApply(str -> {
             return ok(str);
         });
+    }
+
+    public Result test3(String name) {
+        Session session = new Configuration().configure().buildSessionFactory().openSession();
+        session.beginTransaction();
+        TestEntity te = new TestEntity();
+        te.setName(name);
+        session.save(te);
+        session.getTransaction().commit();
+        return ok("done");
     }
 
 

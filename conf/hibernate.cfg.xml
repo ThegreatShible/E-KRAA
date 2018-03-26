@@ -6,9 +6,9 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/projet2CS</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">khazigz95</property>
         <mapping class="models.TestEntity"/>
-        <!-- <property name="connection.username"/> -->
-        <!-- <property name="connection.password"/> -->
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
