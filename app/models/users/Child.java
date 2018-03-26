@@ -1,14 +1,9 @@
 package models.users;
 
-import authentication.permissions.AdminPermission;
-import authentication.roles.AdminRole;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-public class Child implements User {
+public class Child {
 
     private final UUID id;
     public Child(UUID id){
@@ -16,8 +11,6 @@ public class Child implements User {
     }
 
 
-
-    @Override
     public UUID getID() {
         return id;
     }
