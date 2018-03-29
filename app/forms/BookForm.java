@@ -1,8 +1,15 @@
 package forms;
 
+import models.book.Book;
+import models.book.BookCreationException;
+import models.book.Question;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookForm {
+
+
     private String title;
     private String difficulty;
     private List<String> categories;
@@ -56,5 +63,13 @@ public class BookForm {
 
     public void setQuestions(List<QuestionForm> questions) {
         this.questions = questions;
+    }
+
+    public Book toBook() throws BookCreationException {
+        List<Question> questionList = new ArrayList<>();
+        for (QuestionForm question : questions) {
+            questionList.add(question.toQuesiton());
+        }
+        return Book.create(content, title, language, difficulty, questionList, categories);
     }
 }

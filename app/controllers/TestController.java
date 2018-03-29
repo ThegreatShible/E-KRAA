@@ -1,15 +1,15 @@
 package controllers;
 
 
-import Persistance.DAOs.TestDAO2;
+import Persistance.DAOs.BookRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
-import models.TestEntity;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import models.book.Answer;
+import models.book.Book;
+import models.book.BookCreationException;
+import models.book.Question;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -18,45 +18,45 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+//TODO : add orderby into database
 
 public class TestController extends Controller {
 
 
-    private TestDAO2 testDAO2;
-
+    private BookRepository bookRepository;
     private MessagesApi messagesApi;
 
     @Inject
-    public TestController(MessagesApi messagesApi, TestDAO2 testDAO2) {
+    public TestController(MessagesApi messagesApi, BookRepository bookRepository) {
 
         this.messagesApi = messagesApi;
-
-        this.testDAO2 = testDAO2;
+        this.bookRepository = bookRepository;
     }
 
-    public Result test() {
-        String str = testDAO2.test();
-        return ok(str);
+    public Result test() throws BookCreationException {
+        Answer answer = new Answer((short) 1, "yes", true);
+        List<Answer> answers = new ArrayList<>();
+        answers.add(answer);
+        Question q = Question.create((short) 1, "what?", true, (short) 10, answers);
+        List<Question> questions = new ArrayList<>();
+        questions.add(q);
+        List<String> cat = new ArrayList<>();
+        cat.add("sport");
+        cat.add("Math");
+        Book book = Book.create("something", "sometitle", "FR", "EASY", questions, cat);
+        book.setLastModifDate(new Date());
+        JsonNode jsonNode = Json.toJson(book);
+        return ok(jsonNode.toString());
 
     }
 
-    /*public CompletionStage<Result> authenticate() {
-        Form<UserForm> authForm = formFactory.form(UserForm.class).bindFromRequest();
-        if(authForm.hasErrors())
-            return CompletableFuture.supplyAsync(() -> badRequest());
-        else{
-            UserForm userForm = authForm.get();
-            String email = userForm.getEmail();
-            CompletionStage<Optional<User>> userFuture = userDAO.getUser(email);
-            return userFuture.thenApply(user -> ok(user.toString()));
-            //TODO : remplacer par la page d'acceuil
-            //TODO: check if the DAO's return type is compatible with hibernate
-
-        }
-    }*/
 
     @BodyParser.Of(BodyParser.Json.class)
+
     public Result test2() {
 
         JsonNode jsonNode = request().body().asJson();
@@ -66,48 +66,39 @@ public class TestController extends Controller {
 
     }
 
-    public Result test3(String name) {
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        TestEntity te = new TestEntity();
-        te.setName(name);
-        session.save(te);
-        session.getTransaction().commit();
-        return ok("done");
+    public CompletableFuture<Result> test3(int id) {
+        CompletableFuture<Book> fb = bookRepository.find(id);
+        return fb.thenApply(b -> {
+            String json = Json.toJson(b).toString();
+            return ok(json);
+        });
     }
 
     public Result createBookForm() {
         BookForm bookForm = new BookForm();
-        List<QuestionForm> questionFormList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            QuestionForm questionForm = new QuestionForm();
-            List<AnswerForm> answerFormList = new ArrayList<>();
-            for (int j = 0; j < 4; j++) {
-                AnswerForm answerForm = new AnswerForm();
-                answerForm.setAnswer("bla" + j);
-                if (j == 1)
-                    answerForm.setRight(true);
-                else answerForm.setRight(false);
-                answerFormList.add(answerForm);
-            }
-            questionForm.setAnswers(answerFormList);
-            questionForm.setQuestion("ques" + i);
-            questionForm.setMultiple(false);
-            questionFormList.add(questionForm);
-        }
-        List<String> categories = new ArrayList<>();
-        categories.add("sport");
-        categories.add("music");
-        bookForm.setCategories(categories);
-        bookForm.setContent("some content such as json or html in this case");
-        bookForm.setDifficulty("Easy");
-        bookForm.setLanguage("fr");
-        bookForm.setTitle("customTitle");
-        bookForm.setQuestions(questionFormList);
-
+        AnswerForm answerForm = new AnswerForm();
+        answerForm.setRight(true);
+        answerForm.setAnswer("yes");
+        answerForm.setNumAnswer((short) 1);
+        List<AnswerForm> answerForms = new ArrayList<>();
+        answerForms.add(answerForm);
+        QuestionForm questionForm = new QuestionForm();
+        questionForm.setMultiple(true);
+        questionForm.setQuestion("what?");
+        questionForm.setAnswers(answerForms);
+        questionForm.setQuestionNum((short) 1);
+        questionForm.setWeight((short) 10);
+        List<QuestionForm> questionForms = new ArrayList<>();
+        questionForms.add(questionForm);
+        bookForm.setQuestions(questionForms);
+        bookForm.setTitle("title");
+        bookForm.setLanguage("FR");
+        bookForm.setDifficulty("EASY");
+        bookForm.setContent("something");
+        List<String> categoreis = new ArrayList<>();
+        categoreis.add("sport");
+        bookForm.setCategories(categoreis);
         String bookJson = Json.toJson(bookForm).toString();
-
         return ok(bookJson);
 
 
@@ -138,10 +129,6 @@ public class TestController extends Controller {
             childrenNames.add(child);
         }
     }
-
-
-
-
 
 
 }

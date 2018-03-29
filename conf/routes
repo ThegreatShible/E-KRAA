@@ -17,5 +17,8 @@ POST        /addBook             controllers.BookCreationController.addBook()
 
 GET         /json                controllers.TestController.createBookForm()
 
+GET         /book/:id            controllers.BookCreationController.getBook(id : Int)
 
-GET         /test3/:str          controllers.TestController.test3(str)
+
+GET         /remove/:id          controllers.BookCreationController.removeBook(id :Int)
+GET         /test3/:str          controllers.TestController.test3(str : Int)
