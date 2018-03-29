@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+//TODO : Remove
 @Entity
 @Table(name = "test", schema = "public", catalog = "projet2CS")
 public class TestEntity {
