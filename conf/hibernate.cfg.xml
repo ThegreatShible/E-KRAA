@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/projet2CS</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">khazigz95</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <mapping class="models.TestEntity"/>
+        <mapping class="models.book.AnswerEntity"/>
+        <mapping class="models.book.BooksEntity"/>
+        <mapping class="models.book.CategoriesEntity"/>
+        <mapping class="models.book.QuestionsEntity"/>
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

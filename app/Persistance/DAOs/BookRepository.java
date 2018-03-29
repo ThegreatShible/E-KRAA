@@ -1,0 +1,177 @@
+package Persistance.DAOs;
+
+import Persistance.DatabaseExecutionContext;
+import models.book.*;
+import play.db.jpa.JPAApi;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+public class BookRepository implements CRUD_DAO<Book, Integer> {
+
+
+    //Insertion Queries
+    private final static String bookInsertQuery = "INSERT INTO public.book(content, lastmodifdate, language, difficulty, title) VALUES (?, ?, ?, ?, ?) Returning idbook";
+    private final static String categorieInsertQuery = "INSERT INTO public.categorie(idbook, categorie) VALUES (?, ?)";
+    private final static String questionInsertQuery = "INSERT INTO public.questions(idbook, content, multiplechoices, weight)VALUES (?, ?, ?, ?) Returning numquestion";
+    private final static String answerInsertQuery = "INSERT INTO public.answer(idbook, idquestion, content, \"right\") VALUES (?, ?, ?, ?)";
+
+
+    //Selection Queries with condition
+    private final static String bookSelectQuery = "SELECT * FROM public.book WHERE idbook = ? AND removed = FALSE";
+    private final static String categorieSelectQuery = "SELECT * FROM public.categorie WHERE idbook = ?";
+    private final static String questionSelectQuery = "SELECT * FROM public.questions WHERE idbook = ?";
+    private final static String answerSelectQuery = "SELECT * FROM public.answer WHERE idbook = ? AND idquestion = ?";
+
+
+    private final static String bookRemoveQuery = "update book set removed = ?";
+
+
+    private JPAApi jpaApi;
+    private DatabaseExecutionContext databaseExecutionContext;
+
+    @Inject
+    public BookRepository(JPAApi jpaApi, DatabaseExecutionContext databaseExecutionContext) {
+        this.jpaApi = jpaApi;
+        this.databaseExecutionContext = databaseExecutionContext;
+    }
+
+    @Override
+    public CompletableFuture<Integer> create(Book obj) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                Query q1 = em.createNativeQuery(bookInsertQuery);
+                int id = (int) q1.setParameter(1, obj.getContent()).setParameter(2, new Date(), TemporalType.TIMESTAMP).
+                        setParameter(3, obj.getLanguage().getLanguage()).setParameter(4, obj.getDifficulty().name()).setParameter(5, obj.getTitle()).getSingleResult();
+
+                for (String cat : obj.getCategories()) {
+
+                    Query q2 = em.createNativeQuery(categorieInsertQuery).setParameter(1, id).setParameter(2, cat);
+                    q2.executeUpdate();
+                }
+                for (Question qs : obj.getQuestions()) {
+                    Query q3 = em.createNativeQuery(questionInsertQuery).setParameter(1, id).setParameter(2, qs.getContent()).setParameter(3, qs.isMultipleChoice()).setParameter(4, qs.getWeight());
+                    short idq = (short) q3.getSingleResult();
+
+                    for (Answer ans : qs.getAnswers()) {
+                        Query q4 = em.createNativeQuery(answerInsertQuery).setParameter(1, id).setParameter(2, idq).setParameter(3, ans.getContent()).setParameter(4, ans.isValid());
+                        q4.executeUpdate();
+                    }
+
+                }
+                return id;
+            });
+        }, databaseExecutionContext);
+    }
+
+
+    @Override
+    public CompletableFuture<Void> edit(Book obj) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> destroy(Integer key) {
+        return CompletableFuture.runAsync(() -> {
+            jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                em.createNativeQuery(bookRemoveQuery).setParameter(1, true).executeUpdate();
+            });
+        }, databaseExecutionContext);
+    }
+
+    @Override
+    public CompletableFuture<Book> find(Integer key) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                List<Object[]> rawCategories = em.createNativeQuery(categorieSelectQuery).setParameter(1, key).getResultList();
+                List<Object[]> rawQuestions = em.createNativeQuery(questionSelectQuery).setParameter(1, key).getResultList();
+                List<Question> questions = new ArrayList<>();
+                for (Object[] raw : rawQuestions) {
+                    short idq = (short) raw[1];
+                    List<Object[]> rawAnswers = em.createNativeQuery(answerSelectQuery).setParameter(1, key).setParameter(2, idq).getResultList();
+                    List<Answer> answers = answersConverter(rawAnswers);
+                    Question question = questionConverter(raw, answers);
+                    questions.add(question);
+                }
+                List<String> categories = categorieConverter(rawCategories);
+                List<Object[]> bookList = em.createNativeQuery(bookSelectQuery).setParameter(1, key).getResultList();
+                Object[] book = bookList.get(0);
+                return bookConverter(book, categories, questions);
+
+
+            });
+        }, databaseExecutionContext);
+    }
+
+    @Override
+    public CompletableFuture<Integer> count() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<List<Book>> findAll() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<List<Book>> find(int max, int first) {
+        return null;
+    }
+
+
+    private List<String> categorieConverter(List<Object[]> raws) {
+        List<String> categories = new ArrayList<>();
+        for (Object[] raw : raws) {
+            String categorie = (String) raw[1];
+            categories.add(categorie);
+        }
+
+        return categories;
+    }
+
+    private List<Answer> answersConverter(List<Object[]> raws) {
+        List<Answer> answers = new ArrayList<>();
+        for (Object[] raw : raws) {
+            short numAnswer = (short) raw[2];
+            String content = (String) raw[3];
+            boolean valid = (boolean) raw[4];
+            answers.add(new Answer(numAnswer, content, valid));
+        }
+        return answers;
+    }
+
+    private Question questionConverter(Object[] raw, List<Answer> answers) {
+
+        short numQuestion = (short) raw[1];
+        String content = (String) raw[2];
+        boolean multipleChoices = (boolean) raw[3];
+        short weight = (short) raw[4];
+        Question question = new Question(numQuestion, content, multipleChoices, weight, answers);
+        return question;
+    }
+
+    private Book bookConverter(Object[] raws, List<String> categories, List<Question> questions) {
+        int idBook = (int) raws[0];
+        String content = (String) raws[1];
+        Date lastModifDate = (Date) raws[2];
+        Language language = null;
+        try {
+            language = Language.String2Language((String) raws[3]);
+        } catch (BookCreationException bce) {
+            bce.printStackTrace();
+        }
+        Difficulty difficulty = Difficulty.valueOf((String) raws[4]);
+        String title = (String) raws[6];
+
+        return new Book(idBook, title, content, language, lastModifDate, difficulty, questions, categories);
+    }
+}
