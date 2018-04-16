@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
+import forms.UserAnswerForm;
 import models.book.Answer;
 import models.book.Book;
 import models.book.BookCreationException;
@@ -17,9 +18,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 //TODO : add orderby into database
@@ -102,6 +101,20 @@ public class TestController extends Controller {
         return ok(bookJson);
 
 
+    }
+
+    public Result createUserAnswerForm() {
+        UserAnswerForm userAnswerForm = new UserAnswerForm();
+        userAnswerForm.setIdBook(24l);
+        Map<Short, List<Short>> map = new HashMap<>();
+        short i = 26;
+        short j = 83;
+        List<Short> list = new ArrayList<>();
+        list.add(j);
+        map.put(i, list);
+        userAnswerForm.setQustionsAnswers(map);
+        JsonNode jsonNode = Json.toJson(userAnswerForm);
+        return ok(jsonNode);
     }
 
     class Person {

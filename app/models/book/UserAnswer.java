@@ -30,8 +30,12 @@ public class UserAnswer {
             if (!question.isMultipleChoice() && answers.size() > 1)
                 throw new UserAnswerCreationException("Question a choix unique contient des reponses multiples");
 
-            Set<Short> answerSet = new HashSet(question.getAnswers());
-            if (!answerSet.equals(new HashSet(answers)))
+            Set<Answer> answerSet = new HashSet(question.getAnswers());
+            Set<Short> answerIDSet = new HashSet<>();
+            for (Answer a : answerSet) {
+                answerIDSet.add(a.getNumAnswer());
+            }
+            if (!answerIDSet.equals(new HashSet(answers)))
                 throw new UserAnswerCreationException("Les reponse a une question ne sont pas conformes");
 
         }

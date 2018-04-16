@@ -1,27 +1,37 @@
 package Persistance.DAOs;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class UserNameAnswerEntity {
 
-    private int ibook;
-    private short numquesion;
+    @Id
+    private int idbook;
+    @Column
+    private short numquestion;
+    @Column
     private short numanswer;
+    @Column(name = "idanswer")
     private int idAnwser;
+    @Column
     private long answerdate;
 
-    public int getIbook() {
-        return ibook;
+    public int getIdbook() {
+        return idbook;
     }
 
-    public void setIbook(int ibook) {
-        this.ibook = ibook;
+    public void setIdbook(int ibook) {
+        this.idbook = ibook;
     }
 
-    public short getNumquesion() {
-        return numquesion;
+    public short getNumquestion() {
+        return numquestion;
     }
 
-    public void setNumquesion(short numquesion) {
-        this.numquesion = numquesion;
+    public void setNumquestion(short numquesion) {
+        this.numquestion = numquesion;
     }
 
     public short getNumanswer() {

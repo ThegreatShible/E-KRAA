@@ -26,7 +26,7 @@ public class AnswerController extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public CompletableFuture<Result> answerQuesions() {
+    public CompletableFuture<Result> answerQuestion() {
         final JsonNode jsonNode = request().body().asJson();
         final UserAnswerForm userAnswerForm = Json.fromJson(jsonNode, UserAnswerForm.class);
         return bookRepository.getQuestionFromBook(userAnswerForm.getIdBook()).thenCompose(questionList -> {
@@ -39,6 +39,20 @@ public class AnswerController extends Controller {
                 return CompletableFuture.supplyAsync(() -> internalServerError());
             }
 
+        });
+    }
+
+    public CompletableFuture<Result> getBookAnswer(long i) {
+        return userAnswerDAO.find(i).thenApply(x -> {
+            //TODO : replace not found
+            if (x.isEmpty())
+                return ok("not found");
+            else {
+                return x.map(answer -> {
+                    JsonNode jsonNode = Json.toJson(answer);
+                    return ok(jsonNode.toString());
+                }).get();
+            }
         });
     }
 }

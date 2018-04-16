@@ -18,7 +18,7 @@ import static play.libs.Scala.None;
 
 public class UserAnswerDAO {
 
-    private final static String userAnswerInsert = "INSERT INTO public.useranswer(idbook, numquestion, numanswer, answerdate) VALUES ( ?, ?, ?, ?)";
+    private final static String userAnswerInsert = "INSERT INTO public.useranswer(idbook, numquestion, numanswer, answerdate) VALUES ( ?, ?, ?, ?) RETURNING idbook";
     private final static String getUserAnswerSelectQuery = "Select * from useranswer";
 
     private JPAApi jpaApi;
@@ -57,13 +57,13 @@ public class UserAnswerDAO {
                     return None();
 
                 Stream<UserNameAnswerEntity> stream = rawuserAnswer.stream();
-                Map<Short, List<QA>> map = stream.map(x -> (new QA(x.getNumquesion(), x.getNumanswer()))).collect(Collectors.groupingBy(QA::getQuesion));
+                Map<Short, List<QA>> map = stream.map(x -> (new QA(x.getNumquestion(), x.getNumanswer()))).collect(Collectors.groupingBy(QA::getQuesion));
                 Map<Short, List<Short>> map2 = map.entrySet().stream().collect(Collectors.toMap(
                         e -> e.getKey(),
                         e -> e.getValue().stream().map(x -> x.getAnswer()).collect(Collectors.toList())
                 ));
 
-                int book = rawuserAnswer.get(0).getIbook();
+                int book = rawuserAnswer.get(0).getIdbook();
                 int idAnswer = rawuserAnswer.get(0).getIdAnwser();
                 long answerdate = rawuserAnswer.get(0).getAnswerdate();
 
