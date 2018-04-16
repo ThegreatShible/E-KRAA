@@ -29,7 +29,10 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
     private final static String questionSelectQuery = "SELECT * FROM public.questions WHERE idbook = ?";
     private final static String answerSelectQuery = "SELECT * FROM public.answer WHERE idbook = ? AND idquestion = ?";
 
+    //getting quesitonList from a book
+    private final static String questionListQuery = "SELECT * FROM public.questions where idbook = ?";
 
+    //Removing a book
     private final static String bookRemoveQuery = "update book set removed = ?";
 
 
@@ -125,6 +128,24 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
     @Override
     public CompletableFuture<List<Book>> find(int max, int first) {
         return null;
+    }
+
+    public CompletableFuture<List<Question>> getQuestionFromBook(long bookId) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                List<Question> questions = new ArrayList<>();
+                List<Object[]> rawQuestion = em.createNativeQuery(questionListQuery).setParameter(1, bookId).getResultList();
+                for (Object[] raw : rawQuestion) {
+                    List<Object[]> rawAnswers = em.createNativeQuery(answerSelectQuery).setParameter(1, raw[0]).setParameter(2, raw[1]).getResultList();
+                    List<Answer> answers = answersConverter(rawAnswers);
+                    Question question = questionConverter(raw, answers);
+                    questions.add(question);
+                }
+                return questions;
+            });
+        }, databaseExecutionContext);
+
     }
 
 

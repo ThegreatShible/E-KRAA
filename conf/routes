@@ -8,17 +8,23 @@
 # Map static resources from the /public folder to the /assets URL path
 
 
-GET         /test                controllers.TestController.test()
-GET         /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET         /test                 controllers.TestController.test()
 
-POST        /test2               controllers.TestController.test2()
+GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
 
-POST        /addBook             controllers.BookCreationController.addBook()
+POST        /test2                controllers.TestController.test2()
 
-GET         /json                controllers.TestController.createBookForm()
+POST        /addBook              controllers.BookCreationController.addBook()
 
-GET         /book/:id            controllers.BookCreationController.getBook(id : Int)
+POST        /answer               controllers.AnswerController.answerQuestion()
 
+GET         /getAnswer/:id        controllers.AnswerController.getBookAnswer(id : Long)
+GET         /json                 controllers.TestController.createBookForm()
 
-GET         /remove/:id          controllers.BookCreationController.removeBook(id :Int)
-GET         /test3/:str          controllers.TestController.test3(str : Int)
+GET         /book/:id             controllers.BookCreationController.getBook(id : Int)
+
+GET         /response/test        controllers.TestController.createUserAnswerForm()
+
+GET         /remove/:id           controllers.BookCreationController.removeBook(id :Int)
+
+GET         /test3/:str           controllers.TestController.test3(str : Int)
