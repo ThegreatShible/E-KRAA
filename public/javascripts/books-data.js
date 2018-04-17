@@ -4,7 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 
-		var dataJSONArray = JSON.parse('[{"BookID":1,"BookTitle":"the little prince","Difficulty":"Easy","Category":"adventure","Language":"English","Status":1},{"BookID":2,"BookTitle":"علاء الدين","Difficulty":"Easy","Category":"adventure","Language":"عربي","Status":2}]');
+		var dataJSONArray = JSON.parse('[{"BookID":1,"BookTitle":"the little prince","Difficulty":"Easy","Category":"adventure","Language":"English","Date":"04/17/2018","Status":1},{"BookID":2,"BookTitle":"علاء الدين","Difficulty":"Easy","Category":"adventure","Language":"عربي","Date":"04/18/2018","Status":2}]');
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
@@ -37,41 +37,37 @@ var DatatableDataLocalDemo = function () {
 
 			// columns definition
 			columns: [{
-				field: "RecordID",
+				field: "BookID",
 				title: "#",
 				width: 50,
 				sortable: false,
 				selector: false,
 				textAlign: 'center'
 			}, {
-				field: "OrderID",
-				title: "Order ID"
+				field: "BookTitle",
+				title: "Book Title"
 			}, {
-				field: "ShipName",
-				title: "Ship Name",
+				field: "Difficulty",
+				title: "Difficulty",
 				responsive: {
 					visible: 'lg'
 				}
 			}, {
-				field: "Currency",
-				title: "Currency",
+				field: "Category",
+				title: "Category",
 				width: 100
 			}, {
-				field: "ShipAddress",
-				title: "Ship Address",
+				field: "Language",
+				title: "Language",
 				responsive: {
 					visible: 'lg'
 				}
 			}, {
-				field: "ShipDate",
-				title: "Ship Date",
+				field: "Date",
+				title: "Date",
 				type: "date",
 				format: "MM/DD/YYYY"
-			}, {
-				field: "Latitude",
-				title: "Latitude",
-				type: "number"
-			}, {
+			},{
 				field: "Status",
 				title: "Status",
 				// callback function support for column rendering
@@ -82,52 +78,11 @@ var DatatableDataLocalDemo = function () {
 							'class': 'm-badge--brand'
 						},
 						2: {
-							'title': 'Delivered',
-							'class': ' m-badge--metal'
-						},
-						3: {
-							'title': 'Canceled',
-							'class': ' m-badge--primary'
-						},
-						4: {
 							'title': 'Success',
 							'class': ' m-badge--success'
-						},
-						5: {
-							'title': 'Info',
-							'class': ' m-badge--info'
-						},
-						6: {
-							'title': 'Danger',
-							'class': ' m-badge--danger'
-						},
-						7: {
-							'title': 'Warning',
-							'class': ' m-badge--warning'
 						}
 					};
 					return '<span class="m-badge ' + status[row.Status].class + ' m-badge--wide">' + status[row.Status].title + '</span>';
-				}
-			}, {
-				field: "Type",
-				title: "Type",
-				// callback function support for column rendering
-				template: function (row) {
-					var status = {
-						1: {
-							'title': 'Online',
-							'state': 'danger'
-						},
-						2: {
-							'title': 'Retail',
-							'state': 'primary'
-						},
-						3: {
-							'title': 'Direct',
-							'state': 'accent'
-						}
-					};
-					return '<span class="m-badge m-badge--' + status[row.Type].state + ' m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-' + status[row.Type].state + '">' + status[row.Type].title + '</span>';
 				}
 			}, {
 				field: "Actions",
@@ -146,7 +101,7 @@ var DatatableDataLocalDemo = function () {
 						  	<div class="dropdown-menu dropdown-menu-right">\
 						    	<a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
 						    	<a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-						    	<a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
+						    	<a class="dropdown-item" href="#"><i class="la la-print"></i> Create Quizz </a>\
 						  	</div>\
 						</div>\
 						<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="View ">\
@@ -163,9 +118,9 @@ var DatatableDataLocalDemo = function () {
 			datatable.search($(this).val(), 'Status');
 		}).val(typeof query.Status !== 'undefined' ? query.Status : '');
 
-		$('#m_form_type').on('change', function () {
-			datatable.search($(this).val(), 'Type');
-		}).val(typeof query.Type !== 'undefined' ? query.Type : '');
+		// $('#m_form_type').on('change', function () {
+		// 	datatable.search($(this).val(), 'Type');
+		// }).val(typeof query.Type !== 'undefined' ? query.Type : '');
 
 		$('#m_form_status, #m_form_type').selectpicker();
 
