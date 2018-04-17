@@ -797,7 +797,7 @@
 							</div>
 						</div>
 						<!--begin::Form-->
-						<form class="m-form m-form--fit m-form--label-align-right">
+						<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="#">
 							<div class="form-group m-form__group">
 								<label for="exampleInputEmail1">
 									Book Title
@@ -806,7 +806,7 @@
 									<span class="input-group-addon" id="basic-addon1">
 										<i class="la la-book"></i>
 									</span>
-									<input type="text" class="form-control m-input" placeholder="Book Title" aria-describedby="basic-addon1">
+									<input type="text" name="Title" class="form-control m-input" placeholder="Book Title" aria-describedby="basic-addon1">
 								</div>
 								<span class="m-form__help">
 									Your Book Title Goes Here
@@ -818,15 +818,15 @@
 								</label>
 								<div class="m-radio-inline">
 									<label class="m-radio">
-										<input type="radio" name="example_3" value="1"> Easy
+										<input type="radio" name="difficulty" value="EASY"> Easy
 										<span></span>
 									</label>
 									<label class="m-radio">
-										<input type="radio" name="example_3" value="2"> Intermediate
+										<input type="radio" name="difficulty" value="INTERMEDIATE"> Intermediate
 										<span></span>
 									</label>
 									<label class="m-radio">
-										<input type="radio" name="example_3" value="3"> Hard
+										<input type="radio" name="difficulty" value="HARD"> Hard
 										<span></span>
 									</label>
 								</div>
@@ -839,7 +839,7 @@
 									Category
 								</label>
 								<div>
-									<select class="form-control m-select2" id="m_select2_3" name="param" multiple="multiple">
+									<select class="form-control m-select2" id="m_select2_3" name="Category" multiple="multiple">
 										<optgroup label="Alaskan/Hawaiian Time Zone">
 											<option value="AK" selected>
 												Alaska
@@ -940,15 +940,15 @@
 								</label>
 								<div class="m-radio-inline">
 									<label class="m-radio">
-										<input type="radio" name="example_4" value="1"> English
+										<input type="radio" name="Language" value="EN"> English
 										<span></span>
 									</label>
 									<label class="m-radio">
-										<input type="radio" name="example_4" value="2"> Français
+										<input type="radio" name="Language" value="FR"> Français
 										<span></span>
 									</label>
 									<label class="m-radio">
-										<input type="radio" name="example_4" value="3"> عربي
+										<input type="radio" name="Language" value="AR"> عربي
 										<span></span>
 									</label>
 								</div>
@@ -970,8 +970,8 @@
 								<div class="m-form__actions m-form__actions">
 									<div class="row">
 										<div class="col-lg-9 ml-lg-auto">
-											<button type="reset" class="btn btn-brand">
-												Submit
+											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#m_modal_4">
+												Generate Quizz
 											</button>
 											<button type="reset" class="btn btn-secondary">
 												Cancel
@@ -980,6 +980,140 @@
 									</div>
 								</div>
 							</div>
+							<!--begin::Modal-->
+		<div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="m-content">
+							<!--begin::Portlet-->
+							<div class="m-portlet">
+								<div class="m-portlet__head">
+									<div class="m-portlet__head-caption">
+										<div class="m-portlet__head-title">
+											<h3 class="m-portlet__head-text">
+												Quizz For: Book name
+											</h3>
+										</div>
+									</div>
+								</div>
+								<!--begin::Form-->
+	
+								<div class="m-portlet__body">
+									<div class="m-form__section m-form__section--first">
+										<div id="m_repeater_1">
+											<div class="form-group  m-form__group row" id="m_repeater_1">
+												<label class="col-lg-2 col-form-label">
+													Quizz:
+												</label>
+												<div data-repeater-list="" class="col-lg-10">
+													<div data-repeater-item class="form-group m-form__group row align-items-center">
+														<div class="form-group m-form__group col-md-8">
+															<label for="exampleInputEmail1">
+																Question:
+															</label>
+															<div class="input-group m-input-group">
+																<span class="input-group-addon" id="basic-addon1">
+																	<i class="la la-question"></i>
+																</span>
+																<input type="text" class="form-control m-input" placeholder="Your Question" aria-describedby="basic-addon1">
+															</div>
+															<span class="m-form__help">
+																Insert Your Question Here
+															</span>
+														</div>
+														<div class="col-md-4">
+															<div data-repeater-delete="" class="btn-sm btn btn-danger m-btn m-btn--icon m-btn--pill">
+																<span>
+																	<i class="la la-trash-o"></i>
+																	<span>
+																		Delete
+																	</span>
+																</span>
+															</div>
+														</div>
+														<div id="m_repeater_3">
+															<div class="form-group  m-form__group row">
+																<label class="col-lg-3 col-form-label">
+																	Suggestions:
+																</label>
+																<div data-repeater-list="" class="col-lg-9">
+																	<div data-repeater-item class="row m--margin-bottom-10">
+																		<div class="col-lg-10">
+																			<div class="input-group m-form__group">
+																				<span class="input-group-addon">
+																					<label class="m-checkbox m-checkbox--single m-checkbox--state m-checkbox--state-success">
+																						<input type="checkbox" checked="">
+																						<span></span>
+																					</label>
+																				</span>
+																				<input type="text" class="form-control" aria-label="Text input with checkbox">
+																			</div>
+																		</div>
+																		<div class="col-lg-2">
+																			<a href="#" data-repeater-delete="" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
+																				<i class="la la-remove"></i>
+																			</a>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-lg-3"></div>
+																<div class="col">
+																	<div data-repeater-create="" class="btn btn btn-primary m-btn m-btn--icon">
+																		<span>
+																			<i class="la la-plus"></i>
+																			<span>
+																				Add Suggestion
+																			</span>
+																		</span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="m-form__group form-group row">
+												<label class="col-lg-2 col-form-label"></label>
+												<div class="col-lg-4">
+													<div data-repeater-create="" class="btn btn  btn-success btn-brand m-btn m-btn--icon m-btn--pill m-btn--wide">
+														<span>
+															<i class="la la-plus"></i>
+															<span>
+																Add Question
+															</span>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="m-portlet__foot m-portlet__foot--fit">
+									<div class="m-form__actions m-form__actions">
+										<div class="row">
+											<div class="col-lg-2"></div>
+											<div class="col-lg-6">
+												<button type="submit" class="btn btn-success">
+													Submit
+												</button>
+												<button type="reset" class="btn btn-secondary">
+													Cancel
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+	
+								<!--end::Form-->
+							</div>
+							<!--end::Portlet-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end::Modal-->
 						</form>
 						<!--end::Form-->
 					</div>
@@ -987,6 +1121,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- end:: Body -->
 		<!-- begin::Footer -->
 		<footer class="m-grid__item		m-footer ">
@@ -1050,6 +1185,7 @@
 	<!--begin::Page Resources -->
 	<script src="../javascripts/summernote.js" type="text/javascript"></script>
 	<script src="../javascripts/select2.js" type="text/javascript"></script>
+	<script src="../javascripts/repeat.js" type="text/javascript"></script>
 	<!--end::Page Resources -->
 </body>
 <!-- end::Body -->
