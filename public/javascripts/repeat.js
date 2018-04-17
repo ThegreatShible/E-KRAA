@@ -43,7 +43,6 @@ var FormRepeater = function() {
             defaultValues: {
                 'text-input': 'foo'
             },
-             
             show: function() {
                 $(this).slideDown();                               
             },
