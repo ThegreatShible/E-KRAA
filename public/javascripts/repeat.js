@@ -7,8 +7,7 @@ var FormRepeater = function() {
            
             defaultValues: {
                 'text-input': 'foo'
-            },
-             
+            },  
             show: function () {
                 $(this).slideDown();
             },
@@ -43,6 +42,7 @@ var FormRepeater = function() {
             defaultValues: {
                 'text-input': 'foo'
             },
+
             show: function() {
                 $(this).slideDown();                               
             },
@@ -52,24 +52,26 @@ var FormRepeater = function() {
             }      
         });
     }
+    var demo4 = function(){
+        $('#m_repeater_1').repeater({
+           
+            repeaters: [{
+                selector: '#m_repeater_3'
+            }]
+        });
+    }
     return {
         // public functions
         init: function() {
-            demo1();
-            demo2();
-            demo3();
+            // demo1();
+            // demo2();
+            // demo3();
+            demo4();
+
         }
     };
 }();
 
 jQuery(document).ready(function() {
-   
-        $('.repeater').repeater({
-            repeaters: [{
-                // (Required)
-                // Specify the jQuery selector for this nested repeater
-                selector: '.inner-repeater'
-            }]
-        });
     FormRepeater.init();
 });
