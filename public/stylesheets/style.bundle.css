@@ -3357,7 +3357,10 @@ button.close {
 @media (min-width: 992px) {
   .modal-lg {
     max-width: 800px; } }
-
+@media (min-width: 992px) {
+      .modal-lgc {
+        max-width: 80%; } }
+    
 .tooltip {
   position: absolute;
   z-index: 1070;
