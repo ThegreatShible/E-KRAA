@@ -14,10 +14,12 @@ var stepper = function(){
 
 var next = function(){
 nextBtn.click(function() {
+
     qsts[i-1].hide();
     qsts[i].show();
     i++;
-
+    var val = (i*150);
+    prog.css("width",val);
   });
 
 }
