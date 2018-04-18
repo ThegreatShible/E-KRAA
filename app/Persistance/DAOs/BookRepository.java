@@ -103,10 +103,11 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
                     List<Object[]> rawAnswers = em.createNativeQuery(answerSelectQuery).setParameter(1, key).setParameter(2, idq).getResultList();
                     List<Answer> answers = answersConverter(rawAnswers);
                     Question question = questionConverter(raw, answers);
+
                     questions.add(question);
                 }
                 List<String> categories = categorieConverter(rawCategories);
-                List<Object[]> bookList = em.createNativeQuery(bookSelectQuery).setParameter(1, key).getResultList();
+                List<Object[]> bookList = em.createNativeQuery(bookSelectQuery).setParameter(1, key.longValue()).getResultList();
                 Object[] book = bookList.get(0);
                 return bookConverter(book, categories, questions);
 

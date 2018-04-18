@@ -18,10 +18,13 @@ import java.util.concurrent.CompletableFuture;
 public class BookCreationController extends Controller {
 
     private BookRepository bookRepository;
+    private views.html.readbook readBookTemplate;
 
     @Inject
-    public BookCreationController(BookRepository bookRepository) {
+    public BookCreationController(BookRepository bookRepository, views.html.readbook readBookTemplate) {
         this.bookRepository = bookRepository;
+        this.readBookTemplate = readBookTemplate;
+
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -40,8 +43,10 @@ public class BookCreationController extends Controller {
 
     public CompletableFuture<Result> getBook(int id) {
         return bookRepository.find(id).thenApply(b -> {
-            return ok(Json.toJson(b).toString());
+            return ok(readBookTemplate.render(b));
         });
+
+
     }
 
     public CompletableFuture<Result> removeBook(int id) {

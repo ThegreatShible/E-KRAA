@@ -7,62 +7,44 @@ import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
 import forms.UserAnswerForm;
-import models.book.Answer;
 import models.book.Book;
-import models.book.BookCreationException;
-import models.book.Question;
 import play.i18n.MessagesApi;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 //TODO : add orderby into database
+//TODO : Remove this controller
 
 public class TestController extends Controller {
 
 
+    private final views.html.test testTemplate;
     private BookRepository bookRepository;
     private MessagesApi messagesApi;
 
     @Inject
-    public TestController(MessagesApi messagesApi, BookRepository bookRepository) {
-
+    public TestController(MessagesApi messagesApi, BookRepository bookRepository, views.html.test testTemplate) {
+        this.testTemplate = testTemplate;
         this.messagesApi = messagesApi;
         this.bookRepository = bookRepository;
     }
 
-    public Result test() throws BookCreationException {
-        Answer answer = new Answer((short) 1, "yes", true);
-        List<Answer> answers = new ArrayList<>();
-        answers.add(answer);
-        Question q = Question.create((short) 1, "what?", true, (short) 10, answers);
-        List<Question> questions = new ArrayList<>();
-        questions.add(q);
-        List<String> cat = new ArrayList<>();
-        cat.add("sport");
-        cat.add("Math");
-        Book book = Book.create("something", "sometitle", "FR", "EASY", questions, cat);
-        book.setLastModifDate(new Date());
-        JsonNode jsonNode = Json.toJson(book);
-        return ok(jsonNode.toString());
-
+    public Result test() {
+        return ok(testTemplate.render());
     }
 
 
-    @BodyParser.Of(BodyParser.Json.class)
 
     public Result test2() {
-
-        JsonNode jsonNode = request().body().asJson();
-        Person p = Json.fromJson(jsonNode, Person.class);
-        String rejson = Json.toJson(p).toString();
-        return ok(rejson);
-
+        return ok("done");
     }
 
     public CompletableFuture<Result> test3(int id) {
@@ -103,6 +85,7 @@ public class TestController extends Controller {
 
     }
 
+
     public Result createUserAnswerForm() {
         UserAnswerForm userAnswerForm = new UserAnswerForm();
         userAnswerForm.setIdBook(24l);
@@ -116,6 +99,7 @@ public class TestController extends Controller {
         JsonNode jsonNode = Json.toJson(userAnswerForm);
         return ok(jsonNode);
     }
+
 
     class Person {
         protected String name;

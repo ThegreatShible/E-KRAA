@@ -1,12 +1,17 @@
-@(message :play.i18n.Messages, str : String)
+@this()
 <html>
     <head>
         <meta charset="UTF-8" lang="ar"/>
         <title>hello</title>
     </head>
     <body>
-        <p> @str</p>
-        @message.at("hello")
-        <p>بنمستيبمنشسيتبمنستي</p>
+
+        <form action="/test2" method="POST">
+            <input type="file" name="file" id="inputfile"/>
+            <button name="button" id="button"> bouton</button>
+
+        </form>
+
+        <script src="../../public/javascripts/test.js"></script>
     </body>
 </html>
