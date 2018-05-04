@@ -10,8 +10,11 @@ import forms.UserAnswerForm;
 import models.book.Book;
 import play.i18n.MessagesApi;
 import play.libs.Json;
+import play.libs.mailer.MailerClient;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.mailing.MailingService;
+import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -29,12 +32,17 @@ public class TestController extends Controller {
     private final views.html.test testTemplate;
     private BookRepository bookRepository;
     private MessagesApi messagesApi;
+    private MailerClient mailerClient;
+    private MailingService mailingService;
 
     @Inject
-    public TestController(MessagesApi messagesApi, BookRepository bookRepository, views.html.test testTemplate) {
+    public TestController(MessagesApi messagesApi, BookRepository bookRepository, views.html.test testTemplate, MailerClient mailerClient
+            , MailingServiceImpl mailingService) {
         this.testTemplate = testTemplate;
         this.messagesApi = messagesApi;
         this.bookRepository = bookRepository;
+        this.mailerClient = mailerClient;
+        this.mailingService = mailingService;
     }
 
     public Result test() {
@@ -59,23 +67,32 @@ public class TestController extends Controller {
         BookForm bookForm = new BookForm();
         AnswerForm answerForm = new AnswerForm();
         answerForm.setRight(true);
-        answerForm.setAnswer("yes");
+        answerForm.setAnswer("oui");
         answerForm.setNumAnswer((short) 1);
+        AnswerForm answerForm2 = new AnswerForm();
+        answerForm2.setRight(false);
+        answerForm2.setAnswer("non");
+        answerForm2.setNumAnswer((short) 2);
         List<AnswerForm> answerForms = new ArrayList<>();
         answerForms.add(answerForm);
+        answerForms.add(answerForm2);
         QuestionForm questionForm = new QuestionForm();
         questionForm.setMultiple(true);
-        questionForm.setQuestion("what?");
+        questionForm.setQuestion("est ce que la terre est ronde ? ");
         questionForm.setAnswers(answerForms);
         questionForm.setQuestionNum((short) 1);
         questionForm.setWeight((short) 10);
         List<QuestionForm> questionForms = new ArrayList<>();
         questionForms.add(questionForm);
         bookForm.setQuestions(questionForms);
-        bookForm.setTitle("title");
+        bookForm.setTitle("texte aleatoire");
         bookForm.setLanguage("FR");
         bookForm.setDifficulty("EASY");
-        bookForm.setContent("something");
+        bookForm.setContent("this is a book we can write what ever we want *************************************" +
+                "this is another thig *****************************************************" +
+                "another lskdjflsjd ***********************************************" +
+                "**************************************" +
+                "*******************************************");
         List<String> categoreis = new ArrayList<>();
         categoreis.add("sport");
         bookForm.setCategories(categoreis);
@@ -125,6 +142,12 @@ public class TestController extends Controller {
         public void addChild(String child) {
             childrenNames.add(child);
         }
+    }
+
+
+    public Result sendMail() {
+        String str = "Jfldskjf";
+        return ok(str);
     }
 
 

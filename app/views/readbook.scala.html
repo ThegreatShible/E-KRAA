@@ -201,7 +201,7 @@ import models.book.Book
                                                                     Mark Andre
                                                                 </span>
                                                                 <a href="" class="m-card-user__email m--font-weight-300 m-link">
-                                                                    mark.andre@@gmail.com
+                                                                    mark@@gmail.com
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -277,7 +277,7 @@ import models.book.Book
                                             </div>
                                         </li>
                                         <li id="m_quick_sidebar_toggle" class="m-nav__item">
-                                            <a href="@routes.Assets.versioned("/html/kid/Quizz.html")" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air" style="margin: auto !important;">
+                                            <a href="@routes.BookCreationController.getQuestions(book.getIdBook())" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air" style="margin: auto !important;">
                                                 <span>
                                                     <i class="la la-play"></i>
                                                     <span>

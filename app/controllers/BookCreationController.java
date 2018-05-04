@@ -14,16 +14,20 @@ import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 
 
+
 //TODO : handle excpetions in contoller
 public class BookCreationController extends Controller {
 
     private BookRepository bookRepository;
     private views.html.readbook readBookTemplate;
+    private views.html.Quizz quizzTemplate;
 
     @Inject
-    public BookCreationController(BookRepository bookRepository, views.html.readbook readBookTemplate) {
+    public BookCreationController(BookRepository bookRepository,
+                                  views.html.readbook readBookTemplate, views.html.Quizz quizzTemplate) {
         this.bookRepository = bookRepository;
         this.readBookTemplate = readBookTemplate;
+        this.quizzTemplate = quizzTemplate;
 
     }
 
@@ -46,6 +50,12 @@ public class BookCreationController extends Controller {
             return ok(readBookTemplate.render(b));
         });
 
+    }
+
+    public CompletableFuture<Result> getQuestions(int id) {
+        return bookRepository.find(id).thenApply(b -> {
+            return ok(quizzTemplate.render(b.getQuestions()));
+        });
 
     }
 

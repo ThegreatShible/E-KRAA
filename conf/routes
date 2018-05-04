@@ -10,22 +10,31 @@
 
 GET         /test                 controllers.TestController.test()
 
-GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 
 +nocsrf
-POST        /test2                controllers.TestController.test2()
+POST        /test2                     controllers.TestController.test2()
 
-POST        /addBook              controllers.BookCreationController.addBook()
+POST        /addBook                   controllers.BookCreationController.addBook()
 
-POST        /answer               controllers.AnswerController.answerQuestion()
+POST        /answer                    controllers.AnswerController.answerQuestion()
 
-GET         /getAnswer/:id        controllers.AnswerController.getBookAnswer(id : Long)
-GET         /json                 controllers.TestController.createBookForm()
+GET         /getAnswer/:id             controllers.AnswerController.getBookAnswer(id : Long)
+GET         /json                      controllers.TestController.createBookForm()
 
-GET         /book/:id             controllers.BookCreationController.getBook(id : Int)
+GET         /book/:id                  controllers.BookCreationController.getBook(id : Int)
+GET         /book/questions/:id        controllers.BookCreationController.getQuestions(id : Int)
 
-GET         /response/test        controllers.TestController.createUserAnswerForm()
+GET         /response/test             controllers.TestController.createUserAnswerForm()
 
-GET         /remove/:id           controllers.BookCreationController.removeBook(id :Int)
+GET         /remove/:id                controllers.BookCreationController.removeBook(id :Int)
 
-GET         /test3/:str           controllers.TestController.test3(str : Int)
+GET         /test3/:str                controllers.TestController.test3(str : Int)
+
+POST        /createTeacher             controllers.UserController.createTeacher()
+
+POST        /createPupil               controllers.UserController.createPupil()
+
+POST        /auth                      controllers.UserController.authenticate()
+
+GET         /sendMail                  controllers.TestController.sendMail()
