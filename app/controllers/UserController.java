@@ -12,6 +12,8 @@ import play.data.FormFactory;
 import play.mvc.Http;
 import play.mvc.Result;
 import scala.concurrent.ExecutionContext;
+import services.mailing.MailingService;
+import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -22,8 +24,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static play.mvc.Controller.request;
-import static play.mvc.Results.badRequest;
-import static play.mvc.Results.ok;
+import static play.mvc.Controller.session;
+import static play.mvc.Results.*;
 
 public class UserController {
 
@@ -32,19 +34,20 @@ public class UserController {
     private final ExecutionContext executionContext;
     private final Form<AuthForm> authForm;
     private final Form<PupilForm> pupilForm;
+    private final MailingService mailingService;
 
     @Inject
-    public UserController(FormFactory formFactory, UserDAO userDAO, ExecutionContext executionContext) {
+    public UserController(FormFactory formFactory, UserDAO userDAO,
+                          ExecutionContext executionContext, MailingServiceImpl mailingService) {
         teacherForm = formFactory.form(TeacherForm.class);
         authForm = formFactory.form(AuthForm.class);
         this.userDAO = userDAO;
         this.executionContext = executionContext;
         this.pupilForm = formFactory.form(PupilForm.class);
+        this.mailingService = mailingService;
     }
 
     //TODO : add session and redirect to userpage
-
-
     //TODO : do something with file exception problem
     //TODO : check if file is jpg
     public CompletableFuture<Result> createTeacher() {
@@ -63,11 +66,14 @@ public class UserController {
             UUID fileid = UUID.randomUUID();
 
             Teacher teacher = bindTeacherFormEntity.toTeacher(userID, fileid.toString());
-            return userDAO.createTeacher(teacher, bindTeacherFormEntity.getPassword()).thenApply(r -> {
+            return userDAO.createTeacher(teacher, bindTeacherFormEntity.getPassword()).thenApply(tokenid -> {
                 try {
+
+                    //TODO : remove absolute path
                     File file = new File("C:\\Users\\nabih\\IdeaProjects\\E-KRAA-Exp\\public\\UserProfile\\" + fileid.toString() + ".png");
                     OutputStream outputStream = new FileOutputStream(file);
                     Files.copy(profile.toPath(), outputStream);
+                    mailingService.sendSignUpConfirmationMail(teacher.getEmail(), tokenid.toString());
                     return ok(file.getAbsolutePath());
 
                 } catch (Exception e) {
@@ -78,6 +84,7 @@ public class UserController {
             });
         }
     }
+
 
     public CompletableFuture<Result> createPupil() {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -94,12 +101,14 @@ public class UserController {
             UUID fileid = UUID.randomUUID();
 
             Pupil pupil = bindPupilFormEntity.toPupil(userID, fileid.toString() + ".png");
-            return userDAO.createPupil(pupil, bindPupilFormEntity.getPassword()).thenApply(r -> {
+            return userDAO.createPupil(pupil, bindPupilFormEntity.getPassword()).thenApply(tokenid -> {
                 try {
                     //TODO : Na7i absolute URL
+                    //String filePath = routes.Assets.versioned("")
                     File file = new File("C:\\Users\\nabih\\IdeaProjects\\E-KRAA-Exp\\public\\UserProfile\\" + fileid.toString() + ".png");
                     OutputStream outputStream = new FileOutputStream(file);
                     Files.copy(profile.toPath(), outputStream);
+                    mailingService.sendSignUpConfirmationMail(pupil.getEmail(), tokenid.toString());
                     return ok(file.getAbsolutePath());
 
                 } catch (Exception e) {
@@ -113,18 +122,61 @@ public class UserController {
 
     }
 
-    //TODO : Replace respondse add session
+    public CompletableFuture<Result> getTeacher(String userID) {
+        UUID uuid = UUID.fromString(userID);
+        //UUID uuid = UUID.randomUUID();
+        return userDAO.getTeacher(uuid).thenApply(t -> {
+            return ok("done");
+        });
+    }
+
+
+    public CompletableFuture<Result> getPupil(String userID) {
+        UUID uuid = UUID.fromString(userID);
+        //UUID uuid = UUID.randomUUID();
+        return userDAO.getPupil(uuid).thenApply(p -> {
+            return ok("done");
+        });
+    }
+
+    public CompletableFuture<Result> getPupils(int groupID) {
+        return userDAO.getPupilsByGroup(groupID).thenApply(pupils -> {
+            return ok("done");
+        });
+    }
+
+
+    //TODO : Replace response
     public CompletableFuture<Result> authenticate() {
         Form<AuthForm> bindAuthForm = authForm.bindFromRequest();
         if (bindAuthForm.hasErrors())
             return CompletableFuture.supplyAsync(() -> badRequest());
         else {
             AuthForm af = bindAuthForm.get();
+
             return userDAO.authenticate(af.getEmail(), af.getPassword()).thenApply(e -> {
+
                 if (e.isEmpty()) return ok("not found");
+                session().put("user", e.get().getId().toString());
                 return ok("found");
             });
         }
+    }
+
+
+    //TODO : redirect to landing page
+    public CompletableFuture<Result> confirmAuthentication(String tokenID) {
+        UUID token = UUID.fromString(tokenID);
+        //UUID token = UUID.randomUUID();
+        return userDAO.confirmUserByToken(token).thenApply(e -> {
+            if (e.isEmpty()) {
+                return badRequest("token errone");
+            } else {
+                session().put("user", e.get().toString());
+                return redirect("");
+            }
+        });
+
     }
 
 

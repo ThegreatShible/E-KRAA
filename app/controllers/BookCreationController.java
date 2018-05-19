@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 
 
-
+//DONE
 //TODO : handle excpetions in contoller
 public class BookCreationController extends Controller {
 
@@ -52,9 +52,10 @@ public class BookCreationController extends Controller {
 
     }
 
+    //TODO : replace done with quizz template
     public CompletableFuture<Result> getQuestions(int id) {
         return bookRepository.find(id).thenApply(b -> {
-            return ok(quizzTemplate.render(b.getQuestions()));
+            return ok("done");
         });
 
     }

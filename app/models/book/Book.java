@@ -3,6 +3,8 @@ package models.book;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 //TODO : chouf fi netbeans les exception de persistance
 public class Book {
@@ -104,5 +106,26 @@ public class Book {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public int getScoreFromAnswer(UserAnswer userAnswer) {
+        int score = 0;
+        for (Map.Entry<Short, List<Short>> entry : userAnswer.getQuestionsAnswers().entrySet()) {
+            Stream<Question> questions = getQuestions().stream();
+            Stream<Question> newQuestions = questions.filter(question ->
+                    question.getQuestionNum() == entry.getKey());
+            Question question = newQuestions.findFirst().get();
+            score += getScoreFromQuestion(question, entry.getValue());
+        }
+        return score;
+
+    }
+
+    private int getScoreFromQuestion(Question question, List<Short> answers) {
+        Stream<Short> sts = question.getAnswers().stream().filter(ans -> ans.isValid()).map(Answer::getNumAnswer).sorted();
+        Stream<Short> answs = answers.stream().sorted();
+        int i = 0;
+        if (sts.equals(answs)) i = question.getWeight();
+        return i;
     }
 }

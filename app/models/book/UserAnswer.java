@@ -1,24 +1,27 @@
 package models.book;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import models.session.Session;
+
+import java.util.*;
 
 public class UserAnswer {
 
-    private long idBook;
+    private UUID idSession;
+    private UUID user;
     private Map<Short, List<Short>> questionsAnswers;
     private long answerTime;
 
-    public UserAnswer(long idBook, Map<Short, List<Short>> questionsAnswers, long answerTime) {
-        this.idBook = idBook;
+    public UserAnswer(UUID idSession, UUID user, Map<Short, List<Short>> questionsAnswers, long answerTime) {
+        this.user = user;
+        this.idSession = idSession;
         this.questionsAnswers = questionsAnswers;
         this.answerTime = answerTime;
     }
 
-    //TODO : Implementation of idanswer
-    public static UserAnswer create(long idBook, Map<Short, List<Short>> questionsAnswers, List<Question> questions) throws UserAnswerCreationException {
+    //TODO : Implementation of idanswer (j'ai pas compris celui la)
+    public static UserAnswer create(Session session, UUID user, Map<Short, List<Short>> questionsAnswers, List<Question> questions) throws UserAnswerCreationException {
+        if (!session.isActive())
+            throw new UserAnswerCreationException("Session non Active");
         final long currentTime = System.currentTimeMillis();
         Set<Short> set = new HashSet<>();
         for (Question question : questions) {
@@ -42,15 +45,23 @@ public class UserAnswer {
         if (!set.equals(questionsAnswers.keySet()))
             throw new UserAnswerCreationException("les questions ne sont pas tous presentes");
 
-        return new UserAnswer(idBook, questionsAnswers, currentTime);
+        return new UserAnswer(session.getSessionID(), user, questionsAnswers, currentTime);
     }
 
-    public long getIdBook() {
-        return idBook;
+    public UUID getIdSession() {
+        return idSession;
     }
 
-    public void setIdBook(long idBook) {
-        this.idBook = idBook;
+    public void setIdSession(UUID idSession) {
+        this.idSession = idSession;
+    }
+
+    public UUID getUser() {
+        return user;
+    }
+
+    public void setUser(UUID user) {
+        this.user = user;
     }
 
     public Map<Short, List<Short>> getQuestionsAnswers() {

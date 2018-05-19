@@ -2,11 +2,9 @@ package controllers;
 
 
 import Persistance.DAOs.BookRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
-import forms.UserAnswerForm;
 import models.book.Book;
 import play.i18n.MessagesApi;
 import play.libs.Json;
@@ -18,12 +16,9 @@ import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-//TODO : add orderby into database
 //TODO : Remove this controller
 
 public class TestController extends Controller {
@@ -103,7 +98,7 @@ public class TestController extends Controller {
     }
 
 
-    public Result createUserAnswerForm() {
+    /*public Result createUserAnswerForm() {
         UserAnswerForm userAnswerForm = new UserAnswerForm();
         userAnswerForm.setIdBook(24l);
         Map<Short, List<Short>> map = new HashMap<>();
@@ -115,7 +110,7 @@ public class TestController extends Controller {
         userAnswerForm.setQustionsAnswers(map);
         JsonNode jsonNode = Json.toJson(userAnswerForm);
         return ok(jsonNode);
-    }
+    }*/
 
 
     class Person {
@@ -139,9 +134,7 @@ public class TestController extends Controller {
             this.childrenNames = childrenNames;
         }
 
-        public void addChild(String child) {
-            childrenNames.add(child);
-        }
+
     }
 
 

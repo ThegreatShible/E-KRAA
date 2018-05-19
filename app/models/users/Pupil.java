@@ -2,12 +2,15 @@ package models.users;
 
 import services.EmailVerifier;
 
+import javax.persistence.Entity;
 import java.util.Date;
 import java.util.UUID;
 
+@Entity
 public class Pupil extends User {
     private short level;
     private int score;
+    private int groupID;
 
     public Pupil() {
 
@@ -45,5 +48,13 @@ public class Pupil extends User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
     }
 }

@@ -46,4 +46,7 @@ libraryDependencies += "org.postgresql" % "postgresql" % "42.2.2"
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
 
+PlayKeys.externalizeResources := false
+
+
 
