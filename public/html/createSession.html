@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>
-		E-KRAA | Create PDF
+		E-KRAA | Create Session 
 	</title>
 	<meta name="description" content="Wysiwyg editor for bootstrap">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,14 +79,14 @@
 						<button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark " id="m_aside_header_menu_mobile_close_btn">
 							<i class="la la-close"></i>
 						</button>
-					
+						
 						<!-- END: Horizontal Menu -->
 						<!-- BEGIN: Topbar -->
 						<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
 							<div class="m-stack__item m-topbar__nav-wrapper">
 								<ul class="m-topbar__nav m-nav m-nav--inline">
 									<li class="
-                                              	m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
+            	                      m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
 									    data-dropdown-toggle="click" data-dropdown-persistent="true" id="m_quicksearch" data-search-type="dropdown">
 										<a href="#" class="m-nav__link m-dropdown__toggle">
 											<span class="m-nav__link-icon">
@@ -116,6 +116,8 @@
 											</div>
 										</div>
 									</li>
+									
+									
 									<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
 									    data-dropdown-toggle="click">
 										<a href="#" class="m-nav__link m-dropdown__toggle">
@@ -250,7 +252,7 @@
 										</a>
 									</li>
 									<li class="m-menu__item " aria-haspopup="true">
-										<a href="#" class="m-menu__link ">
+										<a href="./createPDF.html" class="m-menu__link ">
 											<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 												<span></span>
 											</i>
@@ -260,7 +262,7 @@
 										</a>
 									</li>
 									<li class="m-menu__item " aria-haspopup="true">
-										<a href="./uploadPDF.html" class="m-menu__link ">
+										<a href="#" class="m-menu__link ">
 											<i class="m-menu__link-bullet m-menu__link-bullet--dot">
 												<span></span>
 											</i>
@@ -308,8 +310,8 @@
 									</li>
 								</ul>
 							</div>
-						</li>
-						<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                        </li>
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
                                 <a href="#" class="m-menu__link m-menu__toggle">
                                     <i class="m-menu__link-icon flaticon-layers"></i>
                                     <span class="m-menu__link-text">
@@ -328,7 +330,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./createSession.html" class="m-menu__link ">
+                                            <a href="#" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -351,7 +353,7 @@
 					<div class="d-flex align-items-center">
 						<div class="mr-auto">
 							<h3 class="m-subheader__title m-subheader__title--separator">
-								Generate a New PDF
+								Create a New Session
 							</h3>
 						</div>
 					</div>
@@ -364,118 +366,36 @@
 							<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
 									<h3 class="m-portlet__head-text">
-										Generate a New PDF
+                                        Create a New Session
 									</h3>
 								</div>
 							</div>
 						</div>
-						<!--begin::Form-->
-						<form class="m-form m-form--fit m-form--label-align-right" method="GET" action="#">
-							<div class="form-group m-form__group">
-								<label for="exampleInputEmail1">
-									Book Title
-								</label>
-								<div class="input-group m-input-group">
-									<span class="input-group-addon" id="basic-addon1">
-										<i class="la la-book"></i>
-									</span>
-									<input type="text" name="title" class="form-control m-input" placeholder="Book Title" aria-describedby="basic-addon1">
-								</div>
-								<span class="m-form__help">
-									Your Book Title Goes Here
-								</span>
-							</div>
-							<div class="m-form__group form-group">
-								<label for="">
-									Difficulty
-								</label>
-								<div class="m-radio-inline">
-									<label class="m-radio">
-										<input type="radio" name="difficulty" value="EASY"> Easy
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" name="difficulty" value="INTERMEDIATE"> Intermediate
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" name="difficulty" value="HARD"> Hard
-										<span></span>
-									</label>
-								</div>
-								<span class="m-form__help">
-									Chose The Book's Difficulty
-								</span>
-							</div>
-							<div class="form-group m-form__group">
-								<label>
-									Category
-								</label>
-								<div>
-									<select class="form-control m-select2" id="m_select2_3" name="Category" multiple="multiple">
-										<optgroup label="Alaskan/Hawaiian Time Zone">
-											<option value="AK" selected>
-												Alaska
-											</option>
-											<option value="HI">
-												Hawaii
-											</option>
-										</optgroup>
-										<optgroup label="Pacific Time Zone">
-											<option value="CA">
-												California
-											</option>
-											<option value="NV" selected>
-												Nevada
-											</option>
-											<option value="OR">
-												Oregon
-											</option>
-											<option value="WA">
-												Washington
-											</option>
-										</optgroup>
-									</select>
-								</div>
-							</div>
-							<div class="m-form__group form-group">
-								<label for="">
-									Language
-								</label>
-								<div class="m-radio-inline">
-									<label class="m-radio">
-										<input type="radio" name="Language" value="EN"> English
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" name="Language" value="FR"> Français
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" name="Language" value="AR"> عربي
-										<span></span>
-									</label>
-								</div>
-								<span class="m-form__help">
-									Chose The Book's Language
-								</span>
-							</div>
-							<div class="m-portlet__body">
-								<div class="form-group m-form__group row">
-									<label class="col-form-label col-lg-3 col-sm-12">
-										add your Text here
-									</label>
-									<div class="col-lg-9 col-md-9 col-sm-12">
-										<textarea class="summernote"></textarea>
+                        <!--begin::Form-->
+                        <br>
+						<form class="m-form m-form--fit m-form--label-align-right">
+                                <div class="form-group m-form__group row">
+										<label class="col-form-label col-lg-3 col-sm-12">
+                                            Start Session
+										</label>
+										<div class="col-lg-4 col-md-9 col-sm-12">
+											<div class='input-group date' id='m_datetimepicker_3'>
+												<input type='text' class="form-control m-input" readonly value="1899-11-29 00:30"/>
+												<span class="input-group-addon">
+													<i class="la la-calendar glyphicon-th"></i>
+												</span>
+											</div>
+											<span class="m-form__help">
+												choose your start session date & time
+											</span>
+										</div>
 									</div>
-								</div>
-							</div>
 							<div class="m-portlet__foot m-portlet__foot--fit">
 								<div class="m-form__actions m-form__actions">
 									<div class="row">
 										<div class="col-lg-9 ml-lg-auto">
-											<button type="button" class="btn btn-success" data-toggle="modal" data-target="#m_modal_4">
-												Generate Quizz
+											<button type="reset" class="btn btn-brand">
+												Submit
 											</button>
 											<button type="reset" class="btn btn-secondary">
 												Cancel
@@ -484,141 +404,6 @@
 									</div>
 								</div>
 							</div>
-							<!--begin::Modal-->
-							<div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-lgc" role="document">
-									<div class="modal-content">
-										<div class="m-content">
-											<!--begin::Portlet-->
-											<div class="m-portlet">
-												<div class="m-portlet__head">
-													<div class="m-portlet__head-caption">
-														<div class="m-portlet__head-title">
-															<h3 class="m-portlet__head-text">
-																Quizz For: Book name
-															</h3>
-														</div>
-													</div>
-												</div>
-												<!--begin::Form-->
-
-												<div class="m-portlet__body">
-													<div class="m-form__section m-form__section--first">
-														<div id="m_repeater_1">
-															<div class="form-group m-form__group row" id="m_repeater_1">
-																<label class="col-lg-2 col-form-label">
-																	Quizz:
-																</label>
-																<div data-repeater-list="outer-list" class="col-lg-10">
-																	<div data-repeater-item class="form-group m-form__group row align-items-center">
-																		<div class="form-group m-form__group col-md-8">
-																			<label for="exampleInputEmail1">
-																				Question:
-																			</label>
-																			<div class="input-group m-input-group">
-																				<span class="input-group-addon" id="basic-addon1">
-																					<i class="la la-question"></i>
-																				</span>
-																				<input type="text" class="form-control m-input" placeholder="Your Question" aria-describedby="basic-addon1">
-																			</div>
-																			<span class="m-form__help">
-																				Insert Your Question Here
-																			</span>
-																		</div>
-																		<div class="col-md-4">
-																			<div data-repeater-delete="" class="btn-sm btn btn-danger m-btn m-btn--icon m-btn--pill">
-																				<span>
-																					<i class="la la-trash-o"></i>
-																					<span>
-																						Delete
-																					</span>
-																				</span>
-																			</div>
-																		</div>
-																		<div id="m_repeater_3">
-																			<div class="form-group  m-form__group row">
-																				<label class="col-lg-2 col-form-label">
-																					Suggestions:
-																				</label>
-																				<div data-repeater-list="inner-list" class="col-lg-9">
-																					<div data-repeater-item class="row m--margin-bottom-10">
-																						<div class="col-lg-10">
-																							<div class="input-group m-form__group">
-																								<span class="input-group-addon">
-																									<label class="m-checkbox m-checkbox--single m-checkbox--state m-checkbox--state-success">
-																										<input type="checkbox" checked="">
-																										<span></span>
-																									</label>
-																								</span>
-																								<input type="text" class="form-control" aria-label="Text input with checkbox">
-																							</div>
-																						</div>
-																						<div class="col-lg-2">
-																							<a href="#" data-repeater-delete="" class="btn btn-danger m-btn m-btn--icon m-btn--icon-only">
-																								<i class="la la-remove"></i>
-																							</a>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																			<div class="row">
-																				<div class="col-lg-3"></div>
-																				<div class="col">
-																					<div data-repeater-create="" class="btn btn btn-primary btn-sm m-btn--pill m-btn m-btn--icon">
-																						<span>
-																							<i class="la la-plus"></i>
-																							<span>
-																								Add Suggestion
-																							</span>
-																						</span>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-														     	
-															</div>
-															<div class="m-form__group form-group row">
-																<label class="col-lg-2 col-form-label"></label>
-																<div class="col-lg-4">
-																	<div data-repeater-create="" class="btn btn  btn-success btn-brand m-btn m-btn--icon m-btn--pill m-btn--wide">
-																		<span>
-																			<i class="la la-plus"></i>
-																			<span>
-																				Add Question
-																			</span>
-																		</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="m-portlet__foot m-portlet__foot--fit">
-													<div class="m-form__actions m-form__actions">
-														<div class="row">
-															<div class="col-lg-2"></div>
-															<div class="col-lg-6">
-																<button type="submit" class="btn btn-success">
-																	Submit
-																</button>
-																<button type="reset" class="btn btn-secondary">
-																	Cancel
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<!--end::Form-->
-											</div>
-											<!--end::Portlet-->
-										</div>
-									</div>
-								</div>
-							</div>
-							<!--end::Modal-->
 						</form>
 						<!--end::Form-->
 					</div>
@@ -626,7 +411,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- end:: Body -->
 		<!-- begin::Footer -->
 		<footer class="m-grid__item		m-footer ">
@@ -690,7 +474,6 @@
 	<!--begin::Page Resources -->
 	<script src="../javascripts/summernote.js" type="text/javascript"></script>
 	<script src="../javascripts/select2.js" type="text/javascript"></script>
-	<script src="../javascripts/repeat.js" type="text/javascript"></script>
 	<!--end::Page Resources -->
 </body>
 <!-- end::Body -->
