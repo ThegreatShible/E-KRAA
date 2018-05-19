@@ -5,15 +5,15 @@ import java.util.Map;
 
 public class UserAnswerForm {
 
-    private Long idBook;
+    private String sessionID;
     private Map<Short, List<Short>> qustionsAnswers;
 
-    public Long getIdBook() {
-        return idBook;
+    public String getSessionID() {
+        return sessionID;
     }
 
-    public void setIdBook(Long idBook) {
-        this.idBook = idBook;
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 
     public Map<Short, List<Short>> getQustionsAnswers() {

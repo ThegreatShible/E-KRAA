@@ -1,37 +1,29 @@
 package Persistance.DAOs;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 public class UserNameAnswerEntity {
 
-    @Id
-    private int idbook;
-    @Column
-    private short numquestion;
+
+    @EmbeddedId
+    private UserNameAnswerEntityID userNameAnswerEntityID = new UserNameAnswerEntityID();
     @Column
     private short numanswer;
-    @Column(name = "idanswer")
-    private int idAnwser;
     @Column
     private long answerdate;
 
-    public int getIdbook() {
-        return idbook;
-    }
 
-    public void setIdbook(int ibook) {
-        this.idbook = ibook;
-    }
+
 
     public short getNumquestion() {
-        return numquestion;
+        return userNameAnswerEntityID.getNumquestion();
     }
 
-    public void setNumquestion(short numquesion) {
-        this.numquestion = numquesion;
+    public void setNumquestion(short numquestion) {
+        this.userNameAnswerEntityID.setNumquestion(numquestion);
     }
 
     public short getNumanswer() {
@@ -42,14 +34,6 @@ public class UserNameAnswerEntity {
         this.numanswer = numanswer;
     }
 
-    public int getIdAnwser() {
-        return idAnwser;
-    }
-
-    public void setIdAnwser(int idAnwser) {
-        this.idAnwser = idAnwser;
-    }
-
     public long getAnswerdate() {
         return answerdate;
     }
@@ -57,4 +41,21 @@ public class UserNameAnswerEntity {
     public void setAnswerdate(long answerdate) {
         this.answerdate = answerdate;
     }
+
+    public String getSessionid() {
+        return userNameAnswerEntityID.getSessionid();
+    }
+
+    public void setSessionid(String sessionid) {
+        this.userNameAnswerEntityID.setSessionid(sessionid);
+    }
+
+    public String getUserid() {
+        return userNameAnswerEntityID.getUserid();
+    }
+
+    public void setUserid(String userid) {
+        this.userNameAnswerEntityID.setUserid(userid);
+    }
+
 }

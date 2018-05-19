@@ -2,67 +2,52 @@ package controllers;
 
 
 import Persistance.DAOs.BookRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
-import forms.UserAnswerForm;
-import models.book.Answer;
 import models.book.Book;
-import models.book.BookCreationException;
-import models.book.Question;
 import play.i18n.MessagesApi;
 import play.libs.Json;
-import play.mvc.BodyParser;
+import play.libs.mailer.MailerClient;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.mailing.MailingService;
+import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//TODO : add orderby into database
+//TODO : Remove this controller
 
 public class TestController extends Controller {
 
 
+    private final views.html.test testTemplate;
     private BookRepository bookRepository;
     private MessagesApi messagesApi;
+    private MailerClient mailerClient;
+    private MailingService mailingService;
 
     @Inject
-    public TestController(MessagesApi messagesApi, BookRepository bookRepository) {
-
+    public TestController(MessagesApi messagesApi, BookRepository bookRepository, views.html.test testTemplate, MailerClient mailerClient
+            , MailingServiceImpl mailingService) {
+        this.testTemplate = testTemplate;
         this.messagesApi = messagesApi;
         this.bookRepository = bookRepository;
+        this.mailerClient = mailerClient;
+        this.mailingService = mailingService;
     }
 
-    public Result test() throws BookCreationException {
-        Answer answer = new Answer((short) 1, "yes", true);
-        List<Answer> answers = new ArrayList<>();
-        answers.add(answer);
-        Question q = Question.create((short) 1, "what?", true, (short) 10, answers);
-        List<Question> questions = new ArrayList<>();
-        questions.add(q);
-        List<String> cat = new ArrayList<>();
-        cat.add("sport");
-        cat.add("Math");
-        Book book = Book.create("something", "sometitle", "FR", "EASY", questions, cat);
-        book.setLastModifDate(new Date());
-        JsonNode jsonNode = Json.toJson(book);
-        return ok(jsonNode.toString());
-
+    public Result test() {
+        return ok(testTemplate.render());
     }
 
 
-    @BodyParser.Of(BodyParser.Json.class)
 
     public Result test2() {
-
-        JsonNode jsonNode = request().body().asJson();
-        Person p = Json.fromJson(jsonNode, Person.class);
-        String rejson = Json.toJson(p).toString();
-        return ok(rejson);
-
+        return ok("done");
     }
 
     public CompletableFuture<Result> test3(int id) {
@@ -77,23 +62,32 @@ public class TestController extends Controller {
         BookForm bookForm = new BookForm();
         AnswerForm answerForm = new AnswerForm();
         answerForm.setRight(true);
-        answerForm.setAnswer("yes");
+        answerForm.setAnswer("oui");
         answerForm.setNumAnswer((short) 1);
+        AnswerForm answerForm2 = new AnswerForm();
+        answerForm2.setRight(false);
+        answerForm2.setAnswer("non");
+        answerForm2.setNumAnswer((short) 2);
         List<AnswerForm> answerForms = new ArrayList<>();
         answerForms.add(answerForm);
+        answerForms.add(answerForm2);
         QuestionForm questionForm = new QuestionForm();
         questionForm.setMultiple(true);
-        questionForm.setQuestion("what?");
+        questionForm.setQuestion("est ce que la terre est ronde ? ");
         questionForm.setAnswers(answerForms);
         questionForm.setQuestionNum((short) 1);
         questionForm.setWeight((short) 10);
         List<QuestionForm> questionForms = new ArrayList<>();
         questionForms.add(questionForm);
         bookForm.setQuestions(questionForms);
-        bookForm.setTitle("title");
+        bookForm.setTitle("texte aleatoire");
         bookForm.setLanguage("FR");
         bookForm.setDifficulty("EASY");
-        bookForm.setContent("something");
+        bookForm.setContent("this is a book we can write what ever we want *************************************" +
+                "this is another thig *****************************************************" +
+                "another lskdjflsjd ***********************************************" +
+                "**************************************" +
+                "*******************************************");
         List<String> categoreis = new ArrayList<>();
         categoreis.add("sport");
         bookForm.setCategories(categoreis);
@@ -103,7 +97,8 @@ public class TestController extends Controller {
 
     }
 
-    public Result createUserAnswerForm() {
+
+    /*public Result createUserAnswerForm() {
         UserAnswerForm userAnswerForm = new UserAnswerForm();
         userAnswerForm.setIdBook(24l);
         Map<Short, List<Short>> map = new HashMap<>();
@@ -115,7 +110,8 @@ public class TestController extends Controller {
         userAnswerForm.setQustionsAnswers(map);
         JsonNode jsonNode = Json.toJson(userAnswerForm);
         return ok(jsonNode);
-    }
+    }*/
+
 
     class Person {
         protected String name;
@@ -138,9 +134,13 @@ public class TestController extends Controller {
             this.childrenNames = childrenNames;
         }
 
-        public void addChild(String child) {
-            childrenNames.add(child);
-        }
+
+    }
+
+
+    public Result sendMail() {
+        String str = "Jfldskjf";
+        return ok(str);
     }
 
 

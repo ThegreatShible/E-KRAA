@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture;
  * @param <T> primary key type
  */
 
-//TODO : Find a way to handle exceptions
 public interface CRUD_DAO<A, T> {
     CompletableFuture<T> create(A obj);
 

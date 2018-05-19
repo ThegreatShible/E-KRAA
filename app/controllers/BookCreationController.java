@@ -14,14 +14,21 @@ import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 
 
+//DONE
 //TODO : handle excpetions in contoller
 public class BookCreationController extends Controller {
 
     private BookRepository bookRepository;
+    private views.html.readbook readBookTemplate;
+    private views.html.Quizz quizzTemplate;
 
     @Inject
-    public BookCreationController(BookRepository bookRepository) {
+    public BookCreationController(BookRepository bookRepository,
+                                  views.html.readbook readBookTemplate, views.html.Quizz quizzTemplate) {
         this.bookRepository = bookRepository;
+        this.readBookTemplate = readBookTemplate;
+        this.quizzTemplate = quizzTemplate;
+
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -40,8 +47,17 @@ public class BookCreationController extends Controller {
 
     public CompletableFuture<Result> getBook(int id) {
         return bookRepository.find(id).thenApply(b -> {
-            return ok(Json.toJson(b).toString());
+            return ok(readBookTemplate.render(b));
         });
+
+    }
+
+    //TODO : replace done with quizz template
+    public CompletableFuture<Result> getQuestions(int id) {
+        return bookRepository.find(id).thenApply(b -> {
+            return ok("done");
+        });
+
     }
 
     public CompletableFuture<Result> removeBook(int id) {
