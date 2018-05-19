@@ -1,7 +1,9 @@
 package controllers;
 
 import Persistance.DAOs.SessionDAO;
+import forms.SessionForm;
 import models.session.Session;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.scheduling.schedulerImpl;
@@ -17,6 +19,8 @@ public class SessionController extends Controller {
     SessionDAO sessionDAO;
     @Inject
     schedulerImpl scheduler;
+    @Inject
+    Form<SessionForm> sessionForm;
 
 
     public CompletableFuture<Result> getSession(String sessionID) {
@@ -29,14 +33,20 @@ public class SessionController extends Controller {
         });
     }
 
+
     public CompletableFuture<Result> createSession() {
-        //TODO : remove null ,until i create session form
-        Session session = null;
-        UUID userid = UUID.fromString(session().get("user"));
-        return CompletableFuture.supplyAsync(() -> {
-            scheduler.scheduleSessionStart(session);
-            return ok("done");
-        });
+        Form<SessionForm> bindSessionFrom = sessionForm.bindFromRequest();
+        if (bindSessionFrom.hasErrors()) {
+            return CompletableFuture.supplyAsync(() -> notFound());
+        } else {
+            UUID sessionID = UUID.randomUUID();
+            Session session = bindSessionFrom.get().toSession(sessionID);
+            UUID userid = UUID.fromString(session().get("user"));
+            return CompletableFuture.supplyAsync(() -> {
+                scheduler.scheduleSessionStart(session);
+                return ok("done");
+            });
+        }
     }
 
     public CompletableFuture<Result> removeSession(String sessionID) {
