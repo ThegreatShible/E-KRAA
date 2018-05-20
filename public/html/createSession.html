@@ -342,27 +342,27 @@
                                 </ul>
                             </div>
                             <div class="m-menu__submenu">
-                                    <span class="m-menu__arrow"></span>
-                                    <ul class="m-menu__subnav">
-                                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
-                                            <a href="#" class="m-menu__link ">
-                                                <span class="m-menu__link-text">
-                                                    Create Group
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="#" class="m-menu__link ">
-                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                                    <span></span>
-                                                </i>
-                                                <span class="m-menu__link-text">
-                                                    Create Group
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                        <a href="#" class="m-menu__link ">
+                                            <span class="m-menu__link-text">
+                                                Create Group
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item " aria-haspopup="true">
+                                        <a href="#" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                Create Group
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -413,60 +413,64 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
-                                    <label class="col-form-label col-lg-3 col-sm-12">
-                                        End Session
-                                    </label>
-                                    <div class="col-lg-4 col-md-9 col-sm-12">
-                                        <div class='input-group date' id='m_datetimepicker_3'>
-                                            <input type='text' class="form-control m-input" value="2017-11-29 00:30"  name="sessionEnd"/>
-                                            <span class="input-group-addon">
-                                                <i class="la la-calendar glyphicon-th"></i>
-                                            </span>
-                                        </div>
-                                        <span class="m-form__help">
-                                            choose your End session date & time
+                                <label class="col-form-label col-lg-3 col-sm-12">
+                                    End Session
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <div class='input-group date' id='m_datetimepicker_3'>
+                                        <input type='text' class="form-control m-input" value="2017-11-29 00:30" name="sessionEnd" />
+                                        <span class="input-group-addon">
+                                            <i class="la la-calendar glyphicon-th"></i>
                                         </span>
                                     </div>
+                                    <span class="m-form__help">
+                                        choose your End session date & time
+                                    </span>
                                 </div>
-                                <div class="form-group m-form__group row">
-										<label class="col-form-label col-lg-3 col-sm-12">
-											Book Title
-										</label>
-										<div class="col-lg-4 col-md-9 col-sm-12">
-											<select class="form-control m-select2" id="m_select2_1" name="book">
-												<option value="AK">
-													Alaska
-												</option>
-												<option value="HI">
-													Hawaii
-												</option>
-												<option value="CA">
-													California
-												</option>
-												<option value="NV">
-													Nevada
-												</option>	
-											</select>
-										</div>
-									</div>
-                                <div class="form-group m-form__group row">
-                                        <label class="col-form-label col-lg-3 col-sm-12">
-                                            Groups 
-                                        </label>
-                                        <div class="col-lg-4 col-md-9 col-sm-12">
-                                            <select class="form-control m-select2" id="m_select2_3" name="Groups" multiple="multiple">
-                                                <optgroup label="Groups">
-                                                    <option value="AK" selected>
-                                                        Alaska
-                                                    </option>
-                                                    <option value="HI">
-                                                        Hawaii
-                                                    </option>
-                                                </optgroup>
-                                            </select>
-                                        </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-3 col-sm-12">
+                                    Book Title
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <select class="form-control m-select2" id="m_select2_1" name="book">
+                                        <option value="AK">
+                                            Alaska
+                                        </option>
+                                        <option value="HI">
+                                            Hawaii
+                                        </option>
+                                        <option value="CA">
+                                            California
+                                        </option>
+                                        <option value="NV">
+                                            Nevada
+                                        </option>
+                                    </select>
                                 </div>
-                            <div class="m-portlet__foot m-portlet__foot--fit">
+                            </div>
+                            <div class="form-group m-form__group row">
+                                    <label class="col-form-label col-lg-3 col-sm-12">
+                                        Group
+                                    </label>
+                                    <div class="col-lg-4 col-md-9 col-sm-12">
+                                        <select class="form-control m-select2" id="m_select2_1" name="Group">
+                                            <option value="AK">
+                                                Alaska
+                                            </option>
+                                            <option value="HI">
+                                                Hawaii
+                                            </option>
+                                            <option value="CA">
+                                                California
+                                            </option>
+                                            <option value="NV">
+                                                Nevada
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions m-form__actions">
                                     <div class="row">
                                         <div class="col-lg-9 ml-lg-auto">
