@@ -54,25 +54,12 @@
 										Sign In To Admin
 									</h3>
 								</div>
-								<form class="m-login__form m-form" action="">
+								<form class="m-login__form m-form" action="/" method="POST">
 									<div class="form-group m-form__group">
 										<input class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
 									</div>
 									<div class="form-group m-form__group">
 										<input class="form-control m-input m-login__form-input--last" type="password" placeholder="Password" name="password">
-									</div>
-									<div class="row m-login__form-sub">
-										<div class="col m--align-left">
-											<label class="m-checkbox m-checkbox--focus">
-												<input type="checkbox" name="remember"> Remember me
-												<span></span>
-											</label>
-										</div>
-										<div class="col m--align-right">
-											<a href="javascript:;" id="m_login_forget_password" class="m-link">
-												Forget Password ?
-											</a>
-										</div>
 									</div>
 									<div class="m-login__form-action">
 										<button id="m_login_signin_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
@@ -90,9 +77,12 @@
 										Enter your details to create your account:
 									</div>
 								</div>
-								<form class="m-login__form m-form" action="">
+								<form class="m-login__form m-form" action=""  method="POST">
 									<div class="form-group m-form__group">
-										<input class="form-control m-input" type="text" placeholder="Fullname" name="fullname">
+										<input class="form-control m-input" type="text" placeholder="first Name" name="firstName">
+									</div>
+									<div class="form-group m-form__group">
+										<input class="form-control m-input" type="text" placeholder="last Name" name="lastName">
 									</div>
 									<div class="form-group m-form__group">
 										<input class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off">
@@ -100,8 +90,30 @@
 									<div class="form-group m-form__group">
 										<input class="form-control m-input" type="password" placeholder="Password" name="password">
 									</div>
+									<br>
 									<div class="form-group m-form__group">
-										<input class="form-control m-input m-login__form-input--last" type="password" placeholder="Confirm Password" name="rpassword">
+											<label for="">
+													Birth date
+											</label>
+										<input class="form-control m-input" type="date" placeholder="" name="birthDate">
+									</div>
+									<br>
+									<div class="m-form__group form-group">
+										<label for="">
+											Gender
+										</label>
+										<div class="m-radio-inline">
+											<label class="m-radio">
+												<input type="radio" name="Gender" value="MALE">
+												MALE
+												<span></span>
+											</label>
+											<label class="m-radio">
+												<input type="radio" name="Gender" value="FEMALE">
+												FEMALE
+												<span></span>
+											</label>
+										</div>
 									</div>
 									<div class="row form-group m-form__group m-login__form-sub">
 										<div class="col m--align-left">
@@ -121,29 +133,6 @@
 											Sign Up
 										</button>
 										<button id="m_login_signup_cancel" class="btn btn-outline-focus  m-btn m-btn--pill m-btn--custom">
-											Cancel
-										</button>
-									</div>
-								</form>
-							</div>
-							<div class="m-login__forget-password">
-								<div class="m-login__head">
-									<h3 class="m-login__title">
-										Forgotten Password ?
-									</h3>
-									<div class="m-login__desc">
-										Enter your email to reset your password:
-									</div>
-								</div>
-								<form class="m-login__form m-form" action="">
-									<div class="form-group m-form__group">
-										<input class="form-control m-input" type="text" placeholder="Email" name="email" id="m_email" autocomplete="off">
-									</div>
-									<div class="m-login__form-action">
-										<button id="m_login_forget_password_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-											Request
-										</button>
-										<button id="m_login_forget_password_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom">
 											Cancel
 										</button>
 									</div>
