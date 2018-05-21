@@ -97,16 +97,7 @@
                                             <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
                                             <div class="m-dropdown__inner ">
                                                 <div class="m-dropdown__header">
-                                                    <form class="m-list-search__form">
-                                                        <div class="m-list-search__form-wrapper">
-                                                            <span class="m-list-search__form-input-wrapper">
-                                                                <input id="m_quicksearch_input" autocomplete="off" type="text" name="q" class="m-list-search__form-input" value="" placeholder="Search...">
-                                                            </span>
-                                                            <span class="m-list-search__form-icon-close" id="m_quicksearch_close">
-                                                                <i class="la la-remove"></i>
-                                                            </span>
-                                                        </div>
-                                                    </form>
+                                                   
                                                 </div>
                                                 <div class="m-dropdown__body">
                                                     <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true" data-max-height="300" data-mobile-max-height="200">
@@ -438,7 +429,7 @@
                                                             <span class="input-group-addon" id="basic-addon1">
                                                                 <i class="la la-question"></i>
                                                             </span>
-                                                            <input type="text" class="form-control m-input" placeholder="Your Question" aria-describedby="basic-addon1">
+                                                            <input type="text" name="question" class="form-control m-input" placeholder="Your Question" aria-describedby="basic-addon1">
                                                         </div>
                                                         <span class="m-form__help">
                                                             Insert Your Question Here
@@ -465,11 +456,11 @@
                                                                         <div class="input-group m-form__group">
                                                                             <span class="input-group-addon">
                                                                                 <label class="m-checkbox m-checkbox--single m-checkbox--state m-checkbox--state-success">
-                                                                                    <input type="checkbox" checked="">
+                                                                                    <input type="checkbox" checked="" name="correct">
                                                                                     <span></span>
                                                                                 </label>
                                                                             </span>
-                                                                            <input type="text" class="form-control" aria-label="Text input with checkbox">
+                                                                            <input type="text" class="form-control" name="seggest" aria-label="Text input with checkbox">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-2">
@@ -553,12 +544,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-portlet__foot m-portlet__foot--fit">
+                        </form>
+                        <div class="m-portlet__foot m-portlet__foot--fit">
                                 <div class="m-form__actions m-form__actions">
                                     <div class="row">
                                         <div class="col-lg-2"></div>
                                         <div class="col-lg-6">
-                                            <button type="submit" class="btn btn-success">
+                                            <button id="submit" type="submit" class="btn btn-success">
                                                 Submit
                                             </button>
                                             <button type="reset" class="btn btn-secondary">
@@ -568,7 +560,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                         <!--end::Form-->
                     </div>
                     <!--end::Portlet-->
@@ -639,6 +630,7 @@
     <script src="../javascripts/summernote.js" type="text/javascript"></script>
     <script src="../javascripts/select2.js" type="text/javascript"></script>
     <script src="../javascripts/repeat.js" type="text/javascript"></script>
+    <script src="../javascripts/createQuizz.js" type="text/javascript"></script>
     <!--end::Page Resources -->
 </body>
 <!-- end::Body -->
