@@ -16,8 +16,7 @@ abstract public class User {
     private String lastName;
     @Column(name = "birthday")
     private Date birthDate;
-    @Column(name = "photolink")
-    private String photoLink;
+
     private String gender;
     private String email;
 
@@ -54,13 +53,6 @@ abstract public class User {
         this.birthDate = birthDate;
     }
 
-    public String getPhotoLink() {
-        return photoLink;
-    }
-
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
-    }
 
     public String getGender() {
         return gender;

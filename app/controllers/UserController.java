@@ -87,8 +87,7 @@ public class UserController {
 
 
     public CompletableFuture<Result> createPupil() {
-        Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-        final File profile = body.getFile("profilePicture").getFile();
+
         Form<PupilForm> bindPupilForm = pupilForm.bindFromRequest();
         if (bindPupilForm.hasErrors()) {
             return CompletableFuture.supplyAsync(() -> {
@@ -99,17 +98,12 @@ public class UserController {
             PupilForm bindPupilFormEntity = bindPupilForm.get();
             UUID userID = UUID.randomUUID();
             UUID fileid = UUID.randomUUID();
-
             Pupil pupil = bindPupilFormEntity.toPupil(userID, fileid.toString() + ".png");
-            return userDAO.createPupil(pupil, bindPupilFormEntity.getPassword()).thenApply(tokenid -> {
+            return userDAO.createPupil(pupil).thenApply(tokenid -> {
                 try {
-                    //TODO : Na7i absolute URL
                     //String filePath = routes.Assets.versioned("")
-                    File file = new File("C:\\Users\\nabih\\IdeaProjects\\E-KRAA-Exp\\public\\UserProfile\\" + fileid.toString() + ".png");
-                    OutputStream outputStream = new FileOutputStream(file);
-                    Files.copy(profile.toPath(), outputStream);
                     mailingService.sendSignUpConfirmationMail(pupil.getEmail(), tokenid.toString());
-                    return ok(file.getAbsolutePath());
+                    return ok("done");
 
                 } catch (Exception e) {
                     e.printStackTrace();

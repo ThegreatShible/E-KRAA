@@ -9,10 +9,9 @@ import java.util.UUID;
 
 public class PupilForm {
 
+
     @Constraints.Required
     private String email;
-    @Constraints.Required
-    private String password;
     @Constraints.Required
     private String firstName;
     @Constraints.Required
@@ -22,6 +21,8 @@ public class PupilForm {
     private Date birthDate;
     @Constraints.Required
     private String gender;
+    @Constraints.Required
+    private int groupID;
 
 
     public String getEmail() {
@@ -32,13 +33,6 @@ public class PupilForm {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -72,8 +66,16 @@ public class PupilForm {
         this.gender = gender;
     }
 
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
     public Pupil toPupil(UUID id, String link) {
-        return Pupil.create(id, firstName, lastName, birthDate, link, gender, email);
+        return Pupil.create(id, firstName, lastName, birthDate, gender, email);
     }
 
 

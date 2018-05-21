@@ -12,10 +12,10 @@ import java.util.UUID;
 
 public class SessionForm {
 
-    @Formats.DateTime(pattern = "dd-MM-YYYY hh:mm:ss")
+    @Formats.DateTime(pattern = "dd-MM-YYYY hh:mm")
     private Date sessionStart;
-    private int hours;
-    private int minutes;
+    @Formats.DateTime(pattern = "dd-MM-YYYY hh:mm")
+    private Date sessionEnd;
     private int bookID;
     private int groupID;
 
@@ -27,21 +27,6 @@ public class SessionForm {
         this.sessionStart = sessionStart;
     }
 
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
 
     public int getBookID() {
         return bookID;
@@ -59,11 +44,21 @@ public class SessionForm {
         this.groupID = groupID;
     }
 
+    public Date getSessionEnd() {
+        return sessionEnd;
+    }
+
+    public void setSessionEnd(Date sessionEnd) {
+        this.sessionEnd = sessionEnd;
+    }
+
     public Session toSession(UUID sessionID) {
         LocalDate localDate = LocalDate.of(sessionStart.getYear(), sessionStart.getMonth(), sessionStart.getDay());
         LocalTime localTime = LocalTime.of(sessionStart.getHours(), sessionStart.getMinutes());
         LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-        Duration duration = Duration.ofMinutes(60 * hours + minutes);
+        long date1 = sessionStart.toInstant().toEpochMilli();
+        long date2 = sessionEnd.toInstant().toEpochMilli();
+        Duration duration = Duration.ofSeconds(date2 - date1);
         Session session = new Session(sessionID, localDateTime, duration, bookID, groupID);
         return session;
     }

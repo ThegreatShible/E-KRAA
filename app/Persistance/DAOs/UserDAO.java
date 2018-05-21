@@ -25,10 +25,13 @@ public class UserDAO {
             "\tVALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, NULL) returning userid";
     private static String insertPupil = "INSERT INTO public.\"user\"(\n" +
             "\tuserid, firstname, lastname, birthdate, gender, photolink, usertype, score, level, email, groupid)\n" +
-            "\tVALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning userid";
+            "\tVALUES (?, ?, ?, ?, ?, NULL, ?, ?, ?, ?, ?) returning userid";
     private static String insertAuth = "INSERT INTO public.auth(\n" +
             "\tuserid, password, confirmed)\n" +
             "\tVALUES (?, ?, FALSE)";
+    private static String insertPupilAuth = "INSERT INTO public.auth(\n" +
+            "\tuserid, password, confirmed)\n" +
+            "\tVALUES (?, NULL, FALSE)";
     private static String selectTeacherbyMail = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink, email\n" +
             "\tFROM public.\"user\", auth where email = ? and usertype = 'TEACHER' and confirmed = TRUE";
     private static String selectTeacherbyId = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink, email\n" +
@@ -88,23 +91,23 @@ public class UserDAO {
 
     }
 
-    public CompletableFuture<UUID> createPupil(final Pupil pupil, final String notHashedPassword) {
+    public CompletableFuture<UUID> createPupil(final Pupil pupil) {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
-                String hashedPassword = PasswordHasher.md5Hash(notHashedPassword);
+
                 EntityManager em = jpaApi.em();
                 String userid = (String) em.createNativeQuery(insertPupil).setParameter(1, pupil.getId().toString())
                         .setParameter(2, pupil.getFirstName())
                         .setParameter(3, pupil.getLastName()).setParameter(4, pupil.getBirthDate(), TemporalType.DATE)
                         .setParameter(5, pupil.getGender().toString())
-                        .setParameter(6, pupil.getPhotoLink())
-                        .setParameter(7, UserType.PUPIL.toString())
-                        .setParameter(8, pupil.getScore())
-                        .setParameter(9, pupil.getLevel())
-                        .setParameter(10, pupil.getEmail())
-                        .setParameter(11, pupil.getGroupID())
+                        .setParameter(6, UserType.PUPIL.toString())
+                        .setParameter(7, pupil.getScore())
+                        .setParameter(8, pupil.getLevel())
+                        .setParameter(9, pupil.getEmail())
+                        .setParameter(10, pupil.getGroupID())
                         .getSingleResult();
-                em.createNativeQuery(insertAuth).setParameter(1, userid).setParameter(2, hashedPassword).executeUpdate();
+                em.createNativeQuery(insertPupilAuth).setParameter(1, userid).executeUpdate();
+                //token for verifying
                 UUID tokenid = UUID.randomUUID();
                 em.createNativeQuery(insertToken).setParameter(1, tokenid.toString())
                         .setParameter(2, userid)
@@ -174,9 +177,7 @@ public class UserDAO {
                     pupil.setFirstName((String) raw[1]);
                     pupil.setLastName((String) raw[2]);
                     pupil.setBirthDate((Date) raw[3]);
-
                     pupil.setGender((String) raw[4]);
-                    pupil.setPhotoLink((String) raw[5]);
                     pupil.setScore((int) raw[7]);
                     pupil.setLevel((short) raw[8]);
                     pupil.setEmail((String) raw[9]);
@@ -205,6 +206,7 @@ public class UserDAO {
     }
 
 
+    //TODO : Authentication is just for teacher
     public CompletableFuture<Option<User>> authenticate(String email, String notHashedPassword) {
         String hashedPassword = DigestUtils.md5Hex(notHashedPassword);
         return CompletableFuture.supplyAsync(() -> {
@@ -223,7 +225,6 @@ public class UserDAO {
                             pupil.setLastName((String) obj[2]);
                             pupil.setBirthDate((Date) obj[3]);
                             pupil.setGender((String) obj[4]);
-                            pupil.setPhotoLink((String) obj[5]);
                             pupil.setScore((int) obj[7]);
                             pupil.setLevel((short) obj[8]);
                             pupil.setEmail((String) obj[9]);
