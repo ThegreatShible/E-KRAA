@@ -12,6 +12,8 @@ import play.mvc.Result;
 import scala.concurrent.ExecutionContext;
 import services.mailing.MailingService;
 import services.mailing.MailingServiceImpl;
+import views.html.pupil.createPupil;
+import views.html.pupil.pupilList;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -28,16 +30,22 @@ public class UserController {
     private final Form<AuthForm> authForm;
     private final Form<PupilForm> pupilForm;
     private final MailingService mailingService;
+    private final pupilList PupilList;
+    private final createPupil PupilCreation;
+
 
     @Inject
     public UserController(FormFactory formFactory, UserDAO userDAO,
-                          ExecutionContext executionContext, MailingServiceImpl mailingService) {
+                          ExecutionContext executionContext, MailingServiceImpl mailingService,
+                          pupilList PupilList, createPupil PupilCreation) {
         teacherForm = formFactory.form(TeacherForm.class);
         authForm = formFactory.form(AuthForm.class);
         this.userDAO = userDAO;
         this.executionContext = executionContext;
         this.pupilForm = formFactory.form(PupilForm.class);
         this.mailingService = mailingService;
+        this.PupilCreation = PupilCreation;
+        this.PupilList = PupilList;
     }
 
     //TODO : add session and redirect to userpage
@@ -97,6 +105,14 @@ public class UserController {
         return userDAO.getPupilsByGroup(groupID).thenApply(pupils -> {
             return ok("done");
         });
+    }
+
+    public Result pupilList() {
+        return ok(PupilList.render());
+    }
+
+    public Result pupilCreation() {
+        return ok(PupilCreation.render());
     }
 
 

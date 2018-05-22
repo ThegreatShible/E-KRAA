@@ -57,21 +57,27 @@ DELETE        /session/:sessionID                 controllers.SessionController.
 
 
 #GROUPS
-GET           /group/all                          controllers.GroupController.getGroups()
+GET           /group/all                          controllers.GroupController.groupList()
+GET           /groupCreation                      controllers.GroupController.groupCreation()
 GET           /group/:groupId                     controllers.GroupController.getGroup(groupId : Int)
 
 POST          /group                              controllers.GroupController.createGroup()
 
 #USER
 POST          /pupil                              controllers.UserController.createPupil()
-GET           /teacher/:userID           controllers.UserController.getTeacher(userID)
-GET           /pupil/:userID             controllers.UserController.getPupil(userID)
-GET           /pupils/:groupID           controllers.UserController.getPupils(groupID : Int)
-
+GET           /teacher/:userID                    controllers.UserController.getTeacher(userID)
+GET           /pupil/:userID                      controllers.UserController.getPupil(userID)
+GET           /pupils/:groupID                    controllers.UserController.getPupils(groupID : Int)
+GET           /pupils                             controllers.UserController.pupilList()
+GET           /pupilCreation                      controllers.UserController.pupilCreation()
 
 #ANSWERS
-GET           /answers/:sessionID        controllers.AnswerController.getBookAnswer(sessionID)
-POST          /answer                    controllers.AnswerController.answerQuestion()
+GET           /answers/:sessionID                 controllers.AnswerController.getBookAnswer(sessionID)
+POST          /answer                             controllers.AnswerController.answerQuestion()
 
+#book
 
+GET           /book/create                        controllers.BookCreationController.bookCreationPage()
+GET           /book/all                           controllers.BookCreationController.bookListPage()
+GET           /book/quizz                         controllers.BookCreationController.quizzCreationPage()
 
