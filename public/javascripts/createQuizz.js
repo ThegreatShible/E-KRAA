@@ -17,7 +17,7 @@ var createQuizz = function () {
     };
     
     var getAttrs = function () {
-        var questions = Array[question];
+        var questions = [];
         $("#submit").click(function () {
 
             var fields = $("form").serializeArray();
@@ -68,12 +68,9 @@ var createQuizz = function () {
                     }
                    question.answers.push(tempanswer); 
                 });
-               console.log(question); 
                 
+               questions.push(JSON.stringify(question)); 
             }
-            console.log(qsts);
-            console.log(correct);
-            console.log(answer);
             console.log(questions);
         });
     }
