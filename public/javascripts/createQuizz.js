@@ -71,6 +71,15 @@ var createQuizz = function () {
                 
                questions.push(JSON.stringify(question)); 
             }
+            // send data with ajax
+            $.ajax({
+                type: "POST",
+                data: {questions:questions},
+                url: "../html/createQuizz.html",
+                success: function(msg){
+                  $('.answer').html(msg);
+                }
+             });
             console.log(questions);
         });
     }
