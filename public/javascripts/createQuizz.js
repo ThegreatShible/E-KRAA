@@ -1,19 +1,8 @@
 var createQuizz = function () {
 
-    var qsts = [{
-            "index": "number",
-            "qst": "string"
-        }],
-        correct = [{
-            "index": "number",
-            "corIndex": "number",
-            "value": "boolean"
-        }],
-        answer = [{
-            "index": "number",
-            "corIndex": "number",
-            "ans": "string"
-        }];
+    var qsts = [],
+        correct = [],
+        answer = [];
 
     var question = {
         "index": "string",
@@ -26,9 +15,11 @@ var createQuizz = function () {
         "multi": "boolean",
         "weight": "number"
     };
-    var questions = Array[question];
+    
     var getAttrs = function () {
+        var questions = Array[question];
         $("#submit").click(function () {
+
             var fields = $("form").serializeArray();
             console.log(fields);
 
@@ -53,20 +44,37 @@ var createQuizz = function () {
                         "ans": fields[index].value
                     });
                 };
-                // while (parseInt(fields[index].name.charAt(1) <i)) {
-                //     if (fields[index].name.replace(/[^a-z]/gi, '') == "question") {
-                //         question.index = i ;
-                //         question.question= fields[index].value ;
-                //     };
-                //     if (fields[index]) {
+            }
+            for (let i = 0; i < qsts.length; i++) {
+                question.index = qsts[i].index ;
+                question.question = qsts[i].qst ;
+                function filterByID(item) {
+                    if (item.index ==qsts[i].index) {
+                      return true;
+                    } 
+                    return false; 
+                  } ; 
+                var arrAns = answer.filter(filterByID);
+                console.log(arrAns);
+                arrAns.forEach(ans => {
 
-                //     }
-                // }
-
+                   var tempanswer = {};
+                   tempanswer.answer = ans.ans;
+                    tempanswer.numAnswer = ans.corIndex + 1 ;
+                    if (correct.find(o => o.corIndex === ans.corIndex)) {
+                        tempanswer.right = true;
+                    }else{
+                        tempanswer.right = false;
+                    }
+                   question.answers.push(tempanswer); 
+                });
+               console.log(question); 
+                
             }
             console.log(qsts);
             console.log(correct);
             console.log(answer);
+            console.log(questions);
         });
     }
 
