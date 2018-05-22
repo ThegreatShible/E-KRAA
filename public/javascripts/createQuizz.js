@@ -1,8 +1,6 @@
 var createQuizz = function () {
 
-    var qsts = [],
-        correct = [],
-        answer = [];
+    var qsts = [],correct = [],answer = [];
 
     var question = {
         "index": "string",
