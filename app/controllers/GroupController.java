@@ -4,6 +4,7 @@ import Persistance.DAOs.GroupDAO;
 import forms.GroupForm;
 import models.users.Group;
 import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -17,10 +18,10 @@ public class GroupController extends Controller {
     private Form<GroupForm> groupForm;
 
     @Inject
-    public GroupController(GroupDAO groupDAO, Form<GroupForm> groupForm) {
+    public GroupController(GroupDAO groupDAO, FormFactory formFactory) {
 
         this.groupDAO = groupDAO;
-        this.groupForm = groupForm;
+        this.groupForm = formFactory.form(GroupForm.class);
     }
 
     public CompletableFuture<Result> getGroups() {

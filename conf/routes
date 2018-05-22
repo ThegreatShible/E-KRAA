@@ -24,45 +24,49 @@ POST          /answer                    controllers.AnswerController.answerQues
 GET           /getAnswer/:id             controllers.AnswerController.getBookAnswer(id)
 GET           /json                      controllers.TestController.createBookForm()
 
-GET           /book/:id                  controllers.BookCreationController.getBook(id : Int)
-GET           /book/questions/:id        controllers.BookCreationController.getQuestions(id : Int)
+GET           /book/:id                           controllers.BookCreationController.getBook(id : Int)
+GET           /book/questions/:id                 controllers.BookCreationController.getQuestions(id : Int)
 
 
-GET           /remove/:id                controllers.BookCreationController.removeBook(id :Int)
+GET           /remove/:id                         controllers.BookCreationController.removeBook(id :Int)
 
-GET           /test3/:str                controllers.TestController.test3(str : Int)
+GET           /test3/:str                         controllers.TestController.test3(str : Int)
 
-POST          /createTeacher             controllers.UserController.createTeacher()
 
-POST          /createPupil               controllers.UserController.createPupil()
+POST          /createPupil                        controllers.UserController.createPupil()
 
-POST          /auth                      controllers.UserController.authenticate()
 
-GET           /sendMail                  controllers.TestController.sendMail()
+GET           /sendMail                           controllers.TestController.sendMail()
 
 #real routes
 
+#Login
+
+GET           /auth/loginPage                     controllers.LoginController.loginPage()
+GET           /auth/confirm/:tokenID              controllers.LoginController.confirmAuthentication(tokenID)
+POST          /auth/authenticate                  controllers.LoginController.authenticate()
+POST          /auth/createTeacher                 controllers.LoginController.createTeacher()
+
 
 #SESSIONS
-GET           /session/:sessionID        controllers.SessionController.getSession(sessionID)
-POST          /session                   controllers.SessionController.createSession()
-DELETE        /session/:sessionID        controllers.SessionController.removeSession(sessionID)
+GET           /session/:sessionID                 controllers.SessionController.getSession(sessionID)
+GET           /session/sessionListPage            controllers.SessionController.sessionList()
+GET           /session/sessionCreationPage        controllers.SessionController.sessionCreation()
+POST          /session                            controllers.SessionController.createSession()
+DELETE        /session/:sessionID                 controllers.SessionController.removeSession(sessionID)
 
 
 #GROUPS
-GET           /group/all                 controllers.GroupController.getGroups()
-GET           /group/:groupId            controllers.GroupController.getGroup(groupId : Int)
+GET           /group/all                          controllers.GroupController.getGroups()
+GET           /group/:groupId                     controllers.GroupController.getGroup(groupId : Int)
 
-POST          /group                     controllers.GroupController.createGroup()
+POST          /group                              controllers.GroupController.createGroup()
 
 #USER
-POST          /teacher                   controllers.UserController.createTeacher()
-POST          /pupil                     controllers.UserController.createPupil()
+POST          /pupil                              controllers.UserController.createPupil()
 GET           /teacher/:userID           controllers.UserController.getTeacher(userID)
 GET           /pupil/:userID             controllers.UserController.getPupil(userID)
 GET           /pupils/:groupID           controllers.UserController.getPupils(groupID : Int)
-POST          /authenticate              controllers.UserController.authenticate()
-GET           /confirm/:tokenID          controllers.UserController.confirmAuthentication(tokenID)
 
 
 #ANSWERS
