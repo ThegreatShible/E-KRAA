@@ -17,9 +17,10 @@ public class Book {
     private Difficulty difficulty;
     private String title;
     private List<Question> questions = new ArrayList();
-    private List<String> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
-    public Book(int idBook, String title, String content, Language language, Date lastModifDate, Difficulty difficulty, List<Question> questions, List<String> categories) {
+    public Book(int idBook, String title, String content, Language language,
+                Date lastModifDate, Difficulty difficulty, List<Question> questions, List<Category> categories) {
         this.idBook = idBook;
         this.content = content;
         this.language = language;
@@ -30,7 +31,8 @@ public class Book {
         this.title = title;
     }
 
-    public static Book create(String content, String title, String language, String difficulty, List<Question> questions, List<String> categories) throws BookCreationException {
+    public static Book create(String content, String title, String language, String difficulty,
+                              List<Question> questions, List<Category> categories) throws BookCreationException {
         //TODO : Remove javascript tags
         //TODO : Verify length of arguments before database
 
@@ -100,11 +102,11 @@ public class Book {
         this.questions = questions;
     }
 
-    public List<String> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 

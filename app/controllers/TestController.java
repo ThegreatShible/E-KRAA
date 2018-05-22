@@ -6,6 +6,7 @@ import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
 import models.book.Book;
+import models.book.Category;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.libs.mailer.MailerClient;
@@ -88,8 +89,11 @@ public class TestController extends Controller {
                 "another lskdjflsjd ***********************************************" +
                 "**************************************" +
                 "*******************************************");
-        List<String> categoreis = new ArrayList<>();
-        categoreis.add("sport");
+        List<Category> categoreis = new ArrayList<>();
+        Category category = new Category();
+        category.setCategoryID(0);
+        category.setCategorieName("sport");
+        categoreis.add(category);
         bookForm.setCategories(categoreis);
         String bookJson = Json.toJson(bookForm).toString();
         return ok(bookJson);

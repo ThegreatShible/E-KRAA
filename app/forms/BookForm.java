@@ -2,6 +2,7 @@ package forms;
 
 import models.book.Book;
 import models.book.BookCreationException;
+import models.book.Category;
 import models.book.Question;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class BookForm {
 
     private String title;
     private String difficulty;
-    private List<String> categories;
+    private List<Category> categories;
     private String language;
     private String content;
     private List<QuestionForm> questions;
@@ -33,11 +34,11 @@ public class BookForm {
         this.difficulty = difficulty;
     }
 
-    public List<String> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 

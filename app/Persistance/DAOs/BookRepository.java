@@ -18,16 +18,17 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
 
     //Insertion Queries
     private final static String bookInsertQuery = "INSERT INTO public.book(content, lastmodifdate, language, difficulty, title) VALUES (?, ?, ?, ?, ?) Returning idbook";
-    private final static String categorieInsertQuery = "INSERT INTO public.categorie(idbook, categorie) VALUES (?, ?)";
     private final static String questionInsertQuery = "INSERT INTO public.questions(idbook, content, multiplechoices, weight)VALUES (?, ?, ?, ?) Returning numquestion";
     private final static String answerInsertQuery = "INSERT INTO public.answer(idbook, idquestion, content, \"right\") VALUES (?, ?, ?, ?)";
 
 
     //Selection Queries with condition
     private final static String bookSelectQuery = "SELECT * FROM public.book WHERE idbook = ? AND removed = FALSE";
-    private final static String categorieSelectQuery = "SELECT * FROM public.categorie WHERE idbook = ?";
+    private final static String categorieSelectQuery = "SELECT  categorie.idcategorie, categorie\n" +
+            "\tFROM public.bookcategorie, public.categorie where idbook = ?";
     private final static String questionSelectQuery = "SELECT * FROM public.questions WHERE idbook = ?";
     private final static String answerSelectQuery = "SELECT * FROM public.answer WHERE idbook = ? AND idquestion = ?";
+    private final static String setBookCategoriesQuery = "INSERT INTO public.bookcategorie(idbook, idcategorie) VALUES (?, ?)";
 
     //getting quesitonList from a book
     private final static String questionListQuery = "SELECT * FROM public.questions where idbook = ?";
@@ -45,7 +46,7 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
         this.databaseExecutionContext = databaseExecutionContext;
     }
 
-    @Override
+    /*@Override
     public CompletableFuture<Integer> create(Book obj) {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
@@ -72,6 +73,52 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
                 return id;
             });
         }, databaseExecutionContext);
+    }*/
+
+    public CompletableFuture<Integer> create(Book obj) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                Query q1 = em.createNativeQuery(bookInsertQuery);
+                int inserted = (int) q1.setParameter(1, obj.getContent())
+                        .setParameter(2, new Date(), TemporalType.TIMESTAMP).
+                                setParameter(3, obj.getLanguage().getLanguage())
+                        .setParameter(4, obj.getDifficulty().name())
+                        .setParameter(5, obj.getTitle()).getSingleResult();
+                for (Category cat : obj.getCategories()) {
+                    em.createNativeQuery(setBookCategoriesQuery).setParameter(1, obj.getIdBook())
+                            .setParameter(2, cat.getCategoryID()).executeUpdate();
+                }
+                return inserted;
+
+            });
+        }, databaseExecutionContext);
+    }
+
+    public CompletableFuture<Integer> addQuestionsToBook(int bookID, List<Question> questions) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                for (Question qs : questions) {
+                    Query q3 = em.createNativeQuery(questionInsertQuery).setParameter(1, bookID)
+                            .setParameter(2, qs.getContent())
+                            .setParameter(3, qs.isMultipleChoice())
+                            .setParameter(4, qs.getWeight());
+                    short idq = (short) q3.getSingleResult();
+
+                    for (Answer ans : qs.getAnswers()) {
+                        Query q4 = em.createNativeQuery(answerInsertQuery)
+                                .setParameter(1, bookID)
+                                .setParameter(2, idq)
+                                .setParameter(3, ans.getContent())
+                                .setParameter(4, ans.isValid());
+                        q4.executeUpdate();
+                    }
+
+                }
+                return bookID;
+            });
+        }, databaseExecutionContext);
     }
 
 
@@ -95,7 +142,8 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
                 EntityManager em = jpaApi.em();
-                List<Object[]> rawCategories = em.createNativeQuery(categorieSelectQuery).setParameter(1, key).getResultList();
+                List<Object[]> rawCategories = em.createNativeQuery(categorieSelectQuery)
+                        .setParameter(1, key).getResultList();
                 List<Object[]> rawQuestions = em.createNativeQuery(questionSelectQuery).setParameter(1, key).getResultList();
                 List<Question> questions = new ArrayList<>();
                 for (Object[] raw : rawQuestions) {
@@ -106,7 +154,7 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
 
                     questions.add(question);
                 }
-                List<String> categories = categorieConverter(rawCategories);
+                List<Category> categories = categorieConverter(rawCategories);
                 List<Object[]> bookList = em.createNativeQuery(bookSelectQuery).setParameter(1, key.longValue()).getResultList();
                 Object[] book = bookList.get(0);
                 return bookConverter(book, categories, questions);
@@ -150,13 +198,14 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
     }
 
 
-    private List<String> categorieConverter(List<Object[]> raws) {
-        List<String> categories = new ArrayList<>();
+    private List<Category> categorieConverter(List<Object[]> raws) {
+        List<Category> categories = new ArrayList<>();
         for (Object[] raw : raws) {
-            String categorie = (String) raw[1];
-            categories.add(categorie);
+            Category category = new Category();
+            category.setCategoryID((int) raw[0]);
+            category.setCategorieName((String) raw[1]);
+            categories.add(category);
         }
-
         return categories;
     }
 
@@ -181,7 +230,7 @@ public class BookRepository implements CRUD_DAO<Book, Integer> {
         return question;
     }
 
-    private Book bookConverter(Object[] raws, List<String> categories, List<Question> questions) {
+    private Book bookConverter(Object[] raws, List<Category> categories, List<Question> questions) {
         int idBook = (int) raws[0];
         String content = (String) raws[1];
         Date lastModifDate = (Date) raws[2];

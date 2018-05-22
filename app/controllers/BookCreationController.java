@@ -19,8 +19,7 @@ import java.util.concurrent.CompletableFuture;
 public class BookCreationController extends Controller {
 
     private BookRepository bookRepository;
-    private views.html.readbook readBookTemplate;
-    private views.html.Quizz quizzTemplate;
+
     private views.html.book.bookCreation BookCreation;
     private views.html.book.bookList BookList;
     private views.html.book.quizzCreation QuizzCreation;
@@ -31,8 +30,6 @@ public class BookCreationController extends Controller {
                                   views.html.book.bookList Booklist,
                                   views.html.book.quizzCreation QuizzCreation) {
         this.bookRepository = bookRepository;
-        this.readBookTemplate = readBookTemplate;
-        this.quizzTemplate = quizzTemplate;
         this.BookCreation = BookCreation;
         this.BookList = Booklist;
         this.QuizzCreation = QuizzCreation;
@@ -50,12 +47,11 @@ public class BookCreationController extends Controller {
         return bookRepository.create(book).thenApply(e -> {
             return ok("done");
         });
-
     }
 
     public CompletableFuture<Result> getBook(int id) {
         return bookRepository.find(id).thenApply(b -> {
-            return ok(readBookTemplate.render(b));
+            return ok();
         });
 
     }
@@ -84,6 +80,10 @@ public class BookCreationController extends Controller {
 
     public Result bookListPage() {
         return ok(BookList.render());
+    }
+
+    public CompletableFuture<Result> createBookContent() {
+        return CompletableFuture.supplyAsync(() -> ok());
     }
 
 
