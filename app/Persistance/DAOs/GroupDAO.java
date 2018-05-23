@@ -18,7 +18,7 @@ public class GroupDAO {
             "\tgroupid, groupname, owner)\n" +
             "\tVALUES (?, ?, ?) returning groupid";
     private static String groupsSelectionQuery = "SELECT * FROM public.\"group\"";
-    private static String getPupilwithGroup = "SELECT  groupid\n" +
+    private static String getPupilwithGroup = "SELECT  \"user\".userid\n" +
             "\tFROM public.\"user\", auth where groupid = ? and usertype = 'PUPIL' and confirmed = TRUE";
     private static String groupSelectionQuery = "SELECT groupid, groupname, owner\n" +
             "\tFROM public.\"group\" where groupid = ?";

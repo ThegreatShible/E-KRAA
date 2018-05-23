@@ -7,8 +7,6 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.group.groupCreation;
-import views.html.group.groupList;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -18,12 +16,12 @@ public class GroupController extends Controller {
 
     private GroupDAO groupDAO;
     private Form<GroupForm> groupForm;
-    private groupCreation GroupCreation;
-    private groupList GroupList;
+    private views.html.group.groupCreation GroupCreation;
+    private views.html.group.groupList GroupList;
 
     @Inject
     public GroupController(GroupDAO groupDAO, FormFactory formFactory,
-                           groupCreation GroupCreation, groupList GroupList) {
+                           views.html.group.groupCreation GroupCreation, views.html.group.groupList GroupList) {
 
         this.groupDAO = groupDAO;
         this.groupForm = formFactory.form(GroupForm.class);

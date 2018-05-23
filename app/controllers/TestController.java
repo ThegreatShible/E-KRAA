@@ -5,7 +5,6 @@ import Persistance.DAOs.BookRepository;
 import forms.AnswerForm;
 import forms.BookForm;
 import forms.QuestionForm;
-import models.book.Book;
 import models.book.Category;
 import play.i18n.MessagesApi;
 import play.libs.Json;
@@ -18,7 +17,6 @@ import services.mailing.MailingServiceImpl;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 //TODO : Remove this controller
 
@@ -30,34 +28,37 @@ public class TestController extends Controller {
     private MessagesApi messagesApi;
     private MailerClient mailerClient;
     private MailingService mailingService;
+    private MessagesApi messageApi;
 
     @Inject
-    public TestController(MessagesApi messagesApi, BookRepository bookRepository, views.html.test testTemplate, MailerClient mailerClient
+    public TestController(MessagesApi messagesApi, BookRepository bookRepository
+            , views.html.test testTemplate, MailerClient mailerClient
             , MailingServiceImpl mailingService) {
         this.testTemplate = testTemplate;
         this.messagesApi = messagesApi;
         this.bookRepository = bookRepository;
         this.mailerClient = mailerClient;
         this.mailingService = mailingService;
+        this.messageApi = messagesApi;
     }
 
     public Result test() {
+
         return ok(testTemplate.render());
     }
 
 
 
     public Result test2() {
-        return ok("done");
+        changeLang("fr");
+        return ok();
+
     }
 
-    public CompletableFuture<Result> test3(int id) {
-        CompletableFuture<Book> fb = bookRepository.find(id);
-        return fb.thenApply(b -> {
-            String json = Json.toJson(b).toString();
-            return ok(json);
-        });
+    public Result test3(int id) {
+        return ok("error");
     }
+
 
     public Result createBookForm() {
         BookForm bookForm = new BookForm();

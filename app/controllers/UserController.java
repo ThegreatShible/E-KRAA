@@ -1,6 +1,7 @@
 package controllers;
 
 
+import Persistance.DAOs.GroupDAO;
 import Persistance.DAOs.UserDAO;
 import forms.AuthForm;
 import forms.PupilForm;
@@ -8,21 +9,17 @@ import forms.TeacherForm;
 import models.users.Pupil;
 import play.data.Form;
 import play.data.FormFactory;
+import play.mvc.Controller;
 import play.mvc.Result;
 import scala.concurrent.ExecutionContext;
 import services.mailing.MailingService;
 import services.mailing.MailingServiceImpl;
-import views.html.pupil.createPupil;
-import views.html.pupil.pupilList;
 
 import javax.inject.Inject;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import static play.mvc.Results.badRequest;
-import static play.mvc.Results.ok;
-
-public class UserController {
+public class UserController extends Controller {
 
     private final Form<TeacherForm> teacherForm;
     private final UserDAO userDAO;
@@ -30,14 +27,17 @@ public class UserController {
     private final Form<AuthForm> authForm;
     private final Form<PupilForm> pupilForm;
     private final MailingService mailingService;
-    private final pupilList PupilList;
-    private final createPupil PupilCreation;
+    private final views.html.pupil.pupilList PupilList;
+    private final views.html.pupil.createPupil PupilCreation;
+    private final GroupDAO groupDAO;
 
 
     @Inject
     public UserController(FormFactory formFactory, UserDAO userDAO,
                           ExecutionContext executionContext, MailingServiceImpl mailingService,
-                          pupilList PupilList, createPupil PupilCreation) {
+                          views.html.pupil.pupilList PupilList, views.html.pupil.createPupil PupilCreation,
+                          GroupDAO groupDAO) {
+        this.groupDAO = groupDAO;
         teacherForm = formFactory.form(TeacherForm.class);
         authForm = formFactory.form(AuthForm.class);
         this.userDAO = userDAO;
@@ -58,6 +58,7 @@ public class UserController {
 
         Form<PupilForm> bindPupilForm = pupilForm.bindFromRequest();
         if (bindPupilForm.hasErrors()) {
+            bindPupilForm.allErrors().forEach(er -> System.out.println(er));
             return CompletableFuture.supplyAsync(() -> {
                 return badRequest("badRequest");
             });
@@ -111,8 +112,11 @@ public class UserController {
         return ok(PupilList.render());
     }
 
-    public Result pupilCreation() {
-        return ok(PupilCreation.render());
+    public CompletableFuture<Result> pupilCreation() {
+        return groupDAO.getGroups().thenApply(groups -> {
+            return ok(PupilCreation.render(groups));
+
+        });
     }
 
 

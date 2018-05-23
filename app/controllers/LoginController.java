@@ -5,10 +5,13 @@ import forms.AuthForm;
 import forms.PupilForm;
 import forms.TeacherForm;
 import models.users.Teacher;
+import models.users.User;
 import play.data.Form;
 import play.data.FormFactory;
+import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import scala.Option;
 import scala.concurrent.ExecutionContext;
 import services.mailing.MailingService;
 import services.mailing.MailingServiceImpl;
@@ -20,12 +23,12 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
-import static play.mvc.Controller.request;
-import static play.mvc.Controller.session;
-import static play.mvc.Results.*;
+/////////////////////////////////
 
-public class LoginController {
+
+public class LoginController extends Controller {
 
 
     private final views.html.auth.login Login;
@@ -35,7 +38,6 @@ public class LoginController {
     private final Form<AuthForm> authForm;
     private final Form<PupilForm> pupilForm;
     private final MailingService mailingService;
-
     @Inject
     public LoginController(FormFactory formFactory, UserDAO userDAO,
                            ExecutionContext executionContext, MailingServiceImpl mailingService,
@@ -51,39 +53,52 @@ public class LoginController {
 
 
     public Result loginPage() {
+        session("user", "user");
         return ok(Login.render());
     }
 
-    public CompletableFuture<Result> authenticate() {
+    public Result authenticate() {
         Form<AuthForm> bindAuthForm = authForm.bindFromRequest();
         if (bindAuthForm.hasErrors())
-            return CompletableFuture.supplyAsync(() -> badRequest());
+            return notFound("erreure dans le formulaire");
         else {
             AuthForm af = bindAuthForm.get();
 
-            return userDAO.authenticate(af.getEmail(), af.getPassword()).thenApply(e -> {
-
-                if (e.isEmpty()) return ok("not found");
-                session().put("user", e.get().getId().toString());
-                return ok("found");
-            });
+            CompletableFuture<Option<User>> u = userDAO.authenticate(af.getEmail(), af.getPassword());
+            try {
+                Option<User> op = u.get(3, TimeUnit.SECONDS);
+                if (op.isEmpty()) {
+                    return unauthorized();
+                } else {
+                    return redirect(routes.SessionController.sessionList());
+                }
+            } catch (Exception e) {
+                return internalServerError();
+            }
         }
     }
 
     public CompletableFuture<Result> createTeacher() {
-
-        Http.MultipartFormData<File> body = request().body().asMultipartFormData();
-        final File profile = body.getFile("profilePicture").getFile();
+        //TODO : revoir cela urgent
+        /*Http.MultipartFormData<File> body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> profile = body.getFile("profilePicture");*/
         Form<TeacherForm> bindTeacherForm = teacherForm.bindFromRequest();
         if (bindTeacherForm.hasErrors()) {
             return CompletableFuture.supplyAsync(() -> {
-                return badRequest("badRequest");
+                bindTeacherForm.allErrors().forEach(x -> System.out.println("**************" + x));
+                return ok("error in form");
             });
         } else {
 
             TeacherForm bindTeacherFormEntity = bindTeacherForm.get();
             UUID userID = UUID.randomUUID();
-            UUID fileid = UUID.randomUUID();
+            Http.MultipartFormData.FilePart<File> profile = null;
+            String fileid;
+            if (profile == null) {
+                fileid = "defaultProfilePic.png";
+            } else {
+                fileid = UUID.randomUUID().toString() + ".png";
+            }
 
             Teacher teacher = bindTeacherFormEntity.toTeacher(userID, fileid.toString());
             return userDAO.createTeacher(teacher, bindTeacherFormEntity.getPassword()).thenApply(tokenid -> {
@@ -91,33 +106,53 @@ public class LoginController {
 
                     //TODO : remove absolute path
 
-                    //String filePath = routes.Assets.versioned("")
-                    File file = new File("C:\\Users\\nabih\\IdeaProjects\\E-KRAA-Exp\\public\\UserProfile\\" + fileid.toString() + ".png");
-                    OutputStream outputStream = new FileOutputStream(file);
-                    Files.copy(profile.toPath(), outputStream);
-                    mailingService.sendSignUpConfirmationMail(teacher.getEmail(), tokenid.toString());
-                    return ok(file.getAbsolutePath());
+                    File file = new File("C:\\Users\\nabih\\IdeaProjects\\E-KRAA-Exp\\public\\UserProfile\\" + fileid.toString());
+                    if (profile != null) {
+                        //String filePath = routes.Assets.versioned("")
+                        OutputStream outputStream = new FileOutputStream(file);
+                        File uploadedProfile = profile.getFile();
+                        Files.copy(uploadedProfile.toPath(), outputStream);
+                    }
+                    String link = routes.LoginController.confirmAuthentication(tokenid.toString()).url();
+                    mailingService.sendSignUpConfirmationMail(teacher.getEmail(), link);
+                    return redirect(routes.SessionController.sessionList());
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return badRequest();
+                    return redirect(routes.LoginController.loginPage());
+
                 }
 
             });
         }
     }
 
-    public CompletableFuture<Result> confirmAuthentication(String tokenID) {
+    public Result confirmAuthentication(String tokenID) {
         UUID token = UUID.fromString(tokenID);
         //token = UUID.randomUUID();
-        return userDAO.confirmUserByToken(token).thenApply(e -> {
-            if (e.isEmpty()) {
-                return badRequest("token errone");
+        CompletableFuture<Option<UUID>> res = userDAO.confirmUserByToken(token);
+
+        try {
+            Option<UUID> uuid = res.get(3, TimeUnit.SECONDS);
+            if (uuid.isEmpty()) {
+                return notFound();
             } else {
-                session().put("user", e.get().toString());
-                return redirect("");
+                session("user", uuid.get().toString());
+                return redirect(routes.LoginController.loginPage());
             }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError();
+        }
+
 
     }
+
+    public Result logout() {
+        session().clear();
+        return redirect(routes.LoginController.loginPage());
+    }
+
+
 }

@@ -94,7 +94,7 @@ public class UserDAO {
     public CompletableFuture<UUID> createPupil(final Pupil pupil) {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
-
+                System.out.println("ooooooooooooooooooooooooooooooooo  " + pupil.getGroupID());
                 EntityManager em = jpaApi.em();
                 String userid = (String) em.createNativeQuery(insertPupil).setParameter(1, pupil.getId().toString())
                         .setParameter(2, pupil.getFirstName())
@@ -106,6 +106,7 @@ public class UserDAO {
                         .setParameter(9, pupil.getEmail())
                         .setParameter(10, pupil.getGroupID())
                         .getSingleResult();
+                System.out.println("hhhhhhhhhhhhhhhheeeeeeeeeeerrrrrrrrrrrrreeeeeeeeeeh  " + pupil.getGroupID());
                 em.createNativeQuery(insertPupilAuth).setParameter(1, userid).executeUpdate();
                 //token for verifying
                 UUID tokenid = UUID.randomUUID();

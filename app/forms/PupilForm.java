@@ -17,7 +17,7 @@ public class PupilForm {
     @Constraints.Required
     private String lastName;
     @Constraints.Required
-    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    @Formats.DateTime(pattern = "yyyy-mm-dd")
     private Date birthDate;
     @Constraints.Required
     private String gender;
@@ -75,7 +75,7 @@ public class PupilForm {
     }
 
     public Pupil toPupil(UUID id, String link) {
-        return Pupil.create(id, firstName, lastName, birthDate, gender, email);
+        return Pupil.create(id, firstName, lastName, birthDate, gender, email, groupID);
     }
 
 

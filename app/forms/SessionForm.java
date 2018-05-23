@@ -3,21 +3,19 @@ package forms;
 import models.session.Session;
 import play.data.format.Formats;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 public class SessionForm {
 
-    @Formats.DateTime(pattern = "dd-MM-YYYY hh:mm")
+    @Formats.DateTime(pattern = "yyyy/MM/dd mm:ss")
     private Date sessionStart;
-    @Formats.DateTime(pattern = "dd-MM-YYYY hh:mm")
+    @Formats.DateTime(pattern = "yyyy/MM/dd mm:ss")
     private Date sessionEnd;
-    private int bookID;
-    private int groupID;
+    private int book;
+    private int Group;
 
     public Date getSessionStart() {
         return sessionStart;
@@ -28,20 +26,20 @@ public class SessionForm {
     }
 
 
-    public int getBookID() {
-        return bookID;
+    public int getBook() {
+        return book;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
+    public void setBook(int book) {
+        this.book = book;
     }
 
-    public int getGroupID() {
-        return groupID;
+    public int getGroup() {
+        return Group;
     }
 
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
+    public void setGroup(int group) {
+        Group = group;
     }
 
     public Date getSessionEnd() {
@@ -53,13 +51,22 @@ public class SessionForm {
     }
 
     public Session toSession(UUID sessionID) {
-        LocalDate localDate = LocalDate.of(sessionStart.getYear(), sessionStart.getMonth(), sessionStart.getDay());
-        LocalTime localTime = LocalTime.of(sessionStart.getHours(), sessionStart.getMinutes());
-        LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-        long date1 = sessionStart.toInstant().toEpochMilli();
-        long date2 = sessionEnd.toInstant().toEpochMilli();
-        Duration duration = Duration.ofSeconds(date2 - date1);
-        Session session = new Session(sessionID, localDateTime, duration, bookID, groupID);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(sessionStart);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(sessionEnd);
+        LocalDate localDate1 = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH));
+        LocalTime localTime1 = LocalTime.of(cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
+        LocalDateTime localDateTime1 = LocalDateTime.of(localDate1, localTime1);
+        LocalDate localDate2 = LocalDate.of(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH) + 1, cal2.get(Calendar.DAY_OF_MONTH));
+        LocalTime localTime2 = LocalTime.of(cal2.get(Calendar.MINUTE), cal2.get(Calendar.SECOND));
+        LocalDateTime localDateTime2 = LocalDateTime.of(localDate2, localTime2);
+
+
+        Duration duration = Duration.between(localDateTime1, localDateTime2);
+        System.out.println(System.currentTimeMillis() - localDateTime1.toEpochSecond(ZoneOffset.UTC) + " IT WILL START");
+        Session session = new Session(sessionID, localDateTime1, duration, book, Group);
         return session;
     }
 }

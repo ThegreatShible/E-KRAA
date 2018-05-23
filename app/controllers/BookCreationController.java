@@ -70,8 +70,11 @@ public class BookCreationController extends Controller {
         });
     }
 
-    public Result bookCreationPage() {
-        return ok(BookCreation.render());
+    public CompletableFuture<Result> bookCreationPage() {
+        return bookRepository.getCategories().thenApply(cats -> {
+            return ok(BookCreation.render(cats));
+        });
+
     }
 
     public Result quizzCreationPage() {

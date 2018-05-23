@@ -50,8 +50,6 @@ public class AnswerController extends Controller {
                         final int score = book.getScoreFromAnswer(userAnswer);
                         CompletableFuture<Result> res = sessionDAO.createUserAnswer(book, userAnswer).thenCompose(x -> {
                             return userDAO.getPupil(userID).thenApply(pupil -> {
-                                mailingService.sendExamResult(pupil.get().getEmail(), score);
-                                //TODO : replace done
                                 return ok("done");
                             });
                         });

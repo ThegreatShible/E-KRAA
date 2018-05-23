@@ -1,5 +1,7 @@
+@
+import models.book.Category
 @this()
-@()
+@(categories: List[Category])
 <!DOCTYPE html>
 <html lang="en">
         <!-- begin::Head -->
@@ -174,7 +176,7 @@
                                                                 </li>
                                                                 <li class="m-nav__separator m-nav__separator--fit"></li>
                                                                 <li class="m-nav__item">
-                                                                    <a href="../../../snippets/pages/user/login-1.html" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                                                    <a href="@routes.LoginController.logout()" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
                                                                         Logout
                                                                     </a>
                                                                 </li>
@@ -253,7 +255,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="#" class="m-menu__link ">
+                                            <a href="@routes.BookCreationController.bookCreationPage()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -310,7 +312,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./StudentsList.html" class="m-menu__link ">
+                                            <a href="@routes.UserController.pupilList()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -320,7 +322,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./sessionsList.html" class="m-menu__link ">
+                                            <a href="@routes.SessionController.sessionList()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -330,7 +332,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./groupsList.html" class="m-menu__link ">
+                                            <a href="@routes.GroupController.groupList()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -361,7 +363,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./CreateStudent.html" class="m-menu__link ">
+                                            <a href="@routes.UserController.pupilCreation()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -371,7 +373,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./createSession.html" class="m-menu__link ">
+                                            <a href="@routes.SessionController.sessionCreation()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -381,7 +383,7 @@
                                             </a>
                                         </li>
                                         <li class="m-menu__item " aria-haspopup="true">
-                                            <a href="./createGroup.html" class="m-menu__link ">
+                                            <a href="@routes.GroupController.groupCreation()" class="m-menu__link ">
                                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                                     <span></span>
                                                 </i>
@@ -466,28 +468,14 @@
                                     </label>
                                     <div>
                                         <select class="form-control m-select2" id="m_select2_3" name="Category" multiple="multiple">
-                                            <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                <option value="AK" selected>
-                                                    Alaska
+                                            <optgroup label="categories">
+                                            @for(cat <- categories) {
+                                                <option value="@cat.getCategoryID" selected>
+                                                @cat.getCategorieName
                                                 </option>
-                                                <option value="HI">
-                                                    Hawaii
-                                                </option>
+                                            }
                                             </optgroup>
-                                            <optgroup label="Pacific Time Zone">
-                                                <option value="CA">
-                                                    California
-                                                </option>
-                                                <option value="NV" selected>
-                                                    Nevada
-                                                </option>
-                                                <option value="OR">
-                                                    Oregon
-                                                </option>
-                                                <option value="WA">
-                                                    Washington
-                                                </option>
-                                            </optgroup>
+
                                         </select>
                                     </div>
                                 </div>
@@ -741,9 +729,8 @@
         <script src="@routes.Assets.versioned("javascripts/scripts.bundle.js")" type="text/javascript"></script>
             <!--end::Base Scripts -->
             <!--begin::Page Resources -->
-        <scriptsrc="@routes.Assets.versioned("javascripts/summernote.js")" type="text/javascript"></script>
-        <
-        script
+        <script src ="@routes.Assets.versioned("javascripts/summernote.js")" type="text/javascript"></script>
+        <script
         src = "@routes.Assets.versioned("javascripts/select2.js")"
         type = "text/javascript" ></script>
         <script src="../javascripts/repeat.js" type="text/javascript"></script>
