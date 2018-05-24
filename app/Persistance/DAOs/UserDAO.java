@@ -39,7 +39,7 @@ public class UserDAO {
     private static String selectPupilbyMail = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email, groupid\n" +
             "\tFROM public.\"user\", auth where email = ? and usertype = 'PUPIL' and confirmed = TRUE";
     private static String selectPupilbyId = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email,groupid\n" +
-            "\tFROM public.\"user\", auth where userid = ? and usertype = 'PUPIL' and confirmed = TRUE";
+            "\tFROM public.\"user\", auth where \"user\".userid = ? and usertype = 'PUPIL' and confirmed = TRUE";
     private static String selectPupilsbyGroup = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email,groupid\n" +
             "\tFROM public.\"user\", auth where groupid = ? and usertype = 'PUPIL' and confirmed = TRUE";
 

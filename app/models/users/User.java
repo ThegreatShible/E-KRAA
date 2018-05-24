@@ -9,12 +9,13 @@ import java.util.UUID;
 @Entity
 abstract public class User {
     @Id
+    @Column(name = "userid")
     private UUID id;
     @Column(name = "firstname")
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-    @Column(name = "birthday")
+    @Column(name = "birthdate")
     private Date birthDate;
 
     private String gender;

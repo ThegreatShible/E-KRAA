@@ -11,6 +11,7 @@ import scala.Some;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -43,6 +44,8 @@ public class SessionDAO {
             "\tVALUES (?, ?, ?, ?, FALSE, ?)";
     private static String selectSessionByIDTeacherQuery = "SELECT sessionid, idbook, startdate, duration, removed, session.groupid as group\n" +
             "\tFROM public.session,public.group where sessionid = ? and  removed = FALSE and owner = ?";
+    private static String selectSessionByID = "SELECT sessionid, idbook, startdate, duration, removed, session.groupid as group\n" +
+            "\tFROM public.session,public.group where sessionid = ? and  removed = FALSE";
     private static String selectSessionsByTeacher = "SELECT sessionid, session.idbook as ibook, startdate, duration,session.removed as rem\n" +
             "\tFROM public.session,book\n" +
             "\twhere creator = ? and session.removed = FALSE";
@@ -120,8 +123,8 @@ public class SessionDAO {
         UUID sessionID = UUID.fromString((String) raw[0]);
         int bookid = (int) raw[1];
         LocalDateTime startTime =
-                LocalDateTime.ofInstant(Instant.ofEpochMilli((long) raw[2]), ZoneId.systemDefault());
-        Duration duration = Duration.ofSeconds((long) raw[3]);
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(((BigInteger) raw[2]).longValue()), ZoneId.systemDefault());
+        Duration duration = Duration.ofSeconds(((BigInteger) raw[3]).longValue());
         int groupID = (int) raw[5];
         Session session = new Session(sessionID, startTime, duration, bookid, groupID);
         return session;
@@ -179,6 +182,23 @@ public class SessionDAO {
 
                 return Some.apply(new UserAnswer(sessionid, userid, map2, answerdate));
 
+            });
+        }, databaseExecutionContext);
+    }
+
+    public CompletableFuture<Option<Session>> getByID(UUID sessionID) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                List<Object[]> sessions = em.createNativeQuery(selectSessionByID)
+                        .setParameter(1, sessionID.toString())
+                        .getResultList();
+                if (sessions.isEmpty())
+                    return Option.empty();
+                else {
+                    Object[] session = sessions.get(0);
+                    return Option.apply(getSessionFromRaw(session));
+                }
             });
         }, databaseExecutionContext);
     }

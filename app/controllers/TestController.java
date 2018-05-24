@@ -2,10 +2,10 @@ package controllers;
 
 
 import Persistance.DAOs.BookRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import forms.AnswerForm;
-import forms.BookForm;
 import forms.QuestionForm;
-import models.book.Category;
+import forms.QuestionsForm;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.libs.mailer.MailerClient;
@@ -43,8 +43,27 @@ public class TestController extends Controller {
     }
 
     public Result test() {
+        int i = 45;
+        QuestionForm questionForm = new QuestionForm();
+        questionForm.setQuestion("what");
+        questionForm.setWeight((short) 5);
+        questionForm.setMultiple(false);
+        questionForm.setQuestionNum((short) 1);
+        List<AnswerForm> answers = new ArrayList<>();
+        AnswerForm answerForm = new AnswerForm();
+        answerForm.setNumAnswer((short) 1);
+        answerForm.setAnswer("yes");
+        answerForm.setRight(true);
+        answers.add(answerForm);
+        questionForm.setAnswers(answers);
+        QuestionsForm questionsForm = new QuestionsForm();
+        questionsForm.setBookID(i);
+        List<QuestionForm> questionFormList = new ArrayList<>();
+        questionFormList.add(questionForm);
+        questionsForm.setQuestions(questionFormList);
 
-        return ok(testTemplate.render());
+        JsonNode jsonNode = Json.toJson(questionsForm);
+        return ok(jsonNode.toString());
     }
 
 
@@ -60,47 +79,7 @@ public class TestController extends Controller {
     }
 
 
-    public Result createBookForm() {
-        BookForm bookForm = new BookForm();
-        AnswerForm answerForm = new AnswerForm();
-        answerForm.setRight(true);
-        answerForm.setAnswer("oui");
-        answerForm.setNumAnswer((short) 1);
-        AnswerForm answerForm2 = new AnswerForm();
-        answerForm2.setRight(false);
-        answerForm2.setAnswer("non");
-        answerForm2.setNumAnswer((short) 2);
-        List<AnswerForm> answerForms = new ArrayList<>();
-        answerForms.add(answerForm);
-        answerForms.add(answerForm2);
-        QuestionForm questionForm = new QuestionForm();
-        questionForm.setMultiple(true);
-        questionForm.setQuestion("est ce que la terre est ronde ? ");
-        questionForm.setAnswers(answerForms);
-        questionForm.setQuestionNum((short) 1);
-        questionForm.setWeight((short) 10);
-        List<QuestionForm> questionForms = new ArrayList<>();
-        questionForms.add(questionForm);
-        bookForm.setQuestions(questionForms);
-        bookForm.setTitle("texte aleatoire");
-        bookForm.setLanguage("FR");
-        bookForm.setDifficulty("EASY");
-        bookForm.setContent("this is a book we can write what ever we want *************************************" +
-                "this is another thig *****************************************************" +
-                "another lskdjflsjd ***********************************************" +
-                "**************************************" +
-                "*******************************************");
-        List<Category> categoreis = new ArrayList<>();
-        Category category = new Category();
-        category.setCategoryID(0);
-        category.setCategorieName("sport");
-        categoreis.add(category);
-        bookForm.setCategories(categoreis);
-        String bookJson = Json.toJson(bookForm).toString();
-        return ok(bookJson);
 
-
-    }
 
 
     /*public Result createUserAnswerForm() {

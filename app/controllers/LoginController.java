@@ -42,6 +42,7 @@ public class LoginController extends Controller {
     public LoginController(FormFactory formFactory, UserDAO userDAO,
                            ExecutionContext executionContext, MailingServiceImpl mailingService,
                            views.html.auth.login Login) {
+
         teacherForm = formFactory.form(TeacherForm.class);
         authForm = formFactory.form(AuthForm.class);
         this.userDAO = userDAO;
@@ -53,7 +54,6 @@ public class LoginController extends Controller {
 
 
     public Result loginPage() {
-        session("user", "user");
         return ok(Login.render());
     }
 
@@ -70,6 +70,7 @@ public class LoginController extends Controller {
                 if (op.isEmpty()) {
                     return unauthorized();
                 } else {
+                    session("user", op.get().getId().toString());
                     return redirect(routes.SessionController.sessionList());
                 }
             } catch (Exception e) {
@@ -138,7 +139,6 @@ public class LoginController extends Controller {
             if (uuid.isEmpty()) {
                 return notFound();
             } else {
-                session("user", uuid.get().toString());
                 return redirect(routes.LoginController.loginPage());
             }
         } catch (Exception e) {

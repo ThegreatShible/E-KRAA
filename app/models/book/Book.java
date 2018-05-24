@@ -1,9 +1,6 @@
 package models.book;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 //TODO : chouf fi netbeans les exception de persistance
@@ -17,10 +14,12 @@ public class Book {
     private Difficulty difficulty;
     private String title;
     private List<Question> questions = new ArrayList();
-    private List<Category> categories = new ArrayList<>();
+    private List<Integer> categories = new ArrayList<>();
+    private UUID creator;
 
     public Book(int idBook, String title, String content, Language language,
-                Date lastModifDate, Difficulty difficulty, List<Question> questions, List<Category> categories) {
+                Date lastModifDate, Difficulty difficulty, List<Question> questions, List<Integer> categories
+            , UUID creator) {
         this.idBook = idBook;
         this.content = content;
         this.language = language;
@@ -29,10 +28,11 @@ public class Book {
         this.categories = categories;
         this.lastModifDate = lastModifDate;
         this.title = title;
+        this.creator = creator;
     }
 
     public static Book create(String content, String title, String language, String difficulty,
-                              List<Question> questions, List<Category> categories) throws BookCreationException {
+                              List<Question> questions, List<Integer> categories, UUID creator) throws BookCreationException {
         //TODO : Remove javascript tags
         //TODO : Verify length of arguments before database
 
@@ -42,11 +42,11 @@ public class Book {
         for (Question question : questions) {
             acc += question.getWeight();
         }
-        if (acc != diff.getWeight()) throw new BookCreationException("somme des poinds non conforme");
+        /*if (acc != diff.getWeight()) throw new BookCreationException("somme des poinds non conforme");
         if (categories.isEmpty()) throw new BookCreationException("au moins une categorie");
-        if (questions.isEmpty()) throw new BookCreationException("au moins une question");
+        if (questions.isEmpty()) throw new BookCreationException("au moins une question");*/
 
-        return new Book(0, title, content, lang, new Date(), diff, questions, categories);
+        return new Book(0, title, content, lang, new Date(), diff, questions, categories, creator);
 
     }
 
@@ -102,11 +102,11 @@ public class Book {
         this.questions = questions;
     }
 
-    public List<Category> getCategories() {
+    public List<Integer> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(List<Integer> categories) {
         this.categories = categories;
     }
 
@@ -121,6 +121,14 @@ public class Book {
         }
         return score;
 
+    }
+
+    public UUID getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UUID creator) {
+        this.creator = creator;
     }
 
     private int getScoreFromQuestion(Question question, List<Short> answers) {

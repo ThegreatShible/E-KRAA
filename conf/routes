@@ -41,33 +41,41 @@ DELETE        /session/:sessionID                  controllers.SessionController
 #bizzare ask foudil
 GET           /group/all                           controllers.GroupController.groupList()
 #submit in javascript
-GET           /groupCreation                       controllers.GroupController.groupCreation()
+GET         /groupCreation                     controllers.GroupController.groupCreation()
 
-GET           /group/:groupId                      controllers.GroupController.getGroup(groupId : Int)
+GET         /group/:groupId                    controllers.GroupController.getGroup(groupId : Int)
 
-POST          /group                               controllers.GroupController.createGroup()
+POST        /group                             controllers.GroupController.createGroup()
 
 #USER
 +nocsrf
-POST          /pupil                               controllers.UserController.createPupil()
+POST        /pupil                             controllers.UserController.createPupil()
 
-GET           /teacher/:userID                     controllers.UserController.getTeacher(userID)
-GET           /pupil/:userID                       controllers.UserController.getPupil(userID)
-GET           /pupils/:groupID                     controllers.UserController.getPupils(groupID : Int)
+GET         /teacher/:userID                   controllers.UserController.getTeacher(userID)
+GET         /pupil/:userID                     controllers.UserController.getPupil(userID)
+GET         /pupils/:groupID                   controllers.UserController.getPupils(groupID : Int)
 #a lot of javascript
-GET           /pupils                              controllers.UserController.pupilList()
-GET           /pupilCreation                       controllers.UserController.pupilCreation()
+GET         /pupils                            controllers.UserController.pupilList()
+GET         /pupilCreation                     controllers.UserController.pupilCreation()
 
 #ANSWERS
-GET           /answers/:sessionID                  controllers.AnswerController.getBookAnswer(sessionID)
-POST          /answer                              controllers.AnswerController.answerQuestion()
+GET         /answers/:sessionID                controllers.AnswerController.getBookAnswer(sessionID)
+GET         /answer/book/:session/:user        controllers.AnswerController.answerQuizz(session, user)
+
++nocsrf
+POST        /answer                            controllers.AnswerController.answerQuestion()
 
 #book
 
-GET           /book/create                         controllers.BookCreationController.bookCreationPage()
-GET           /book/all                            controllers.BookCreationController.bookListPage()
-GET           /book/quizz                          controllers.BookCreationController.quizzCreationPage()
++nocsrf
+POST        /book/add                          controllers.BookCreationController.addBook()
++nocsrf
+POST        /book/question/add                 controllers.BookCreationController.addQuestions()
 
-GET           /test                                controllers.TestController.test()
-GET           /test2                               controllers.TestController.test2()
-GET           /lang/:str                           controllers.LangController.changeLanguage(str)
+
+GET         /book/create                       controllers.BookCreationController.bookCreationPage()
+GET         /book/all                          controllers.BookCreationController.bookListPage()
+GET         /book/quizz/:id                    controllers.BookCreationController.quizzCreationPage(id : Int)
+GET         /test                              controllers.TestController.test()
+GET         /test2                             controllers.TestController.test2()
+GET         /lang/:str                         controllers.LangController.changeLanguage(str)

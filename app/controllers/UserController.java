@@ -18,6 +18,7 @@ import services.mailing.MailingServiceImpl;
 import javax.inject.Inject;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class UserController extends Controller {
 
@@ -53,36 +54,30 @@ public class UserController extends Controller {
     //TODO : check if file is jpg
 
 
-
-    public CompletableFuture<Result> createPupil() {
+    public Result createPupil() {
 
         Form<PupilForm> bindPupilForm = pupilForm.bindFromRequest();
         if (bindPupilForm.hasErrors()) {
             bindPupilForm.allErrors().forEach(er -> System.out.println(er));
-            return CompletableFuture.supplyAsync(() -> {
+
                 return badRequest("badRequest");
-            });
         } else {
 
             PupilForm bindPupilFormEntity = bindPupilForm.get();
             UUID userID = UUID.randomUUID();
             UUID fileid = UUID.randomUUID();
             Pupil pupil = bindPupilFormEntity.toPupil(userID, fileid.toString() + ".png");
-            return userDAO.createPupil(pupil).thenApply(tokenid -> {
-                try {
-                    //String filePath = routes.Assets.versioned("")
-                    mailingService.sendSignUpConfirmationMail(pupil.getEmail(), tokenid.toString());
-                    return ok("done");
+            UUID tokenid = null;
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return badRequest();
-                }
-
-            });
+            try {
+                tokenid = userDAO.createPupil(pupil).get(3, TimeUnit.SECONDS);
+                String i = mailingService.sendSignUpConfirmationMail(pupil.getEmail(), tokenid.toString());
+                System.out.println("sending ..... " + i);
+                return redirect(routes.UserController.pupilList());
+            } catch (Exception e) {
+                return notFound();
+            }
         }
-
-
     }
 
     public CompletableFuture<Result> getTeacher(String userID) {
