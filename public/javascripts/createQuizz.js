@@ -2,25 +2,19 @@ var createQuizz = function () {
 
     var qsts = [], correct = [], answer = [], weight = [];
 
-    var question = {
-        "questionNum": "string",
-        "question": "string",
-        "answers": [{
-            "answer": "string",
-            "right": "boolean",
-            "numAnswer": "number"
-        }],
-        "multiple": "boolean",
-        "weight": "number"
+
+    var quizz = {
+        "bookID": "number",
+        "questions": []
     };
+
 
     var getAttrs = function () {
         var questions = [];
-        var quizz = new Object();
+
         $("#submit").click(function () {
 
             var fields = $("form").serializeArray();
-            console.log(fields);
 
             for (let index = 0; index < fields.length; index++) {
                 if (fields[index].name.replace(/[^a-z]/gi, '') == "question") {
@@ -38,6 +32,7 @@ var createQuizz = function () {
                 }
                 ;
                 if (fields[index].name.replace(/[^a-z]/gi, '') == "correct") {
+                    console.log(fields[index].name)
                     correct.push({
                         "index": parseInt(fields[index].name.charAt(1)),
                         "corIndex": parseInt(fields[index].name.charAt(6)),
@@ -54,8 +49,7 @@ var createQuizz = function () {
                 }
                 ;
             }
-            console.log(answer);
-            for (let i = 0; i < qsts.length; i++) {
+            /*for ( i = 0; i < qsts.length; i++) {
                 question.questionNum = qsts[i].index;
                 question.question = qsts[i].qst;
                 question.weight = weight[i].wei;
@@ -72,14 +66,13 @@ var createQuizz = function () {
                     return false;
                 };
                 var arrAns = answer.filter(filterByID);
-                console.log(arrAns);
                 question.answers = [];
-                arrAns.forEach(ans = > {
+                arrAns.forEach(ans => {
 
                     var tempanswer = {};
                 tempanswer.answer = ans.ans;
                 tempanswer.numAnswer = ans.corIndex + 1;
-                if (correct.find(o = > o.corIndex === ans.corIndex))
+                if (correct.find(o => o.corIndex === ans.corIndex))
                 {
                     tempanswer.right = true;
                 }
@@ -88,16 +81,52 @@ var createQuizz = function () {
                     tempanswer.right = false;
                 }
                 question.answers.push(tempanswer);
-            })
-                ;
 
-                questions.push(question);
+            });
+                questions.push(question);*/
+
+
+            for (i = 0; i < qsts.length; i++) {
+                var question = Object();
+                question.questionNum = i;
+                question.question = qsts[i].qst;
+                question.weight = weight[i].wei;
+                if (correct.length > 1) {
+                    question.multiple = true;
+                } else {
+                    question.multiple = false;
+                }
+
+                function filterByID(item) {
+                    if (item.index === qsts[i].index) {
+                        return true;
+                    }
+                    return false;
+                };
+                var arrAns = answer.filter(filterByID);
+                question.answers = [];
+                arrAns.forEach(function (ans, j) {
+
+                    var tempanswer = {};
+                    tempanswer.answer = ans.ans;
+                    tempanswer.numAnswer = j + 1;
+                    if (correct.find(o = > o.corIndex === ans.corIndex && o.index === ans.index))
+                    {
+                        tempanswer.right = true;
+                    }
+                else
+                    {
+                        tempanswer.right = false;
+                    }
+                    question.answers.push(tempanswer);
+
+                });
+                quizz.questions.push(question);
 
             }
-            quizz.bookID = $("#bookID").text();
-            quizz.questions = questions;
-            var quizz2 = new Object();
+            quizz.bookID = Number($("#bookID").text());
             quizz2 = JSON.stringify(quizz);
+            console.log(quizz2)
 
             // send data with ajax
             $.ajax({
@@ -106,11 +135,13 @@ var createQuizz = function () {
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
                 url: "http://localhost:9000/book/question/add",
-                success: function (msg) {
-                    $('.answer').html(msg);
-                }
+                success: function (response) {
+                    window.location.replace('/auth/LoginPage');
+                    //window.location.href = "localhost:9000/auth/loginPage";
+                    //$('.answer').html(msg);
+                },
+
             });
-            console.log(quizz);
         });
     }
 

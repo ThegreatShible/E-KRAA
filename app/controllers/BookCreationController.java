@@ -61,8 +61,8 @@ public class BookCreationController extends Controller {
         } else {
             BookForm bf = bindedBookForm.get();
             //TODO : modifye this
-            //UUID userid = UUID.fromString(session("user"));
-            UUID userid = UUID.fromString("b7635aaa-77e6-4c64-b38c-fcfa8005a39e");
+            UUID userid = UUID.fromString(session("user"));
+            //UUID userid = UUID.fromString("b7635aaa-77e6-4c64-b38c-fcfa8005a39e");
             Book book = bf.toBook(userid);
             return bookRepository.create(book).thenApply(e -> {
                 return redirect(routes.BookCreationController.quizzCreationPage(e));
@@ -122,7 +122,7 @@ public class BookCreationController extends Controller {
         UUID uuid = UUID.randomUUID();
         JsonNode jsonNode = request().body().asJson();
         QuestionsForm questionsForm = Json.fromJson(jsonNode, QuestionsForm.class);
-        System.out.println(jsonNode);
+
         try {
             List<Question> questions = new ArrayList<>();
             for (QuestionForm ques : questionsForm.getQuestions()) {

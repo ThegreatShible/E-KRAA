@@ -125,23 +125,7 @@
                             <div class="m-stack__item m-stack__item--middle m-dropdown m-dropdown--arrow m-dropdown--large m-dropdown--mobile-full-width m-dropdown--align-right m-dropdown--skin-light m-header-search m-header-search--expandable m-header-search--skin-"
                             id="m_quicksearch" data-search-type="default">
                                     <!--begin::Search Form -->
-                                <form class="m-header-search__form">
-                                    <div class="m-header-search__wrapper">
-                                        <span class="m-header-search__icon-search" id="m_quicksearch_search">
-                                            <i class="la la-search"></i>
-                                        </span>
-                                        <span class="m-header-search__input-wrapper">
-                                            <input autocomplete="off" type="text" name="q" class="m-header-search__input"
-                                            value="" placeholder="Search..." id="m_quicksearch_input">
-                                        </span>
-                                        <span class="m-header-search__icon-close" id="m_quicksearch_close">
-                                            <i class="la la-remove"></i>
-                                        </span>
-                                        <span class="m-header-search__icon-cancel" id="m_quicksearch_cancel">
-                                            <i class="la la-times"></i>
-                                        </span>
-                                    </div>
-                                </form>
+
                                     <!--end::Search Form -->
                                     <!--begin::Search Results -->
                                 <div class="m-dropdown__wrapper">
@@ -170,7 +154,7 @@
                                             Dashboard
                                         </h3>
                                     </div>
-                                    <div>
+                                    <div id="start">
                                         <a href="#"
                                         class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                             <span>
@@ -265,13 +249,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="m-widget21__chart m-portlet-fit--sides" style="height: 310px;">
-                                                        <div class="container">
+                                                        <div class="container" id="formulaire">
                                                             <form action=""
                                                             class="m-form m-form--fit m-form--label-align-right">
                                                                 @for(question <- book.getQuestions()) {
                                                                     <div class="alert alert-success m--margin-top-10">
                                                                     Question: @question.getContent
-                                                                </div>
+                                                                    </div>
                                                                     <div class="m-checkbox-list">
                                                                     @for(answer <- question.getAnswers()) {
                                                                         <label class="m-checkbox m-checkbox--solid m-checkbox--success">
@@ -283,21 +267,22 @@
                                                                     }
                                                                     </div>
                                                                 }
-                                                                <div class="m-portlet__foot m-portlet__foot--fit">
-                                                                    <div class="m-form__actions m-form__actions">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-9 ml-lg-auto">
-                                                                                <button type="submit" class="btn btn-success">
-                                                                                    Submit
-                                                                                </button>
-                                                                                <button type="reset" class="btn btn-secondary">
-                                                                                    Cancel
-                                                                                </button>
-                                                                            </div>
+
+                                                            </form>
+                                                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                                                <div class="m-form__actions m-form__actions">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-9 ml-lg-auto">
+                                                                            <button id="answers" class="btn btn-success">
+                                                                                Submit
+                                                                            </button>
+                                                                            <button type="reset" class="btn btn-secondary">
+                                                                                Cancel
+                                                                            </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -377,6 +362,7 @@
         <script src="@routes.Assets.versioned("javascripts/kidJS/vendors.bundle.js")" type="text/javascript"></script>
         <script src="@routes.Assets.versioned("javascripts/kidJS/scripts.bundle.js")" type="text/javascript"></script>
         <script src="@routes.Assets.versioned("javascripts/dashboard.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/quizz.js")" type="text/javascript"></script>
             <!--end::Base Scripts -->
             <!--begin::Page Vendors -->
             <!--end::Page Snippets -->

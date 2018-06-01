@@ -20,6 +20,7 @@ GET           /assets/*file                        controllers.Assets.versioned(
 GET           /auth/loginPage                      controllers.LoginController.loginPage()
 GET           /auth/confirm/:tokenID               controllers.LoginController.confirmAuthentication(tokenID)
 GET           /auth/logout                         controllers.LoginController.logout()
+GET           /auth/signup                         controllers.LoginController.afterSignUpPage()
 +nocsrf
 POST          /auth/authenticate                   controllers.LoginController.authenticate()
 +nocsrf
@@ -41,21 +42,22 @@ DELETE        /session/:sessionID                  controllers.SessionController
 #bizzare ask foudil
 GET           /group/all                           controllers.GroupController.groupList()
 #submit in javascript
-GET         /groupCreation                     controllers.GroupController.groupCreation()
+GET           /groupCreation                       controllers.GroupController.groupCreation()
 
-GET         /group/:groupId                    controllers.GroupController.getGroup(groupId : Int)
+GET           /group/:groupId                      controllers.GroupController.getGroup(groupId : Int)
 
-POST        /group                             controllers.GroupController.createGroup()
++nocsrf
+POST          /group                               controllers.GroupController.createGroup()
 
 #USER
 +nocsrf
-POST        /pupil                             controllers.UserController.createPupil()
+POST          /pupil                               controllers.UserController.createPupil()
 
-GET         /teacher/:userID                   controllers.UserController.getTeacher(userID)
-GET         /pupil/:userID                     controllers.UserController.getPupil(userID)
-GET         /pupils/:groupID                   controllers.UserController.getPupils(groupID : Int)
+GET           /teacher/:userID                     controllers.UserController.getTeacher(userID)
+GET           /pupil/:userID                       controllers.UserController.getPupil(userID)
+GET           /pupils/:groupID                     controllers.UserController.getPupils(groupID : Int)
 #a lot of javascript
-GET         /pupils                            controllers.UserController.pupilList()
+GET           /pupils                              controllers.UserController.pupilList()
 GET         /pupilCreation                     controllers.UserController.pupilCreation()
 
 #ANSWERS

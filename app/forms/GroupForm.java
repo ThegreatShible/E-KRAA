@@ -18,6 +18,7 @@ public class GroupForm {
 
     public Group toGroup(int groupID, UUID ownerID) {
         Group group = new Group(groupID, groupName, new ArrayList<UUID>(), ownerID);
+        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh group name : " + groupName);
         return group;
     }
 }

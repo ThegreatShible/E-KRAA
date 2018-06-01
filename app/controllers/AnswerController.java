@@ -49,8 +49,9 @@ public class AnswerController extends Controller {
 
         final JsonNode jsonNode = request().body().asJson();
         final UserAnswerForm userAnswerForm = Json.fromJson(jsonNode, UserAnswerForm.class);
+        System.out.println("json : " + jsonNode);
         final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
-        UUID userID = UUID.fromString(userAnswerForm.getUserID());
+        final UUID userID = UUID.fromString(userAnswerForm.getUserID());
         return sessionDAO.getSessionById(sessionID, userID).thenCompose(session -> {
             if (session.isEmpty())
                 return CompletableFuture.supplyAsync(() -> notFound());
@@ -72,7 +73,8 @@ public class AnswerController extends Controller {
                         final int score = book.getScoreFromAnswer(userAnswer);
                         CompletableFuture<Result> res = sessionDAO.createUserAnswer(book, userAnswer).thenCompose(x -> {
                             return userDAO.getPupil(userID).thenApply(pupil -> {
-                                return ok("done");
+                                ctx().session().clear();
+                                return redirect(routes.LoginController.loginPage());
                             });
                         });
                         return res;

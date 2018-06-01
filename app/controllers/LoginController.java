@@ -38,10 +38,11 @@ public class LoginController extends Controller {
     private final Form<AuthForm> authForm;
     private final Form<PupilForm> pupilForm;
     private final MailingService mailingService;
+    private final views.html.auth.waitingforconfirmation waitingforconfirmation;
     @Inject
     public LoginController(FormFactory formFactory, UserDAO userDAO,
                            ExecutionContext executionContext, MailingServiceImpl mailingService,
-                           views.html.auth.login Login) {
+                           views.html.auth.login Login, views.html.auth.waitingforconfirmation wf) {
 
         teacherForm = formFactory.form(TeacherForm.class);
         authForm = formFactory.form(AuthForm.class);
@@ -50,6 +51,7 @@ public class LoginController extends Controller {
         this.pupilForm = formFactory.form(PupilForm.class);
         this.mailingService = mailingService;
         this.Login = Login;
+        this.waitingforconfirmation = wf;
     }
 
 
@@ -68,12 +70,13 @@ public class LoginController extends Controller {
             try {
                 Option<User> op = u.get(3, TimeUnit.SECONDS);
                 if (op.isEmpty()) {
-                    return unauthorized();
+                    return redirect(routes.LoginController.loginPage());
                 } else {
                     session("user", op.get().getId().toString());
                     return redirect(routes.SessionController.sessionList());
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 return internalServerError();
             }
         }
@@ -116,7 +119,7 @@ public class LoginController extends Controller {
                     }
                     String link = routes.LoginController.confirmAuthentication(tokenid.toString()).url();
                     mailingService.sendSignUpConfirmationMail(teacher.getEmail(), link);
-                    return redirect(routes.SessionController.sessionList());
+                    return redirect(routes.LoginController.afterSignUpPage());
 
 
                 } catch (Exception e) {
@@ -152,6 +155,10 @@ public class LoginController extends Controller {
     public Result logout() {
         session().clear();
         return redirect(routes.LoginController.loginPage());
+    }
+
+    public Result afterSignUpPage() {
+        return ok(waitingforconfirmation.render());
     }
 
 

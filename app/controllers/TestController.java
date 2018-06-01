@@ -43,16 +43,16 @@ public class TestController extends Controller {
     }
 
     public Result test() {
-        int i = 45;
+        int i = 57;
         QuestionForm questionForm = new QuestionForm();
-        questionForm.setQuestion("what");
-        questionForm.setWeight((short) 5);
+        questionForm.setQuestion("jaklsdflj");
+        questionForm.setWeight("5");
         questionForm.setMultiple(false);
-        questionForm.setQuestionNum((short) 1);
+        questionForm.setQuestionNum((short) 0);
         List<AnswerForm> answers = new ArrayList<>();
         AnswerForm answerForm = new AnswerForm();
         answerForm.setNumAnswer((short) 1);
-        answerForm.setAnswer("yes");
+        answerForm.setAnswer("lkajfslkdj");
         answerForm.setRight(true);
         answers.add(answerForm);
         questionForm.setAnswers(answers);
@@ -64,6 +64,7 @@ public class TestController extends Controller {
 
         JsonNode jsonNode = Json.toJson(questionsForm);
         return ok(jsonNode.toString());
+
     }
 
 

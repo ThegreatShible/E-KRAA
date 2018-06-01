@@ -48,7 +48,7 @@ public class UserDAO {
     private static String confirmQuery = "update auth set confirmed = TRUE where userid = ?";
 
     private static String selectUserbyMail = "SELECT \"user\".userid as uid, firstname, lastname," +
-            "birthdate,gender,photolink,usertype,score,level,email,auth.userid as ide, password FROM public.\"user\", public.auth where email = ? and confirmed = TRUE";
+            "birthdate,gender,photolink,usertype,score,level,email,auth.userid as ide, password FROM public.\"user\", public.auth where email = ? and confirmed = TRUE and usertype = 'T'";
     private static String setPupilGroupQuery = "UPDATE public.\"user\"\n" +
             "\tSET  groupid=?\n" +
             "\tWHERE userid = ?";

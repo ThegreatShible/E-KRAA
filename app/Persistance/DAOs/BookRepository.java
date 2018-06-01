@@ -19,7 +19,7 @@ public class BookRepository {
 
     //Insertion Queries
     private final static String bookInsertQuery = "INSERT INTO public.book(content, lastmodifdate, language, difficulty,removed, title, creator) VALUES (?, ?, ?, ?, FALSE ,?, ?) Returning idbook";
-    private final static String questionInsertQuery = "INSERT INTO public.questions(idbook, content, multiplechoices, weight)VALUES (?, ?, ?, ?) Returning numquestion";
+    private final static String questionInsertQuery = "INSERT INTO public.questions(idbook,numquestion, content, multiplechoices, weight)VALUES (?, ?, ?, ?, ?) Returning numquestion";
     private final static String answerInsertQuery = "INSERT INTO public.answer(idbook, idquestion, content, \"right\") VALUES (?, ?, ?, ?)";
 
 
@@ -78,9 +78,10 @@ public class BookRepository {
                 EntityManager em = jpaApi.em();
                 for (Question qs : questions) {
                     Query q3 = em.createNativeQuery(questionInsertQuery).setParameter(1, bookID)
-                            .setParameter(2, qs.getContent())
-                            .setParameter(3, qs.isMultipleChoice())
-                            .setParameter(4, qs.getWeight());
+                            .setParameter(2, qs.getQuestionNum())
+                            .setParameter(3, qs.getContent())
+                            .setParameter(4, qs.isMultipleChoice())
+                            .setParameter(5, qs.getWeight());
                     short idq = (short) q3.getSingleResult();
 
                     for (Answer ans : qs.getAnswers()) {

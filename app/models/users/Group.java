@@ -17,8 +17,13 @@ public class Group {
         this.owner = owner;
     }
 
+
     public static Group create(String groupName, List<UUID> pupilIds, UUID owner) {
         return new Group(0, groupName, pupilIds, owner);
+    }
+
+    public UUID getOwner() {
+        return owner;
     }
 
     public int getIdGroup() {

@@ -44,7 +44,7 @@ public class GroupController extends Controller {
             UUID userID = UUID.fromString(session);
             Group group = groupFromBind.get().toGroup(0, userID);
             return groupDAO.createGroup(group).thenApply(groupid -> {
-                return ok("done");
+                return redirect(routes.GroupController.groupList());
             });
         }
     }
