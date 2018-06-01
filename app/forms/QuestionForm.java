@@ -12,7 +12,10 @@ public class QuestionForm {
     private String question;
     private List<AnswerForm> answers;
     private boolean multiple;
-    private short weight;
+    private String weight;
+
+    public QuestionForm() {
+    }
 
     public String getQuestion() {
         return question;
@@ -38,11 +41,11 @@ public class QuestionForm {
         this.multiple = multiple;
     }
 
-    public short getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(short weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -59,6 +62,6 @@ public class QuestionForm {
         for (AnswerForm af : answers) {
             answerList.add(af.toAnswer());
         }
-        return Question.create(questionNum, question, multiple, weight, answerList);
+        return Question.create(questionNum, question, multiple, Short.parseShort(weight), answerList);
     }
 }

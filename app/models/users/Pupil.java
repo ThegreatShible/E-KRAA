@@ -16,7 +16,8 @@ public class Pupil extends User {
 
     }
 
-    public static Pupil create(UUID id, String firstName, String lastName, Date birthDate, String photoLink, String gender, String email) {
+    public static Pupil create(UUID id, String firstName, String lastName,
+                               Date birthDate, String gender, String email, int groupID) {
         GENDER gender1 = GENDER.valueOf(gender);
         if (!EmailVerifier.verify(email)) throw new IllegalArgumentException("incorrect mail format");
         Pupil pupil = new Pupil();
@@ -26,7 +27,7 @@ public class Pupil extends User {
         pupil.setGender(gender);
         pupil.setBirthDate(birthDate);
         pupil.setEmail(email);
-        pupil.setPhotoLink(photoLink);
+        pupil.setGroupID(groupID);
         pupil.setScore(0);
         short s = 1;
         pupil.setLevel(s);

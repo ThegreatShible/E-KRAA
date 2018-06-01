@@ -18,7 +18,7 @@ public class TeacherForm {
     @Constraints.Required
     private String lastName;
     @Constraints.Required
-    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    @Formats.DateTime(pattern = "yyyy-mm-dd")
     private Date birthDate;
     @Constraints.Required
     private String gender;

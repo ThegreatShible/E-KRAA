@@ -9,15 +9,15 @@ import java.util.UUID;
 @Entity
 abstract public class User {
     @Id
+    @Column(name = "userid")
     private UUID id;
     @Column(name = "firstname")
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-    @Column(name = "birthday")
+    @Column(name = "birthdate")
     private Date birthDate;
-    @Column(name = "photolink")
-    private String photoLink;
+
     private String gender;
     private String email;
 
@@ -54,13 +54,6 @@ abstract public class User {
         this.birthDate = birthDate;
     }
 
-    public String getPhotoLink() {
-        return photoLink;
-    }
-
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
-    }
 
     public String getGender() {
         return gender;

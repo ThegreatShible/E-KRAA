@@ -6,13 +6,14 @@ import models.book.Question;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BookForm {
 
 
     private String title;
     private String difficulty;
-    private List<String> categories;
+    private List<Integer> categories;
     private String language;
     private String content;
     private List<QuestionForm> questions;
@@ -33,11 +34,11 @@ public class BookForm {
         this.difficulty = difficulty;
     }
 
-    public List<String> getCategories() {
+    public List<Integer> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Integer> categories) {
         this.categories = categories;
     }
 
@@ -65,11 +66,13 @@ public class BookForm {
         this.questions = questions;
     }
 
-    public Book toBook() throws BookCreationException {
+    public Book toBook(UUID creator) throws BookCreationException {
         List<Question> questionList = new ArrayList<>();
-        for (QuestionForm question : questions) {
-            questionList.add(question.toQuesiton());
+        if (questions != null) {
+            for (QuestionForm question : questions) {
+                questionList.add(question.toQuesiton());
+            }
         }
-        return Book.create(content, title, language, difficulty, questionList, categories);
+        return Book.create(content, title, language, difficulty, questionList, categories, creator);
     }
 }

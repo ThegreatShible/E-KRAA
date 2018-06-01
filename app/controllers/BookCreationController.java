@@ -3,15 +3,24 @@ package controllers;
 import Persistance.DAOs.BookRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import forms.BookForm;
+import forms.QuestionForm;
+import forms.QuestionsForm;
 import models.book.Book;
 import models.book.BookCreationException;
+import models.book.Question;
+import play.data.Form;
+import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 
 //DONE
@@ -19,35 +28,51 @@ import java.util.concurrent.CompletableFuture;
 public class BookCreationController extends Controller {
 
     private BookRepository bookRepository;
-    private views.html.readbook readBookTemplate;
-    private views.html.Quizz quizzTemplate;
+
+    private views.html.book.bookCreation BookCreation;
+    private views.html.book.bookList BookList;
+    private views.html.book.quizzCreation QuizzCreation;
+    private Form<BookForm> bookForm;
+    private Form<QuestionsForm> questionsForm;
 
     @Inject
     public BookCreationController(BookRepository bookRepository,
-                                  views.html.readbook readBookTemplate, views.html.Quizz quizzTemplate) {
+                                  views.html.book.bookCreation BookCreation,
+                                  views.html.book.bookList Booklist,
+                                  views.html.book.quizzCreation QuizzCreation,
+                                  FormFactory formFactory) {
         this.bookRepository = bookRepository;
-        this.readBookTemplate = readBookTemplate;
-        this.quizzTemplate = quizzTemplate;
+        this.BookCreation = BookCreation;
+        this.BookList = Booklist;
+        this.QuizzCreation = QuizzCreation;
+        this.bookForm = formFactory.form(BookForm.class);
+        this.questionsForm = formFactory.form(QuestionsForm.class);
+
 
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
+
     public CompletableFuture<Result> addBook() throws BookCreationException {
 
-        JsonNode jsonNode = request().body().asJson();
-        String str = jsonNode.get("categories").toString();
-        BookForm bookForm = Json.fromJson(jsonNode, BookForm.class);
-        Book book = bookForm.toBook();
-
-        return bookRepository.create(book).thenApply(e -> {
-            return ok("done");
-        });
-
+        Form<BookForm> bindedBookForm = bookForm.bindFromRequest();
+        if (bindedBookForm.hasErrors()) {
+            bindedBookForm.allErrors().forEach(x -> System.out.println(x));
+            return CompletableFuture.supplyAsync(() -> internalServerError());
+        } else {
+            BookForm bf = bindedBookForm.get();
+            //TODO : modifye this
+            UUID userid = UUID.fromString(session("user"));
+            //UUID userid = UUID.fromString("b7635aaa-77e6-4c64-b38c-fcfa8005a39e");
+            Book book = bf.toBook(userid);
+            return bookRepository.create(book).thenApply(e -> {
+                return redirect(routes.BookCreationController.quizzCreationPage(e));
+            });
+        }
     }
 
     public CompletableFuture<Result> getBook(int id) {
         return bookRepository.find(id).thenApply(b -> {
-            return ok(readBookTemplate.render(b));
+            return ok();
         });
 
     }
@@ -66,7 +91,49 @@ public class BookCreationController extends Controller {
         });
     }
 
+    public CompletableFuture<Result> bookCreationPage() {
+        return bookRepository.getCategories().thenApply(cats -> {
+            return ok(BookCreation.render(cats));
+        });
 
+    }
 
+    public Result quizzCreationPage(int bookID) {
+        try {
+            Book b = bookRepository.find(bookID).get(2, TimeUnit.SECONDS);
+            return ok(QuizzCreation.render(b));
+        } catch (Exception e) {
+            return unauthorized();
+        }
 
+    }
+
+    public CompletableFuture<Result> bookListPage() {
+        UUID uuid = UUID.fromString(session("user"));
+        return bookRepository.findAll(uuid).thenApply(x -> {
+            return ok(BookList.render());
+        });
+
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result addQuestions() {
+        //UUID uuid = UUID.fromString(session("user"));
+        UUID uuid = UUID.randomUUID();
+        JsonNode jsonNode = request().body().asJson();
+        QuestionsForm questionsForm = Json.fromJson(jsonNode, QuestionsForm.class);
+
+        try {
+            List<Question> questions = new ArrayList<>();
+            for (QuestionForm ques : questionsForm.getQuestions()) {
+                questions.add(ques.toQuesiton());
+            }
+
+            bookRepository.addQuestionsToBook(questionsForm.getBookID(), questions).get(2, TimeUnit.SECONDS);
+            return redirect(routes.BookCreationController.bookListPage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ok("lol");
+        }
+    }
 }
