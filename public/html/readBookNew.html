@@ -119,22 +119,7 @@
 						<div class="m-stack__item m-stack__item--middle m-dropdown m-dropdown--arrow m-dropdown--large m-dropdown--mobile-full-width m-dropdown--align-right m-dropdown--skin-light m-header-search m-header-search--expandable m-header-search--skin-"
 						    id="m_quicksearch" data-search-type="default">
 							<!--begin::Search Form -->
-							<form class="m-header-search__form">
-								<div class="m-header-search__wrapper">
-									<span class="m-header-search__icon-search" id="m_quicksearch_search">
-										<i class="la la-search"></i>
-									</span>
-									<span class="m-header-search__input-wrapper">
-										<input autocomplete="off" type="text" name="q" class="m-header-search__input" value="" placeholder="Search..." id="m_quicksearch_input">
-									</span>
-									<span class="m-header-search__icon-close" id="m_quicksearch_close">
-										<i class="la la-remove"></i>
-									</span>
-									<span class="m-header-search__icon-cancel" id="m_quicksearch_cancel">
-										<i class="la la-times"></i>
-									</span>
-								</div>
-							</form>
+
 							<!--end::Search Form -->
 							<!--begin::Search Results -->
 							<div class="m-dropdown__wrapper">
@@ -162,7 +147,7 @@
 										Dashboard
 									</h3>
 								</div>
-								<div>
+								<div id="start">
 									<a href="#" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
 										<span>
 											<i class="la la-play"></i>
@@ -257,31 +242,32 @@
 													</div>
 												</div>
 												<div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
-													<div class="container">
-													<form action="" class="m-form m-form--fit m-form--label-align-right">
-														<div class="alert alert-success m--margin-top-10">
-															Question: Note! Opened and selected nodes will be saved in the user's browser, so when returning to the same tree the previous
-															state will be restored.
-														</div>
-														<div class="m-checkbox-list">
-															<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																<input type="checkbox"> Option
-																<span></span>
-															</label>
-															<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																<input type="checkbox"> Option
-																<span></span>
-															</label>
-															<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																<input type="checkbox"> Option
-																<span></span>
-															</label>
-														</div>
+													<div id="formulaire" class="container">
+														<form action="" class="m-form m-form--fit m-form--label-align-right">
+															<div class="alert alert-success m--margin-top-10">
+																Question: Note! Opened and selected nodes will be saved in the user's browser, so when returning to the same tree the previous
+																state will be restored.
+															</div>
+															<div class="m-checkbox-list">
+																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
+																	<input type="checkbox" name="1" value="1"> Option
+																	<span></span>
+																</label>
+																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
+																	<input type="checkbox" name="1" value="2"> Option
+																	<span></span>
+																</label>
+																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
+																	<input type="checkbox" name="1" value="3"> Option
+																	<span></span>
+																</label>
+															</div>
+														</form>
 														<div class="m-portlet__foot m-portlet__foot--fit">
 															<div class="m-form__actions m-form__actions">
 																<div class="row">
 																	<div class="col-lg-9 ml-lg-auto">
-																		<button type="submit" class="btn btn-success">
+																		<button id="answers" class="btn btn-success">
 																			Submit
 																		</button>
 																		<button type="reset" class="btn btn-secondary">
@@ -291,7 +277,6 @@
 																</div>
 															</div>
 														</div>
-													</form>
 													</div>
 												</div>
 											</div>
@@ -369,6 +354,7 @@
 	<script src="../javascripts/kidJS/vendors.bundle.js" type="text/javascript"></script>
 	<script src="../javascripts/kidJS/scripts.bundle.js" type="text/javascript"></script>
 	<script src="../javascripts/dashboard.js" type="text/javascript"></script>
+	<script src="../javascripts/quizz.js"></script>
 	<!--end::Base Scripts -->
 	<!--begin::Page Vendors -->
 	<!--end::Page Snippets -->
