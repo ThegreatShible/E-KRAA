@@ -104,6 +104,25 @@ public class SessionDAO {
         }, databaseExecutionContext);
     }
 
+
+    public CompletableFuture<Option<Session>> getSessionById(UUID sessionID) {
+        return CompletableFuture.supplyAsync(() -> {
+            return jpaApi.withTransaction(() -> {
+                EntityManager em = jpaApi.em();
+                List<Object[]> sessions = em.createNativeQuery(selectSessionByID)
+                        .setParameter(1, sessionID.toString())
+                        .getResultList();
+                if (sessions.isEmpty())
+                    return Option.empty();
+                else {
+                    Object[] session = sessions.get(0);
+                    return Option.apply(getSessionFromRaw(session));
+                }
+            });
+        }, databaseExecutionContext);
+    }
+
+
     public CompletableFuture<List<Session>> getSessionByTeacherID(UUID id) {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {

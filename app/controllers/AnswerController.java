@@ -50,11 +50,13 @@ public class AnswerController extends Controller {
         final JsonNode jsonNode = request().body().asJson();
         final UserAnswerForm userAnswerForm = Json.fromJson(jsonNode, UserAnswerForm.class);
         System.out.println("json : " + jsonNode);
-        final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
-        final UUID userID = UUID.fromString(userAnswerForm.getUserID());
-        return sessionDAO.getSessionById(sessionID, userID).thenCompose(session -> {
+        //final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
+        final UUID sessionID = UUID.fromString("b16bf9fc-d709-4a79-9d83-46ba5faee7b9");
+        //final UUID userID = UUID.fromString(userAnswerForm.getUserID());
+        final UUID userID = UUID.fromString("0abec3ef-f602-43e0-a0eb-ae4fb7c88c9b");
+        return sessionDAO.getSessionById(sessionID).thenCompose(session -> {
             if (session.isEmpty())
-                return CompletableFuture.supplyAsync(() -> notFound());
+                return CompletableFuture.supplyAsync(() -> notFound("session not found"));
             else {
                 return bookRepository.find(session.get().getIdBook()).thenCompose(book -> {
                     try {
@@ -68,6 +70,7 @@ public class AnswerController extends Controller {
                             }
                             map.put(nq, ans);
                         }
+
 
                         UserAnswer userAnswer = UserAnswer.create(session.get(), userID, map, book.getQuestions());
                         final int score = book.getScoreFromAnswer(userAnswer);
@@ -108,7 +111,6 @@ public class AnswerController extends Controller {
         UUID userID = UUID.fromString(user);
         try {
             Option<Session> sessionf = sessionDAO.getByID(sessionID).get(3, TimeUnit.SECONDS);
-            System.out.println("hhhhhhhhhhhhhhhhhhheeeeeeeeeeeeeeeeeeee");
             Option<Pupil> userf = userDAO.getPupil(userID).get(3, TimeUnit.SECONDS);
             if (userf.isEmpty()) {
                 return notFound("user not found");
