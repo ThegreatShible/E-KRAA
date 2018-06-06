@@ -205,7 +205,7 @@ var createQuizz = function () {
 
             for (i = 0; i < qsts.length; i++) {
                 var question = Object();
-                question.questionNum = i;
+                question.questionNum = i + 1;
                 question.question = qsts[i].qst;
                 question.weight = weight[i].wei;
                 if (correct.length > 1) {

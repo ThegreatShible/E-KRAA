@@ -114,8 +114,8 @@ public class SessionController extends Controller {
     }
 
     public Result answerQuizz(String session, String user) {
-        UUID sessionID = UUID.fromString(session);
-        UUID userID = UUID.fromString(user);
+        final UUID sessionID = UUID.fromString(session);
+        final UUID userID = UUID.fromString(user);
         try {
             Option<Session> sessionf = sessionDAO.getByID(sessionID).get(3, TimeUnit.SECONDS);
             Option<Pupil> userf = userDAO.getPupil(userID).get(3, TimeUnit.SECONDS);
@@ -131,7 +131,8 @@ public class SessionController extends Controller {
                         if (sessionf.get().getGroupID() == userf.get().getGroupID()) {
                             Book book = bookRepository.find(sessionf.get().getIdBook()).get(2, TimeUnit.SECONDS);
                             ctx().session().put("user", user);
-                            return ok(answerQuizz.render(book));
+                            return ok(answerQuizz.render(book, sessionID.toString(), userID.toString()));
+
                         } else {
                             return badRequest("vous n'apparetenez pas a cette sesison");
                         }

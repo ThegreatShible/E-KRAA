@@ -20,7 +20,7 @@ public class BookRepository {
     //Insertion Queries
     private final static String bookInsertQuery = "INSERT INTO public.book(content, lastmodifdate, language, difficulty,removed, title, creator) VALUES (?, ?, ?, ?, FALSE ,?, ?) Returning idbook";
     private final static String questionInsertQuery = "INSERT INTO public.questions(idbook,numquestion, content, multiplechoices, weight)VALUES (?, ?, ?, ?, ?) Returning numquestion";
-    private final static String answerInsertQuery = "INSERT INTO public.answer(idbook, idquestion, content, \"right\") VALUES (?, ?, ?, ?)";
+    private final static String answerInsertQuery = "INSERT INTO public.answer(idbook, idquestion, idanswer, content, \"right\") VALUES (?, ?, ?,  ?, ?)";
 
 
     //Selection Queries with condition
@@ -88,8 +88,9 @@ public class BookRepository {
                         Query q4 = em.createNativeQuery(answerInsertQuery)
                                 .setParameter(1, bookID)
                                 .setParameter(2, idq)
-                                .setParameter(3, ans.getContent())
-                                .setParameter(4, ans.isValid());
+                                .setParameter(3, ans.getNumAnswer())
+                                .setParameter(4, ans.getContent())
+                                .setParameter(5, ans.isValid());
                         q4.executeUpdate();
                     }
 

@@ -414,7 +414,7 @@
                                 </div>
                             </div>
                                 <!--begin::Form-->
-                            <form class="m-form">
+                            <form class="m-form" action="@routes.BookCreationController.bookListPage()">
                                 <div class="m-portlet__body">
                                     <div class="m-form__section m-form__section--first">
                                         <div id="m_repeater_1">
@@ -551,23 +551,24 @@
                                     </div>
                                 </div>
 
-                            </form>
-
-                            <div class="m-portlet__foot m-portlet__foot--fit">
-                                <div class="m-form__actions m-form__actions">
-                                    <div class="row">
-                                        <div class="col-lg-2"></div>
-                                        <div class="col-lg-6">
-                                            <button id="submit" type="submit" class="btn btn-success">
-                                                Submit
-                                            </button>
-                                            <button type="reset" class="btn btn-secondary">
-                                                Cancel
-                                            </button>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions m-form__actions">
+                                        <div class="row">
+                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-6">
+                                                <button id="submit" type="submit" class="btn btn-success">
+                                                    Submit
+                                                </button>
+                                                <button type="reset" class="btn btn-secondary">
+                                                    Cancel
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
+
+
                                 <!--end::Form-->
                         </div>
                             <!--end::Portlet-->

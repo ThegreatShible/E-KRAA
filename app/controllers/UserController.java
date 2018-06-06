@@ -71,8 +71,8 @@ public class UserController extends Controller {
 
             try {
                 tokenid = userDAO.createPupil(pupil).get(3, TimeUnit.SECONDS);
-                String i = mailingService.sendSignUpConfirmationMail(pupil.getEmail(), tokenid.toString());
-                System.out.println("sending ..... " + i);
+                String link = routes.LoginController.confirmAuthentication(tokenid.toString()).url();
+                String i = mailingService.sendSignUpConfirmationMail(pupil.getEmail(), link);
                 return redirect(routes.UserController.pupilList());
             } catch (Exception e) {
                 return notFound();

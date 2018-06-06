@@ -41,7 +41,7 @@ public class UserDAO {
     private static String selectPupilbyId = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email,groupid\n" +
             "\tFROM public.\"user\", auth where \"user\".userid = ? and usertype = 'PUPIL' and confirmed = TRUE";
     private static String selectPupilsbyGroup = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email,groupid\n" +
-            "\tFROM public.\"user\", auth where groupid = ? and usertype = 'PUPIL' and confirmed = TRUE";
+            "\tFROM public.\"user\" join auth on \"user\".userid = auth.userid where groupid = ? and usertype = 'PUPIL' and confirmed = TRUE";
 
     private static String selectAuth = "SELECT userid, password\n" +
             "\tFROM public.auth where userid = ?";
@@ -94,7 +94,6 @@ public class UserDAO {
     public CompletableFuture<UUID> createPupil(final Pupil pupil) {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
-                System.out.println("ooooooooooooooooooooooooooooooooo  " + pupil.getGroupID());
                 EntityManager em = jpaApi.em();
                 String userid = (String) em.createNativeQuery(insertPupil).setParameter(1, pupil.getId().toString())
                         .setParameter(2, pupil.getFirstName())
@@ -106,7 +105,6 @@ public class UserDAO {
                         .setParameter(9, pupil.getEmail())
                         .setParameter(10, pupil.getGroupID())
                         .getSingleResult();
-                System.out.println("hhhhhhhhhhhhhhhheeeeeeeeeeerrrrrrrrrrrrreeeeeeeeeeh  " + pupil.getGroupID());
                 em.createNativeQuery(insertPupilAuth).setParameter(1, userid).executeUpdate();
                 //token for verifying
                 UUID tokenid = UUID.randomUUID();
@@ -166,11 +164,13 @@ public class UserDAO {
     }
 
     public CompletableFuture<List<Pupil>> getPupilsByGroup(int groupid) {
+        System.out.println("getPupilsByGroup");
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
                 EntityManager em = jpaApi.em();
-                List<Object[]> rawPupils = em.createNativeQuery(selectPupilsbyGroup, Pupil.class)
+                List<Object[]> rawPupils = em.createNativeQuery(selectPupilsbyGroup)
                         .setParameter(1, groupid).getResultList();
+                System.out.println("rawPupils taille ; "+ rawPupils.size());
                 List<Pupil> pupils = new ArrayList<>();
                 for (Object[] raw : rawPupils) {
                     Pupil pupil = new Pupil();
@@ -179,10 +179,10 @@ public class UserDAO {
                     pupil.setLastName((String) raw[2]);
                     pupil.setBirthDate((Date) raw[3]);
                     pupil.setGender((String) raw[4]);
-                    pupil.setScore((int) raw[7]);
-                    pupil.setLevel((short) raw[8]);
-                    pupil.setEmail((String) raw[9]);
-                    pupil.setGroupID((int) raw[10]);
+                    pupil.setScore((int) raw[6]);
+                    pupil.setLevel((((Integer)raw[7])).shortValue());
+                    pupil.setEmail((String) raw[8]);
+                    pupil.setGroupID((int) raw[9]);
                     pupils.add(pupil);
                 }
                 return pupils;

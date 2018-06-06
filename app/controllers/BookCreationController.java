@@ -118,8 +118,8 @@ public class BookCreationController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result addQuestions() {
-        //UUID uuid = UUID.fromString(session("user"));
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.fromString(session("user"));
+        //UUID uuid = UUID.randomUUID();
         JsonNode jsonNode = request().body().asJson();
         QuestionsForm questionsForm = Json.fromJson(jsonNode, QuestionsForm.class);
 
@@ -130,7 +130,7 @@ public class BookCreationController extends Controller {
             }
 
             bookRepository.addQuestionsToBook(questionsForm.getBookID(), questions).get(2, TimeUnit.SECONDS);
-            return redirect(routes.BookCreationController.bookListPage());
+            return redirect(routes.BookCreationController.bookCreationPage());
         } catch (Exception e) {
             e.printStackTrace();
             return ok("lol");

@@ -27,6 +27,8 @@ public class UserAnswer {
         for (Question question : questions) {
             set.add(question.getQuestionNum());
             final short qid = question.getQuestionNum();
+            System.out.println("QUESTION : "+ question.getQuestionNum());
+            System.out.println("ANSWERS ");
             List<Short> answers = questionsAnswers.get(qid);
             if (answers.isEmpty())
                 throw new UserAnswerCreationException("la question numero " + qid + "ne contient pas de reponse");

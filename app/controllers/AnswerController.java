@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import forms.QuestionAnswersForm;
 import forms.UserAnswerForm;
 import models.book.Book;
+import models.book.Question;
 import models.book.UserAnswer;
 import models.book.UserAnswerCreationException;
 import models.session.Session;
@@ -63,6 +64,7 @@ public class AnswerController extends Controller {
                         Map<Short, List<Short>> map = new HashMap<>();
                         for (QuestionAnswersForm qaf : userAnswerForm.getQuestionsAnswers()) {
                             short nq = (short) qaf.getNumQuestion();
+                            System.out.println("why is it 0 : " + nq);
                             List<Short> ans = new ArrayList<>();
                             for (Integer i : qaf.getAnswersNum()) {
                                 short j = i.shortValue();
@@ -71,6 +73,14 @@ public class AnswerController extends Controller {
                             map.put(nq, ans);
                         }
 
+                        for (Map.Entry<Short, List<Short>> entry : map.entrySet())
+                        {
+                            System.out.println("map1 key "+ entry.getKey());
+                            System.out.println("map1 value" + entry.getValue());
+                        }
+                        for (Question question : book.getQuestions()) {
+                            System.out.println("questions from book : "+ question.getQuestionNum());
+                        }
 
                         UserAnswer userAnswer = UserAnswer.create(session.get(), userID, map, book.getQuestions());
                         final int score = book.getScoreFromAnswer(userAnswer);
@@ -107,8 +117,8 @@ public class AnswerController extends Controller {
     }
 
     public Result answerQuizz(String session, String user) {
-        UUID sessionID = UUID.fromString(session);
-        UUID userID = UUID.fromString(user);
+        final UUID sessionID = UUID.fromString(session);
+        final UUID userID = UUID.fromString(user);
         try {
             Option<Session> sessionf = sessionDAO.getByID(sessionID).get(3, TimeUnit.SECONDS);
             Option<Pupil> userf = userDAO.getPupil(userID).get(3, TimeUnit.SECONDS);
@@ -124,7 +134,7 @@ public class AnswerController extends Controller {
                         if (sessionf.get().getGroupID() == userf.get().getGroupID()) {
                             Book book = bookRepository.find(sessionf.get().getIdBook()).get(3, TimeUnit.SECONDS);
                             ctx().session().put("user", user);
-                            return ok(answerQuizz.render(book));
+                            return ok(answerQuizz.render(book, sessionID.toString(), userID.toString()));
                         } else {
                             return badRequest("vous n'apparetenez pas a cette sesison");
                         }

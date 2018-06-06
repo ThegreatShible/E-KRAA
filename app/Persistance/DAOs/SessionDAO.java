@@ -28,9 +28,9 @@ public class SessionDAO {
 
     //TODO : complete insert when session is present a revoir
     private final static String userAnswerInsert = "INSERT INTO public.useranswer(numquestion, numanswer, answerdate, sessionid, userid) VALUES (?, ?, ?, ?, ?) returning sessionid";
-    private final static String getUserAnswerSelectQuery = "SELECT numquestion, numanswer, answerdate, sessionid, userid\n" +
+    private final static String getUserAnswerSelectQuery = "SELECT numquestion, numanswer, answerdate, session.sessionid, userid\n" +
             "\tFROM public.useranswer , session where\n" +
-            "\t userid = ? and sessionid = ? AND  session.removed = FALSE";
+            "\t userid = ? and session.sessionid = ? AND  session.removed = FALSE";
     private final static String removeSessionQuery = "UPDATE public.session\n" +
             "\tSET  removed= TRUE\n" +
             "\tWHERE sessionid = ? ";
