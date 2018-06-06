@@ -65,7 +65,7 @@ public class SessionForm {
 
 
         Duration duration = Duration.between(localDateTime1, localDateTime2);
-        System.out.println(System.currentTimeMillis() - localDateTime1.toEpochSecond(ZoneOffset.UTC) + " IT WILL START");
+        System.out.println("DURATION : : : "+ duration);
         Session session = new Session(sessionID, localDateTime1, duration, book, Group);
         return session;
     }

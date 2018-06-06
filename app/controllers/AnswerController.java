@@ -119,7 +119,11 @@ public class AnswerController extends Controller {
                 if (sessionf.isEmpty())
                     return notFound("no session found");
                 else {
+                    System.out.println("SESSION IS ACTIVE :::" + sessionf.get().isActive());
+                    System.out.println("SESSION START ::: "+ sessionf.get().getStartDate());
+                    System.out.println("SESSION END :::  "+ sessionf.get().getDuration());
                     if (!sessionf.get().isActive()) {
+
                         if(sessionf.get().getStartDate().isAfter(LocalDateTime.now()))
                             return badRequest("session didn't start yet");
                         else{
