@@ -120,28 +120,6 @@
 
 var createQuizz = function () {
 
-<<<<<<< HEAD
-    var qsts = [],
-        correct = [],
-        answer = [],
-        weight = [];
-
-    var question = {
-        "questionNum": "string",
-        "question": "string",
-        "answers": [{
-            "answer": "string",
-            "right": "boolean",
-            "numAnswer": "number"
-        }],
-        "multiple": "boolean",
-        "weight": "number"
-    };
-
-    var getAttrs = function () {
-        var questions = [];
-        var quizz = new Object();
-=======
     var qsts = [], correct = [], answer = [], weight = [];
 
 
@@ -154,7 +132,6 @@ var createQuizz = function () {
     var getAttrs = function () {
         var questions = [];
 
->>>>>>> upstream/master
         $("#submit").click(function () {
 
             var fields = $("form").serializeArray();
@@ -165,23 +142,13 @@ var createQuizz = function () {
                         "index": parseInt(fields[index].name.charAt(1)),
                         "qst": fields[index].value
                     });
-<<<<<<< HEAD
-                };;
-=======
-                }
-                ;
->>>>>>> upstream/master
+                };
                 if (fields[index].name.replace(/[^a-z]/gi, '') == "weight") {
                     weight.push({
                         "index": parseInt(fields[index].name.charAt(1)),
                         "wei": fields[index].value
                     });
-<<<<<<< HEAD
                 };
-=======
-                }
-                ;
->>>>>>> upstream/master
                 if (fields[index].name.replace(/[^a-z]/gi, '') == "correct") {
                     console.log(fields[index].name)
                     correct.push({
@@ -189,12 +156,7 @@ var createQuizz = function () {
                         "corIndex": parseInt(fields[index].name.charAt(6)),
                         "value": true
                     });
-<<<<<<< HEAD
                 };
-=======
-                }
-                ;
->>>>>>> upstream/master
                 if (fields[index].name.replace(/[^a-z]/gi, '') == "suggest") {
                     answer.push({
                         "index": parseInt(fields[index].name.charAt(1)),
@@ -204,12 +166,7 @@ var createQuizz = function () {
                 }
                 ;
             }
-<<<<<<< HEAD
-            console.log(answer);
-            for (let i = 0; i < qsts.length; i++) {
-=======
             /*for ( i = 0; i < qsts.length; i++) {
->>>>>>> upstream/master
                 question.questionNum = qsts[i].index;
                 question.question = qsts[i].qst;
                 question.weight = weight[i].wei;
@@ -217,11 +174,7 @@ var createQuizz = function () {
                     question.multiple = true;
                 } else {
                     question.multiple = false;
-<<<<<<< HEAD
-                };
-=======
                 }
->>>>>>> upstream/master
 
                 function filterByID(item) {
                     if (item.index === qsts[i].index) {
@@ -234,26 +187,6 @@ var createQuizz = function () {
                 arrAns.forEach(ans => {
 
                     var tempanswer = {};
-<<<<<<< HEAD
-                    tempanswer.answer = ans.ans;
-                    tempanswer.numAnswer = ans.corIndex + 1;
-                    if (correct.find(o => o.corIndex === ans.corIndex)) {
-                        tempanswer.right = true;
-                    } else {
-                        tempanswer.right = false;
-                    }
-                    question.answers.push(tempanswer);
-                });
-                console.log(question);
-                questions.push(JSON.stringify(question));
-                
-            }
-            console.log(questions);
-            quizz.bookID = $("#bookID").text();
-            quizz.questions = questions;
-            var quizz2 = new Object();
-            quizz2 = JSON.stringify(quizz);
-=======
                 tempanswer.answer = ans.ans;
                 tempanswer.numAnswer = ans.corIndex + 1;
                 if (correct.find(o => o.corIndex === ans.corIndex))
@@ -294,7 +227,7 @@ var createQuizz = function () {
                     var tempanswer = {};
                     tempanswer.answer = ans.ans;
                     tempanswer.numAnswer = j + 1;
-                    if (correct.find(o = > o.corIndex === ans.corIndex && o.index === ans.index))
+                    if (correct.find(o => o.corIndex === ans.corIndex && o.index === ans.index))
                     {
                         tempanswer.right = true;
                     }
@@ -311,7 +244,6 @@ var createQuizz = function () {
             quizz.bookID = Number($("#bookID").text());
             quizz2 = JSON.stringify(quizz);
             console.log(quizz2)
->>>>>>> upstream/master
 
             // send data with ajax
             $.ajax({
@@ -320,14 +252,6 @@ var createQuizz = function () {
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
                 url: "http://localhost:9000/book/question/add",
-<<<<<<< HEAD
-                success: function (msg) {
-                    $('.answer').html(msg);
-                }
-            });
-            console.log(quizz);
-            console.log(qsts);
-=======
                 success: function (response) {
                     window.location.replace('/auth/LoginPage');
                     //window.location.href = "localhost:9000/auth/loginPage";
@@ -335,7 +259,6 @@ var createQuizz = function () {
                 },
 
             });
->>>>>>> upstream/master
         });
     }
 
