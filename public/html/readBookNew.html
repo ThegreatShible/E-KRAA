@@ -3,114 +3,119 @@
 <!-- begin::Head -->
 
 <head>
-	<meta charset="utf-8" />
-	<title>
-		E-KRAA | Quizz
-	</title>
-	<meta name="description" content="Latest updates and statistic charts">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!--begin::Web font -->
-	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-	<script>
-		WebFont.load({
-			google: {
-				"families": ["Montserrat:300,400,500,600,700", "Roboto:300,400,500,600,700"]
-			},
-			active: function () {
-				sessionStorage.fonts = true;
-			}
-		});
-	</script>
-	<!--end::Web font -->
-	<!--begin::Base Styles -->
-	<link rel="stylesheet" href="../stylesheets/fullcalendar.bundle.css">
-	<link href="../stylesheets/kidcss/vendors.bundle.css" rel="stylesheet" type="text/css" />
-	<link href="../stylesheets/kidcss/style.bundle.css" rel="stylesheet" type="text/css" />
-	<!--end::Base Styles -->
-	<link rel="shortcut icon" href="assets/demo/demo4/media/img/logo/favicon.ico" />
+    <meta charset="utf-8"/>
+    <title>
+        E-KRAA | Quizz
+    </title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--begin::Web font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                "families": ["Montserrat:300,400,500,600,700", "Roboto:300,400,500,600,700"]
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <!--end::Web font -->
+    <!--begin::Base Styles -->
+    <link rel="stylesheet" href="../stylesheets/fullcalendar.bundle.css">
+    <link href="../stylesheets/kidcss/vendors.bundle.css" rel="stylesheet" type="text/css"/>
+    <link href="../stylesheets/kidcss/style.bundle.css" rel="stylesheet" type="text/css"/>
+    <!--end::Base Styles -->
+    <link rel="shortcut icon" href="assets/demo/demo4/media/img/logo/favicon.ico"/>
 </head>
 <!-- end::Head -->
 <!-- end::Body -->
 
-<body style="background-image: url(../images/bg-1.jpg)" class="m-page--boxed m-body--fixed m-header--static m-aside--offcanvas-default">
-	<!-- begin:: Page -->
-	<div class="m-grid m-grid--hor m-grid--root m-page">
-		<!-- begin::Header -->
-		<header class="m-grid__item	m-grid m-grid--desktop m-grid--hor-desktop  m-header ">
-			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--hor-desktop m-container m-container--responsive m-container--xxl">
-				<div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--ver-desktop m-header__wrapper">
-					<!-- begin::Brand -->
-					<div class="m-grid__item m-brand">
-						<div class="m-stack m-stack--ver m-stack--general m-stack--inline">
-							<div class="m-stack__item m-stack__item--middle m-brand__logo">
-								<a href="index.html" class="m-brand__logo-wrapper">
-									<img alt="" src="assets/demo/demo4/media/img/logo/logo.png" />
-								</a>
-							</div>
-						</div>
-					</div>
-					<!-- end::Brand -->
-					<!-- begin::Topbar -->
-					<div class="m-grid__item m-grid__item--fluid m-header-head" id="m_header_nav">
-						<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
-							<div class="m-stack__item m-topbar__nav-wrapper">
-								<ul class="m-topbar__nav m-nav m-nav--inline">
-									<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
-									    data-dropdown-toggle="click">
-										<a href="#" class="m-nav__link m-dropdown__toggle">
+<body style="background-image: url(../images/bg-1.jpg)"
+      class="m-page--boxed m-body--fixed m-header--static m-aside--offcanvas-default">
+<!-- begin:: Page -->
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <!-- begin::Header -->
+    <header class="m-grid__item	m-grid m-grid--desktop m-grid--hor-desktop  m-header ">
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--hor-desktop m-container m-container--responsive m-container--xxl">
+            <div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--ver-desktop m-header__wrapper">
+                <!-- begin::Brand -->
+                <div class="m-grid__item m-brand">
+                    <div class="m-stack m-stack--ver m-stack--general m-stack--inline">
+                        <div class="m-stack__item m-stack__item--middle m-brand__logo">
+                            <a href="" class="m-brand__logo-wrapper">
+                                <img alt="" src="@routes.Assets.versioned(" images/LogoQ.png")" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end::Brand -->
+                <!-- begin::Topbar -->
+                <div class="m-grid__item m-grid__item--fluid m-header-head" id="m_header_nav">
+                    <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
+                        <div class="m-stack__item m-topbar__nav-wrapper">
+                            <ul class="m-topbar__nav m-nav m-nav--inline">
+                                <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
+                                    data-dropdown-toggle="click">
+                                    <a href="#" class="m-nav__link m-dropdown__toggle">
 											<span class="m-topbar__welcome m--hidden-tablet m--hidden-mobile">
 												Hello,&nbsp;
 											</span>
-											<span class="m-topbar__username m--hidden-tablet m--hidden-mobile m--padding-right-15">
+                                        <span class="m-topbar__username m--hidden-tablet m--hidden-mobile m--padding-right-15">
 												<span class="m-link">
 													Nick
 												</span>
 											</span>
-											<span class="m-topbar__userpic">
-												<img src="assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless m--img-centered" alt="" />
+                                        <span class="m-topbar__userpic">
+												<img src="assets/app/media/img/users/user4.jpg"
+                                                     class="m--img-rounded m--marginless m--img-centered" alt=""/>
 											</span>
-										</a>
-									</li>
-									<li id="m_quick_sidebar_toggle" class="m-nav__item">
-										<a href="#" class="m-nav__link m-dropdown__toggle">
+                                    </a>
+                                </li>
+                                <li id="m_quick_sidebar_toggle" class="m-nav__item">
+                                    <a href="#" class="m-nav__link m-dropdown__toggle">
 											<span class="m-nav__link-icon m-nav__link-icon--aside-toggle">
 												<span class="m-nav__link-icon-wrapper">
 													<i class="flaticon-menu-button"></i>
 												</span>
 											</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- end::Topbar -->
-				</div>
-			</div>
-		</header>
-		<!-- end::Header -->
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end::Topbar -->
+            </div>
+        </div>
+    </header>
+    <!-- end::Header -->
 		<!-- begin::Body -->
-		<div class="m-grid__item m-grid__item--fluid m-grid m-grid m-grid--hor m-container m-container--responsive m-container--xxl">
-			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
-				<div class="m-grid__item m-body__nav">
-					<div class="m-stack m-stack--ver m-stack--desktop">
-						<!-- begin::Horizontal Menu -->
-						<div class="m-stack__item m-stack__item--middle m-stack__item--fluid">
-							<button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-light " id="m_aside_header_menu_mobile_close_btn">
-								<i class="la la-close"></i>
-							</button>
-							<div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-light m-aside-header-menu-mobile--submenu-skin-light ">
-								<ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
-									<li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
-										<a href="index.html" class="m-menu__link ">
-											<span class="m-menu__item-here"></span>
-											<span class="m-menu__link-text">
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid m-grid--hor m-container m-container--responsive m-container--xxl">
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor-desktop m-grid--desktop m-body">
+            <div class="m-grid__item m-body__nav">
+                <div class="m-stack m-stack--ver m-stack--desktop">
+                    <!-- begin::Horizontal Menu -->
+                    <div class="m-stack__item m-stack__item--middle m-stack__item--fluid">
+                        <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-light "
+                                id="m_aside_header_menu_mobile_close_btn">
+                            <i class="la la-close"></i>
+                        </button>
+                        <div id="m_header_menu"
+                             class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-light m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-light m-aside-header-menu-mobile--submenu-skin-light ">
+                            <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
+                                <li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
+                                    <a href="index.html" class="m-menu__link ">
+                                        <span class="m-menu__item-here"></span>
+                                        <span class="m-menu__link-text">
 												Dashboard
 											</span>
-										</a>
-									</li>
+                                    </a>
+                                </li>
 
+<<<<<<< HEAD
 								</ul>
 							</div>
 						</div>
@@ -149,206 +154,272 @@
 								</div>
 								<div id="start">
 									<a href="#" class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+=======
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end::Horizontal Menu -->
+                    <!--begin::Search-->
+                    <div class="m-stack__item m-stack__item--middle m-dropdown m-dropdown--arrow m-dropdown--large m-dropdown--mobile-full-width m-dropdown--align-right m-dropdown--skin-light m-header-search m-header-search--expandable m-header-search--skin-"
+                         id="m_quicksearch" data-search-type="default">
+                        <!--begin::Search Form -->
+                        <form class="m-header-search__form">
+                            <div class="m-header-search__wrapper">
+									<span class="m-header-search__icon-search" id="m_quicksearch_search">
+										<i class="la la-search"></i>
+									</span>
+                                <span class="m-header-search__input-wrapper">
+										<input autocomplete="off" type="text" name="q" class="m-header-search__input"
+                                               value="" placeholder="Search..." id="m_quicksearch_input">
+									</span>
+                                <span class="m-header-search__icon-close" id="m_quicksearch_close">
+										<i class="la la-remove"></i>
+									</span>
+                                <span class="m-header-search__icon-cancel" id="m_quicksearch_cancel">
+										<i class="la la-times"></i>
+									</span>
+								</div>
+                        </form>
+                        <!--end::Search Form -->
+                        <!--begin::Search Results -->
+                        <div class="m-dropdown__wrapper">
+                            <div class="m-dropdown__arrow m-dropdown__arrow--center"></div>
+                            <div class="m-dropdown__inner">
+                                <div class="m-dropdown__body">
+                                    <div class="m-dropdown__scrollable m-scrollable" data-scrollable="true"
+                                         data-max-height="300" data-mobile-max-height="200">
+                                        <div class="m-dropdown__content m-list-search m-list-search--skin-light"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Search Results -->
+                    </div>
+                    <!--end::Search-->
+                </div>
+            </div>
+            <div class="m-grid__item m-grid__item--fluid m-grid m-grid--desktop m-grid--ver-desktop m-body__content">
+                <div class="m-grid__item m-grid__item--fluid m-wrapper">
+                    <!-- BEGIN: Subheader -->
+                    <div class="m-subheader ">
+                        <div class="d-flex align-items-center">
+                            <div class="mr-auto">
+                                <h3 class="m-subheader__title ">
+                                    Dashboard
+                                </h3>
+                            </div>
+                            <div>
+                                <a href="#"
+                                   class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+>>>>>>> upstream/master
 										<span>
 											<i class="la la-play"></i>
 											<span>
 												Start Quizz
 											</span>
 										</span>
-									</a>
-								</div>
-							</div>
-						</div>
-						<!-- END: Subheader -->
-						<div class="m-content">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Subheader -->
+                    <div class="m-content">
 
-							<!--Begin::Main Portlet-->
-							<div class="row">
-								<div class="col-xl-6">
-									<!--begin:: Widgets/Product Sales-->
-									<div class="m-portlet m-portlet--bordered-semi m-portlet--space m-portlet--full-height  m-portlet--rounded">
-										<div class="m-portlet__head">
-											<div class="m-portlet__head-caption">
-												<div class="m-portlet__head-title">
-													<h3 class="m-portlet__head-text">
-														Book Name
-														<span class="m-portlet__head-desc">
+                        <!--Begin::Main Portlet-->
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <!--begin:: Widgets/Product Sales-->
+                                <div class="m-portlet m-portlet--bordered-semi m-portlet--space m-portlet--full-height  m-portlet--rounded">
+                                    <div class="m-portlet__head">
+                                        <div class="m-portlet__head-caption">
+                                            <div class="m-portlet__head-title">
+                                                <h3 class="m-portlet__head-text">
+                                                    Book Name
+                                                    <span class="m-portlet__head-desc">
 															Sub Name
 														</span>
-													</h3>
-												</div>
-											</div>
-											<div class="m-portlet__head-tools">
-											</div>
-										</div>
-										<div class="m-portlet__body">
-											<div class="m-widget25">
-												Book Text Goes Here
-											</div>
-										</div>
-									</div>
-									<!--end:: Widgets/Product Sales-->
-								</div>
-								<div class="col-xl-6">
-									<!--begin:: Widgets/Adwords Stats-->
-									<div class="m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit  m-portlet--rounded">
-										<div class="m-portlet__head">
-											<div class="m-portlet__head-caption">
-												<div class="m-portlet__head-title">
-													<h3 class="m-portlet__head-text">
-														Quizz
-													</h3>
-												</div>
-											</div>
-										</div>
-										<div class="m-portlet__body">
-											<div class="m-widget21" style="min-height: 420px">
-												<div class="row">
-													<div class="col">
-														<div class="m-widget21__item m--pull-right">
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="m-portlet__head-tools">
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__body">
+                                        <div class="m-widget25">
+                                            Book Text Goes Here
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end:: Widgets/Product Sales-->
+                            </div>
+                            <div class="col-xl-6">
+                                <!--begin:: Widgets/Adwords Stats-->
+                                <div class="m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit  m-portlet--rounded">
+                                    <div class="m-portlet__head">
+                                        <div class="m-portlet__head-caption">
+                                            <div class="m-portlet__head-title">
+                                                <h3 class="m-portlet__head-text">
+                                                    Quizz
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__body">
+                                        <div class="m-widget21" style="min-height: 420px">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="m-widget21__item m--pull-right">
 															<span class="m-widget21__icon">
-																<a href="#" class="btn btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+																<a href="#"
+                                                                   class="btn btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
 																	<i class="fa flaticon-alert-2 m--font-light"></i>
 																</a>
 															</span>
-															<div class="m-widget21__info">
+                                                        <div class="m-widget21__info">
 																<span class="m-widget21__title">
 																	Level
 																</span>
-																<br>
-																<span class="m-widget21__sub">
+                                                            <br>
+                                                            <span class="m-widget21__sub">
 																	IPO, Margins, Transactions
 																</span>
-															</div>
-														</div>
-													</div>
-													<div class="col m--align-left">
-														<div class="m-widget21__item m--pull-left">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col m--align-left">
+                                                    <div class="m-widget21__item m--pull-left">
 															<span class="m-widget21__icon">
-																<a href="#" class="btn btn-accent m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+																<a href="#"
+                                                                   class="btn btn-accent m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
 																	<i class="fa flaticon-coins m--font-light m--font-light"></i>
 																</a>
 															</span>
-															<div class="m-widget21__info">
+                                                        <div class="m-widget21__info">
 																<span class="m-widget21__title">
 																	Points
 																</span>
-																<br>
-																<span class="m-widget21__sub">
+                                                            <br>
+                                                            <span class="m-widget21__sub">
 																	Expenses, Loses, Profits
 																</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
-													<div id="formulaire" class="container">
-														<form action="" class="m-form m-form--fit m-form--label-align-right">
-															<div class="alert alert-success m--margin-top-10">
-																Question: Note! Opened and selected nodes will be saved in the user's browser, so when returning to the same tree the previous
-																state will be restored.
-															</div>
-															<div class="m-checkbox-list">
-																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																	<input type="checkbox" name="1" value="1"> Option
-																	<span></span>
-																</label>
-																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																	<input type="checkbox" name="1" value="2"> Option
-																	<span></span>
-																</label>
-																<label class="m-checkbox m-checkbox--solid m-checkbox--success">
-																	<input type="checkbox" name="1" value="3"> Option
-																	<span></span>
-																</label>
-															</div>
-														</form>
-														<div class="m-portlet__foot m-portlet__foot--fit">
-															<div class="m-form__actions m-form__actions">
-																<div class="row">
-																	<div class="col-lg-9 ml-lg-auto">
-																		<button id="answers" class="btn btn-success">
-																			Submit
-																		</button>
-																		<button type="reset" class="btn btn-secondary">
-																			Cancel
-																		</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!--end:: Widgets/Adwords Stats-->
-								</div>
-							</div>
-							<!--End::Main Portlet-->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- begin::Body -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
+                                                <div class="container">
+                                                    <form action=""
+                                                          class="m-form m-form--fit m-form--label-align-right">
+                                                        <div class="alert alert-success m--margin-top-10">
+                                                            Question: Note! Opened and selected nodes will be saved in
+                                                            the user's browser, so when returning to the same tree the
+                                                            previous
+                                                            state will be restored.
+                                                        </div>
+                                                        <div class="m-checkbox-list">
+                                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                                <input type="checkbox"> Option
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                                <input type="checkbox"> Option
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                                <input type="checkbox"> Option
+                                                                <span></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="m-portlet__foot m-portlet__foot--fit">
+                                                            <div class="m-form__actions m-form__actions">
+                                                                <div class="row">
+                                                                    <div class="col-lg-9 ml-lg-auto">
+                                                                        <button type="submit" class="btn btn-success">
+                                                                            Submit
+                                                                        </button>
+                                                                        <button type="reset" class="btn btn-secondary">
+                                                                            Cancel
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end:: Widgets/Adwords Stats-->
+                            </div>
+                        </div>
+                        <!--End::Main Portlet-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- begin::Body -->
 		<!-- begin::Footer -->
-		<footer class="m-grid__item		m-footer ">
-			<div class="m-container m-container--responsive m-container--xxl">
-				<div class="m-footer__wrapper">
-					<div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
-						<div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+    <footer class="m-grid__item		m-footer ">
+        <div class="m-container m-container--responsive m-container--xxl">
+            <div class="m-footer__wrapper">
+                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
 							<span class="m-footer__copyright">
 								2018 &copy; E-KRAA by
 								<a href="#" class="m-link">
 									ONEDOT
 								</a>
 							</span>
-						</div>
-						<div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-							<ul class="m-footer__nav m-nav m-nav--skin-dark m-nav--inline m--pull-right">
-								<li class="m-nav__item">
-									<a href="#" class="m-nav__link">
+                    </div>
+                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                        <ul class="m-footer__nav m-nav m-nav--skin-dark m-nav--inline m--pull-right">
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
 										<span class="m-nav__link-text">
 											About
 										</span>
-									</a>
-								</li>
-								<li class="m-nav__item">
-									<a href="#" class="m-nav__link">
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
 										<span class="m-nav__link-text">
 											Privacy
 										</span>
-									</a>
-								</li>
-								<li class="m-nav__item">
-									<a href="#" class="m-nav__link">
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
 										<span class="m-nav__link-text">
 											T&C
 										</span>
-									</a>
-								</li>
-								<li class="m-nav__item m-nav__item--last">
-									<a href="#" class="m-nav__link" data-toggle="m-tooltip" title="Support Center" data-placement="left">
-										<i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-	</div>
-	<!-- end:: Page -->
+                                </a>
+                            </li>
+                            <li class="m-nav__item m-nav__item--last">
+                                <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="Support Center"
+                                   data-placement="left">
+                                    <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- end:: Page -->
 
-	<!-- begin::Scroll Top -->
-	<div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
-		<i class="la la-arrow-up"></i>
-	</div>
-	<!-- end::Scroll Top -->
-	<!-- begin::Quick Nav -->
+<!-- begin::Scroll Top -->
+<div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500"
+     data-scroll-speed="300">
+    <i class="la la-arrow-up"></i>
+</div>
+<!-- end::Scroll Top -->
+<!-- begin::Quick Nav -->
 
+<<<<<<< HEAD
 	<!-- begin::Quick Nav -->
 	<!--begin::Base Scripts -->
 	<script src="../javascripts/kidJS/vendors.bundle.js" type="text/javascript"></script>
@@ -358,6 +429,16 @@
 	<!--end::Base Scripts -->
 	<!--begin::Page Vendors -->
 	<!--end::Page Snippets -->
+=======
+<!-- begin::Quick Nav -->
+<!--begin::Base Scripts -->
+<script src="../javascripts/kidJS/vendors.bundle.js" type="text/javascript"></script>
+<script src="../javascripts/kidJS/scripts.bundle.js" type="text/javascript"></script>
+<script src="../javascripts/dashboard.js" type="text/javascript"></script>
+<!--end::Base Scripts -->
+<!--begin::Page Vendors -->
+<!--end::Page Snippets -->
+>>>>>>> upstream/master
 </body>
 <!-- end::Body -->
 

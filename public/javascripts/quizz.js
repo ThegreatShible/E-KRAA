@@ -47,7 +47,7 @@ var form = function () {
                 data: res,
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
-                url: "http://localhost:9000/book/question/add",
+                url: "http://localhost:9000/answer",
                 success: function (msg) {
                     $('.answer').html(msg);
                 }

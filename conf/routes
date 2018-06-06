@@ -6,4 +6,78 @@
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+
+
+GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
+
+
+#real routes
+
+#Login
+
+GET           /auth/loginPage                      controllers.LoginController.loginPage()
+GET           /auth/confirm/:tokenID               controllers.LoginController.confirmAuthentication(tokenID)
+GET           /auth/logout                         controllers.LoginController.logout()
+GET           /auth/signup                         controllers.LoginController.afterSignUpPage()
++nocsrf
+POST          /auth/authenticate                   controllers.LoginController.authenticate()
++nocsrf
+POST          /auth/createTeacher                  controllers.LoginController.createTeacher()
+
+
+#SESSIONS
+GET           /session/sessionID/:sessionID        controllers.SessionController.getSession(sessionID)
+#ask foudil
+GET           /session/sessionListPage             controllers.SessionController.sessionList()
+#done
+GET           /session/sessionCreationPage         controllers.SessionController.sessionCreation()
++nocsrf
+POST          /session                             controllers.SessionController.createSession()
+DELETE        /session/:sessionID                  controllers.SessionController.removeSession(sessionID)
+
+
+#GROUPS
+#bizzare ask foudil
+GET           /group/all                           controllers.GroupController.groupList()
+#submit in javascript
+GET           /groupCreation                       controllers.GroupController.groupCreation()
+
+GET           /group/:groupId                      controllers.GroupController.getGroup(groupId : Int)
+
++nocsrf
+POST          /group                               controllers.GroupController.createGroup()
+
+#USER
++nocsrf
+POST          /pupil                               controllers.UserController.createPupil()
+
+GET           /teacher/:userID                     controllers.UserController.getTeacher(userID)
+GET           /pupil/:userID                       controllers.UserController.getPupil(userID)
+GET           /pupils/:groupID                     controllers.UserController.getPupils(groupID : Int)
+#a lot of javascript
+GET           /pupils                              controllers.UserController.pupilList()
+GET         /pupilCreation                     controllers.UserController.pupilCreation()
+
+#ANSWERS
+GET         /answers/:sessionID                controllers.AnswerController.getBookAnswer(sessionID)
+GET         /answer/book/:session/:user        controllers.AnswerController.answerQuizz(session, user)
+
++nocsrf
+POST        /answer                            controllers.AnswerController.answerQuestion()
+
+#book
+
++nocsrf
+POST        /book/add                          controllers.BookCreationController.addBook()
++nocsrf
+POST        /book/question/add                 controllers.BookCreationController.addQuestions()
+
+
+GET         /book/create                       controllers.BookCreationController.bookCreationPage()
+GET         /book/all                          controllers.BookCreationController.bookListPage()
+GET         /book/quizz/:id                    controllers.BookCreationController.quizzCreationPage(id : Int)
+GET         /test                              controllers.TestController.test()
+GET         /test2                             controllers.TestController.test2()
+GET         /lang/:str                         controllers.LangController.changeLanguage(str)

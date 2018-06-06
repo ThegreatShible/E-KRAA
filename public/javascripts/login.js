@@ -205,8 +205,8 @@ var SnippetLogin = function() {
         // public functions
         init: function() {
             handleFormSwitch();
-            handleSignInFormSubmit();
-            handleSignUpFormSubmit();
+            /* handleSignInFormSubmit();
+             handleSignUpFormSubmit();*/
             handleForgetPasswordFormSubmit();
         }
     };
