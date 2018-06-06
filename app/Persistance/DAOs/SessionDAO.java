@@ -38,7 +38,7 @@ public class SessionDAO {
     private final static String getUserScore = "select score from public.\"user\" join auth on \"user\".userid = auth.userid where confirmed = TRUE and auth.userid = ? ";
     private final static String setUserScoreLevel = "UPDATE public.\"user\"\n" +
             "\tSET  score=?, level=?\n" +
-            "\tWHERE userid  = ? returing score, level";
+            "\tWHERE userid  = ? returning score, level";
     private static String sessionCreationQuery = "INSERT INTO public.session(\n" +
             "\tsessionid, idbook, startdate, duration, removed, groupid)\n" +
             "\tVALUES (?, ?, ?, ?, FALSE, ?)";

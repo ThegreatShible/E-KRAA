@@ -76,13 +76,15 @@ public class SessionController extends Controller {
         Form<SessionForm> bindSessionFrom = sessionForm.bindFromRequest();
         if (bindSessionFrom.hasErrors()) {
             bindSessionFrom.allErrors().forEach(x -> System.out.println(x));
-            return CompletableFuture.supplyAsync(() -> ok("thanks"));
+            return CompletableFuture.supplyAsync(() -> badRequest("form is incorrect"));
         } else {
+
+            final String link = "http://"+request().host()+"/answer/book";
             UUID sessionID = UUID.randomUUID();
             Session session = bindSessionFrom.get().toSession(sessionID);
             //UUID userid = UUID.fromString(session().get("user"));
             return CompletableFuture.supplyAsync(() -> {
-                scheduler.scheduleSessionStart(session);
+                scheduler.scheduleSessionStart(session , link);
                 return redirect(routes.SessionController.sessionList());
             });
         }
