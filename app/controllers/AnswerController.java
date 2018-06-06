@@ -15,6 +15,7 @@ import models.users.Pupil;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import scala.Option;
 import services.mailing.MailingServiceImpl;
@@ -51,10 +52,10 @@ public class AnswerController extends Controller {
         final JsonNode jsonNode = request().body().asJson();
         final UserAnswerForm userAnswerForm = Json.fromJson(jsonNode, UserAnswerForm.class);
         System.out.println("json : " + jsonNode);
-        //final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
-        final UUID sessionID = UUID.fromString("b16bf9fc-d709-4a79-9d83-46ba5faee7b9");
-        //final UUID userID = UUID.fromString(userAnswerForm.getUserID());
-        final UUID userID = UUID.fromString("0abec3ef-f602-43e0-a0eb-ae4fb7c88c9b");
+        final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
+        //final UUID sessionID = UUID.fromString("b16bf9fc-d709-4a79-9d83-46ba5faee7b9");
+        final UUID userID = UUID.fromString(userAnswerForm.getUserID());
+        //final UUID userID = UUID.fromString("0abec3ef-f602-43e0-a0eb-ae4fb7c88c9b");
         return sessionDAO.getSessionById(sessionID).thenCompose(session -> {
             if (session.isEmpty())
                 return CompletableFuture.supplyAsync(() -> notFound("session not found"));
@@ -73,20 +74,12 @@ public class AnswerController extends Controller {
                             map.put(nq, ans);
                         }
 
-                        for (Map.Entry<Short, List<Short>> entry : map.entrySet())
-                        {
-                            System.out.println("map1 key "+ entry.getKey());
-                            System.out.println("map1 value" + entry.getValue());
-                        }
-                        for (Question question : book.getQuestions()) {
-                            System.out.println("questions from book : "+ question.getQuestionNum());
-                        }
+
 
                         UserAnswer userAnswer = UserAnswer.create(session.get(), userID, map, book.getQuestions());
                         final int score = book.getScoreFromAnswer(userAnswer);
                         CompletableFuture<Result> res = sessionDAO.createUserAnswer(book, userAnswer).thenCompose(x -> {
                             return userDAO.getPupil(userID).thenApply(pupil -> {
-                                ctx().session().clear();
                                 return redirect(routes.LoginController.loginPage());
                             });
                         });

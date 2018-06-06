@@ -4,6 +4,7 @@ import Persistance.DAOs.BookRepository;
 import Persistance.DAOs.GroupDAO;
 import Persistance.DAOs.SessionDAO;
 import Persistance.DAOs.UserDAO;
+import forms.JsonHelpers.SessionJsonList;
 import forms.SessionForm;
 import models.book.Book;
 import models.session.Session;
@@ -11,6 +12,7 @@ import models.users.Group;
 import models.users.Pupil;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.Option;
@@ -20,7 +22,9 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class SessionController extends Controller {
@@ -94,7 +98,17 @@ public class SessionController extends Controller {
     }
 
     public Result sessionList() {
-        return ok(SessionList.render());
+        UUID userID = UUID.fromString(session("user"));
+        try {
+            List<Session> sessionList = sessionDAO.getSessionByTeacherID(userID).get(3, TimeUnit.SECONDS);
+            SessionJsonList sessionJsonList = SessionJsonList.fromSessionList(sessionList);
+            String str = Json.toJson(sessionJsonList).toString();
+            return ok(SessionList.render(str));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError();
+        }
+
     }
 
     public Result sessionCreation() {

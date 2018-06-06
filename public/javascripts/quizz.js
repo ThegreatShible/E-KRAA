@@ -25,17 +25,22 @@ var form = function () {
             var nbrQuestions = $(".alert").length;
             console.log(fields);
             for (let index = 0; index < nbrQuestions; index++) {
-                question.numQuestion = index + 1;
-                answer = [];
+                var question1 = new Object();
+                var answer1;
+                question1.numQuestion = index + 1;
+                answer1 = [];
                 for (let i = 0; i < fields.length; i++) {
                     if (parseInt(fields[i].name) === index + 1) {
-                        answer.push(fields[i].value);
+                        answer1.push(parseInt(fields[i].value));
                     }
 
                 }
-                question.answersNum = answer;
+                question1.answersNum = answer1;
+                questions.questionsAnswers.push(question1);
             }
-            questions.questionsAnswers.push(question);
+
+            questions.sessionID = $("#session").text();
+            questions.userID = $("#userID").text();
             console.log(questions);
 
             //add sessionID & userID

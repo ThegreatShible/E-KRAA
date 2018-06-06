@@ -3,7 +3,7 @@ var DatatableDataLocalDemo = function () {
 
 	// demo initializer
 	var demo = function () {
-
+		console.log(groups);
 		var dataJSONArray = JSON.parse('[{"groupId":1,"groupName":"SIT","Status":2},{"groupId":2,"groupName":"SIL","Status":1}]');
 
 		var datatable = $('.m_datatable').mDatatable({

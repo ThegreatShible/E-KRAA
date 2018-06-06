@@ -27,9 +27,10 @@ public class UserAnswer {
         for (Question question : questions) {
             set.add(question.getQuestionNum());
             final short qid = question.getQuestionNum();
-            System.out.println("QUESTION : "+ question.getQuestionNum());
-            System.out.println("ANSWERS ");
+
+            //user answers (Short)
             List<Short> answers = questionsAnswers.get(qid);
+
             if (answers.isEmpty())
                 throw new UserAnswerCreationException("la question numero " + qid + "ne contient pas de reponse");
             if (!question.isMultipleChoice() && answers.size() > 1)
@@ -40,9 +41,20 @@ public class UserAnswer {
             for (Answer a : answerSet) {
                 answerIDSet.add(a.getNumAnswer());
             }
-            if (!answerIDSet.equals(new HashSet(answers)))
-                throw new UserAnswerCreationException("Les reponse a une question ne sont pas conformes");
 
+            //try
+
+            if (!answerIDSet.containsAll(answers)) {
+                for (short i : answerIDSet) {
+                    System.out.println("hs  "+ i);
+
+                }
+                for (short i : answers) {
+                    System.out.println("answers  "+ answers);
+
+                }
+                throw new UserAnswerCreationException("Les reponse a une question ne sont pas conformes");
+            }
         }
         if (!set.equals(questionsAnswers.keySet()))
             throw new UserAnswerCreationException("les questions ne sont pas tous presentes");

@@ -3,6 +3,7 @@ package controllers;
 import Persistance.DAOs.BookRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import forms.BookForm;
+import forms.JsonHelpers.BookJsonList;
 import forms.QuestionForm;
 import forms.QuestionsForm;
 import models.book.Book;
@@ -110,8 +111,10 @@ public class BookCreationController extends Controller {
 
     public CompletableFuture<Result> bookListPage() {
         UUID uuid = UUID.fromString(session("user"));
-        return bookRepository.findAll(uuid).thenApply(x -> {
-            return ok(BookList.render());
+        return bookRepository.findAll(uuid).thenApply(books -> {
+            BookJsonList bookJsonList = BookJsonList.fromBookList(books);
+            String str = Json.toJson(bookJsonList).toString();
+            return ok(BookList.render(str));
         });
 
     }

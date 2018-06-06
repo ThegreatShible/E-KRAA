@@ -34,8 +34,8 @@ public class SessionDAO {
     private final static String removeSessionQuery = "UPDATE public.session\n" +
             "\tSET  removed= TRUE\n" +
             "\tWHERE sessionid = ? ";
-    private final static String getLevel = "select level, maxscore from level join (select max(maxscore) as max from level where maxscore <= ?) as t on maxscore = max";
-    private final static String getUserScore = "select score from public.\"user\",auth where confirmed = TRUE ";
+    private final static String getLevel = "select level from level join (select max(maxscore) as max from level where maxscore <= ?) as t on maxscore = max";
+    private final static String getUserScore = "select score from public.\"user\" join auth on \"user\".userid = auth.userid where confirmed = TRUE and auth.userid = ? ";
     private final static String setUserScoreLevel = "UPDATE public.\"user\"\n" +
             "\tSET  score=?, level=?\n" +
             "\tWHERE userid  = ? returing score, level";
@@ -165,7 +165,7 @@ public class SessionDAO {
                     }
                 }
                 int score = book.getScoreFromAnswer(userAnswer);
-                int userScore = (Integer) em.createNativeQuery(getUserScore).getSingleResult();
+                int userScore = (Integer) em.createNativeQuery(getUserScore).setParameter(1,userAnswer.getUser().toString()).getSingleResult();
                 int finalscore = score + userScore;
                 int finalLevel = (Integer) em.createNativeQuery(getLevel).setParameter(1, finalscore).getSingleResult();
                 em.createNativeQuery(setUserScoreLevel).setParameter(1, finalscore)

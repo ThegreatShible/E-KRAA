@@ -4,11 +4,15 @@ package controllers;
 import Persistance.DAOs.GroupDAO;
 import Persistance.DAOs.UserDAO;
 import forms.AuthForm;
+import forms.JsonHelpers.PupilJson;
+import forms.JsonHelpers.PupilJsonList;
 import forms.PupilForm;
 import forms.TeacherForm;
+import models.users.Group;
 import models.users.Pupil;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.concurrent.ExecutionContext;
@@ -16,6 +20,8 @@ import services.mailing.MailingService;
 import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -104,7 +110,28 @@ public class UserController extends Controller {
     }
 
     public Result pupilList() {
-        return ok(PupilList.render());
+        UUID teacherID = UUID.fromString(session("user"));
+        try {
+            List<Group> groups = groupDAO.getGroups().get(3, TimeUnit.SECONDS);
+
+            List<Pupil> pupils = new ArrayList<>();
+            for (Group group : groups) {
+                List<Pupil> pupilList = userDAO.getPupilsByGroup(group.getIdGroup()).get(3, TimeUnit.SECONDS);
+                pupils.addAll(pupilList);
+            }
+            List<PupilJson> pupilJsonList = new ArrayList<>();
+            for (Pupil pupil : pupils) {
+                PupilJson pupilJson = PupilJson.fromPupil(pupil);
+                pupilJsonList.add(pupilJson);
+            }
+            PupilJsonList pupilJsonList1 = new PupilJsonList();
+            pupilJsonList1.setPupils(pupilJsonList);
+            String str = Json.toJson(pupilJsonList1).toString();
+            return ok(PupilList.render(str));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError();
+        }
     }
 
     public CompletableFuture<Result> pupilCreation() {

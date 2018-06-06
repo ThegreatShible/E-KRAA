@@ -1,5 +1,5 @@
 @this()
-@()
+@(groups : String)
 <!DOCTYPE html>
 <html lang="en">
         <!-- begin::Head -->
@@ -15,6 +15,7 @@
             <!--begin::Web font -->
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
         <script>
+               var groups = @Html(groups);
         WebFont.load({
             google: {
                 "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"]
@@ -29,7 +30,7 @@
         <link href="@routes.Assets.versioned("stylesheets/vendors.bundle.css")" rel="stylesheet" type="text/css" />
         <link href="@routes.Assets.versioned("stylesheets/style.bundle.css")" rel="stylesheet" type="text/css" />
             <!--end::Base Styles -->
-            <link rel="shortcut icon" href="@routes.Assets.versioned(" images/favicon.ico")" />
+            <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.ico")" />
             </head>
         <!-- end::Head -->
         <!-- end::Body -->
@@ -46,7 +47,7 @@
                             <div class="m-stack m-stack--ver m-stack--general">
                                 <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                     <a href="#" class="m-brand__logo-wrapper">
-                                            <img alt="" src="@routes.Assets.versioned(" images/logoText.png")" />
+                                            <img alt="" src="@routes.Assets.versioned("images/logoText.png")" />
                                     </a>
                                 </div>
                                 <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -568,7 +569,7 @@
             <!-- end::Scroll Top -->
 
             <!-- begin::Quick Nav -->
-            <!--begin::Base Scripts -->
+            <!--begin::Base Sc-->
         <script src="@routes.Assets.versioned("javascripts/vendors.bundle.js")" type="text/javascript"></script>
         <script src="@routes.Assets.versioned("javascripts/scripts.bundle.js")" type="text/javascript"></script>
             <!--end::Base Scripts -->

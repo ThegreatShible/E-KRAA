@@ -2,13 +2,18 @@ package controllers;
 
 import Persistance.DAOs.GroupDAO;
 import forms.GroupForm;
+import forms.JsonHelpers.GroupJson;
+import forms.JsonHelpers.GroupListJson;
 import models.users.Group;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -29,9 +34,18 @@ public class GroupController extends Controller {
         this.GroupList = GroupList;
     }
 
+    //TODO : groups are global
     public CompletableFuture<Result> getGroups() {
         return groupDAO.getGroups().thenApply(groups -> {
-            return ok("done");
+            List<GroupJson> groupJsons = new ArrayList<>();
+            for (Group group : groups) {
+                GroupJson groupJson = GroupJson.fromGroup(group);
+                groupJsons.add(groupJson);
+            }
+            GroupListJson groupListJson = new GroupListJson();
+            groupListJson.setGroups(groupJsons);
+            String str  = Json.toJson(groupListJson).toString();
+            return ok(GroupList.render(str));
         });
     }
 
@@ -55,8 +69,18 @@ public class GroupController extends Controller {
         });
     }
 
-    public Result groupList() {
-        return ok(GroupList.render());
+    public CompletableFuture<Result> groupList() {
+        return groupDAO.getGroups().thenApply(groups -> {
+            List<GroupJson> groupJsons = new ArrayList<>();
+            for (Group group : groups) {
+                GroupJson groupJson = GroupJson.fromGroup(group);
+                groupJsons.add(groupJson);
+            }
+            GroupListJson groupListJson = new GroupListJson();
+            groupListJson.setGroups(groupJsons);
+            String str  = Json.toJson(groupListJson).toString();
+            return ok(GroupList.render(str));
+        });
     }
 
     public Result groupCreation() {

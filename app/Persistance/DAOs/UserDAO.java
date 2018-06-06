@@ -43,6 +43,7 @@ public class UserDAO {
     private static String selectPupilsbyGroup = "SELECT \"user\".userid, firstname, lastname, birthdate, gender, photolink,  score, level, email,groupid\n" +
             "\tFROM public.\"user\" join auth on \"user\".userid = auth.userid where groupid = ? and usertype = 'PUPIL' and confirmed = TRUE";
 
+
     private static String selectAuth = "SELECT userid, password\n" +
             "\tFROM public.auth where userid = ?";
     private static String confirmQuery = "update auth set confirmed = TRUE where userid = ?";
