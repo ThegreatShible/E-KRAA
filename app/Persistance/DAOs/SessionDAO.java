@@ -44,10 +44,10 @@ public class SessionDAO {
             "\tVALUES (?, ?, ?, ?, FALSE, ?)";
     private static String selectSessionByIDTeacherQuery = "SELECT sessionid, idbook, startdate, duration, removed, session.groupid as group\n" +
             "\tFROM public.session,public.group where sessionid = ? and  removed = FALSE and owner = ?";
-    private static String selectSessionByID = "SELECT sessionid, idbook, startdate, duration, removed, session.groupid as group\n" +
+    private static String selectSessionByID = "SELECT sessionid, idbook, startdate, duration ,removed, session.groupid as group\n" +
             "\tFROM public.session,public.group where sessionid = ? and  removed = FALSE";
-    private static String selectSessionsByTeacher = "SELECT sessionid, session.idbook as ibook, startdate, duration,session.removed as rem\n" +
-            "\tFROM public.session,book\n" +
+    private static String selectSessionsByTeacher = "SELECT sessionid, session.idbook as ibook, startdate, duration,session.removed as rem\n, groupid" +
+            "\tFROM public.session join book on session.idbook = book.idbook\n" +
             "\twhere creator = ? and session.removed = FALSE";
     @Inject
     private JPAApi jpaApi;
@@ -127,7 +127,8 @@ public class SessionDAO {
         return CompletableFuture.supplyAsync(() -> {
             return jpaApi.withTransaction(() -> {
                 EntityManager em = jpaApi.em();
-                List<Object[]> sessions = em.createNativeQuery(selectSessionsByTeacher).getResultList();
+                List<Object[]> sessions = em.createNativeQuery(selectSessionsByTeacher)
+                        .setParameter(1, id.toString() ).getResultList();
                 List<Session> sessionList = new ArrayList<>();
                 for (Object[] raw : sessions) {
                     sessionList.add(getSessionFromRaw(raw));
