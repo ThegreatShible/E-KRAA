@@ -21,6 +21,8 @@ import scala.Option;
 import services.mailing.MailingServiceImpl;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -51,11 +53,8 @@ public class AnswerController extends Controller {
 
         final JsonNode jsonNode = request().body().asJson();
         final UserAnswerForm userAnswerForm = Json.fromJson(jsonNode, UserAnswerForm.class);
-        System.out.println("json : " + jsonNode);
         final UUID sessionID = UUID.fromString(userAnswerForm.getSessionID());
-        //final UUID sessionID = UUID.fromString("b16bf9fc-d709-4a79-9d83-46ba5faee7b9");
         final UUID userID = UUID.fromString(userAnswerForm.getUserID());
-        //final UUID userID = UUID.fromString("0abec3ef-f602-43e0-a0eb-ae4fb7c88c9b");
         return sessionDAO.getSessionById(sessionID).thenCompose(session -> {
             if (session.isEmpty())
                 return CompletableFuture.supplyAsync(() -> notFound("session not found"));
@@ -65,7 +64,6 @@ public class AnswerController extends Controller {
                         Map<Short, List<Short>> map = new HashMap<>();
                         for (QuestionAnswersForm qaf : userAnswerForm.getQuestionsAnswers()) {
                             short nq = (short) qaf.getNumQuestion();
-                            System.out.println("why is it 0 : " + nq);
                             List<Short> ans = new ArrayList<>();
                             for (Integer i : qaf.getAnswersNum()) {
                                 short j = i.shortValue();
@@ -77,7 +75,7 @@ public class AnswerController extends Controller {
 
 
                         UserAnswer userAnswer = UserAnswer.create(session.get(), userID, map, book.getQuestions());
-                        final int score = book.getScoreFromAnswer(userAnswer);
+
                         CompletableFuture<Result> res = sessionDAO.createUserAnswer(book, userAnswer).thenCompose(x -> {
                             return userDAO.getPupil(userID).thenApply(pupil -> {
                                 return redirect(routes.LoginController.loginPage());
@@ -119,17 +117,21 @@ public class AnswerController extends Controller {
                 return notFound("user not found");
             } else {
                 if (sessionf.isEmpty())
-                    return notFound("aucune session");
+                    return notFound("no session found");
                 else {
                     if (!sessionf.get().isActive()) {
-                        return badRequest("session not active");
+                        if(sessionf.get().getStartDate().isAfter(LocalDateTime.now()))
+                            return badRequest("session didn't start yet");
+                        else{
+                            return badRequest("session ended");
+                        }
                     } else {
                         if (sessionf.get().getGroupID() == userf.get().getGroupID()) {
                             Book book = bookRepository.find(sessionf.get().getIdBook()).get(3, TimeUnit.SECONDS);
                             ctx().session().put("user", user);
                             return ok(answerQuizz.render(book, sessionID.toString(), userID.toString()));
                         } else {
-                            return badRequest("vous n'apparetenez pas a cette sesison");
+                            return badRequest("you don't belong to this session");
                         }
                     }
                 }
