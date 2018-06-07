@@ -588,7 +588,7 @@
 	// demo initializer
 	var demo = function() {
 
-		var dataJSONArray = JSON.parse('[{"BookID":1,"BookTitle":"the little prince","Difficulty":"Easy","Category":"adventure","Language":"English","Date":"04/17/2018","Status":1},{"BookID":2,"BookTitle":"علاء الدين","Difficulty":"Easy","Category":"adventure","Language":"عربي","Date":"04/18/2018","Status":2}]');
+		var dataJSONArray = JSON.parse(listValue);
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
@@ -620,55 +620,26 @@
 			// editable: false,
 
 			// columns definition
-			columns: [{
-				field: "BookID",
-				title: "#",
-				width: 50,
-				sortable: false,
-				selector: false,
-				textAlign: 'center'
-			}, {
-				field: "BookTitle",
+			columns: [ {
+				field: "title",
 				title: "Book Title"
 			}, {
-				field: "Difficulty",
+				field: "difficulty",
 				title: "Difficulty",
 				responsive: {
 					visible: 'lg'
 				}
 			}, {
-				field: "Category",
+				field: "Categorie",
 				title: "Category",
 				width: 100
 			}, {
-				field: "Language",
+				field: "language",
 				title: "Language",
 				responsive: {
 					visible: 'lg'
 				}
-			}, {
-				field: "Date",
-				title: "Date",
-				type: "date",
-				format: "MM/DD/YYYY"
 			},{
-				field: "Status",
-				title: "Status",
-				// callback function support for column rendering
-				template: function (row) {
-					var status = {
-						1: {
-							'title': 'Pending',
-							'class': 'm-badge--brand'
-						},
-						2: {
-							'title': 'Success',
-							'class': ' m-badge--success'
-						}
-					};
-					return '<span class="m-badge ' + status[row.Status].class + ' m-badge--wide">' + status[row.Status].title + '</span>';
-				}
-			}, {
 				field: "Actions",
 				width: 110,
 				title: "Actions",
