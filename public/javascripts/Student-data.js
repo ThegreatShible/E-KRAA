@@ -4,7 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 		console.log(listValue)
-		var dataJSONArray = JSON.parse(listValue.pupilJsonList);
+		var dataJSONArray = listValue.pupilJsonList;
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
