@@ -61,6 +61,8 @@ public class SessionDAO {
                 EntityManager em = jpaApi.em();
                 long beginTime = session.getStartDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
                 long duration = session.getDuration().toMillis();
+                System.out.println("IN DAO DURATION : "+ session.getDuration());
+                System.out.println("IN DAO DURATION MILIS "+ duration);
                 em.createNativeQuery(sessionCreationQuery)
                         .setParameter(1, session.getSessionID())
                         .setParameter(2, session.getIdBook())
@@ -144,7 +146,7 @@ public class SessionDAO {
         int bookid = (int) raw[1];
         LocalDateTime startTime =
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(((BigInteger) raw[2]).longValue()), ZoneId.systemDefault());
-        Duration duration = Duration.ofSeconds(((BigInteger) raw[3]).longValue());
+        Duration duration = Duration.ofMillis(((BigInteger) raw[3]).longValue());
         int groupID = (int) raw[5];
         Session session = new Session(sessionID, startTime, duration, bookid, groupID);
         return session;

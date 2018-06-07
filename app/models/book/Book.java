@@ -1,6 +1,7 @@
 package models.book;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 //TODO : chouf fi netbeans les exception de persistance
@@ -117,6 +118,7 @@ public class Book {
             Stream<Question> newQuestions = questions.filter(question ->
                     question.getQuestionNum() == entry.getKey());
             Question question = newQuestions.findFirst().get();
+            System.out.println("QUESTION NUM ::: "+ question.getQuestionNum() + " AND ENTRY KEY : "+ entry.getKey());
             score += getScoreFromQuestion(question, entry.getValue());
         }
         return score;
@@ -132,8 +134,9 @@ public class Book {
     }
 
     private int getScoreFromQuestion(Question question, List<Short> answers) {
-        Stream<Short> sts = question.getAnswers().stream().filter(ans -> ans.isValid()).map(Answer::getNumAnswer).sorted();
-        Stream<Short> answs = answers.stream().sorted();
+        Set<Short> sts = question.getAnswers().stream().filter(ans -> ans.isValid()).map(Answer::getNumAnswer).collect(Collectors.toSet());
+        Set<Short> answs = answers.stream().collect(Collectors.toSet());
+        System.out.println("THE 2 SETS : : "+ sts+ " AND "+ answs);
         int i = 0;
         if (sts.equals(answs)) i = question.getWeight();
         return i;

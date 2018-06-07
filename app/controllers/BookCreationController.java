@@ -3,6 +3,7 @@ package controllers;
 import Persistance.DAOs.BookRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import forms.BookForm;
+import forms.JsonHelpers.BookJson;
 import forms.JsonHelpers.BookJsonList;
 import forms.QuestionForm;
 import forms.QuestionsForm;
@@ -114,6 +115,7 @@ public class BookCreationController extends Controller {
         return bookRepository.findAll(uuid).thenApply(books -> {
             BookJsonList bookJsonList = BookJsonList.fromBookList(books);
             String str = Json.toJson(bookJsonList).toString();
+
             return ok(BookList.render(str));
         });
 

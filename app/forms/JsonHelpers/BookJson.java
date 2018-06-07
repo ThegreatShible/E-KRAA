@@ -42,6 +42,10 @@ public class BookJson {
 
     public static BookJson fromBook(Book book) {
         BookJson bookJson = new BookJson();
+        bookJson.setTitle(book.getTitle());
+        bookJson.setDifficulty(book.getDifficulty().toString());
+        bookJson.setLanguage(book.getLanguage().toString());
+        bookJson.setCategorie("custom");
         return bookJson;
     }
 }
