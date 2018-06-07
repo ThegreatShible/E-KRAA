@@ -4,7 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 		console.log(groups);
-		var dataJSONArray = groups.groupListJson;
+		var dataJSONArray = groups.groups;
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition

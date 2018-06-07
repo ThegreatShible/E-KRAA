@@ -118,6 +118,7 @@ public class UserController extends Controller {
             for (Group group : groups) {
                 List<Pupil> pupilList = userDAO.getPupilsByGroup(group.getIdGroup()).get(3, TimeUnit.SECONDS);
                 pupils.addAll(pupilList);
+                pupilList.forEach(x -> System.out.println("PUPIL GR : "+x.getFirstName() + " " + group.getGroupName()));
             }
             List<PupilJson> pupilJsonList = new ArrayList<>();
             for (Pupil pupil : pupils) {

@@ -3,8 +3,8 @@ var DatatableDataLocalDemo = function () {
 
 	// demo initializer
 	var demo = function () {
-		console.log(listValue)
-		var dataJSONArray = listValue.pupilJsonList;
+		console.log(listValue.pupils);
+		var dataJSONArray = listValue.pupils;
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
