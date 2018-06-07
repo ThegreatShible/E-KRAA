@@ -4,7 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 		console.log(listValue)
-		var dataJSONArray = JSON.parse('[{"studentId":1,"firstName":"Nabih","lastName":"Nebbanche","gender":"MALE","birthDay":"00/00/1980","group":"01","Status":1},{"studentId":2,"firstName":"Foudil","lastName":"Redaoui","gender":"MALE","birthDay":"00/00/1979","group":"02","Status":2}]');
+		var dataJSONArray = listValue.pupilJsonList;
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
@@ -36,14 +36,7 @@ var DatatableDataLocalDemo = function () {
 			// editable: false,
 
 			// columns definition
-			columns: [{
-				field: "studentId",
-				title: "#",
-				width: 50,
-				sortable: false,
-				selector: false,
-				textAlign: 'center'
-			}, {
+			columns: [ {
 				field: "firstName",
 				title: "First Name"
 			}, {
@@ -57,32 +50,15 @@ var DatatableDataLocalDemo = function () {
 				title: "Gender",
 				width: 100
 			}, {
-				field: "birthDay",
+				field: "birthDate",
 				title: "Birth Day",
                 type: "date",
                 format:"MM/DD/YYYY"
 			}, {
-				field: "group",
-				title: "Group"
+				field: "groupID",
+				title: "Group ID"
 				
 			},{
-				field: "Status",
-				title: "Status",
-				// callback function support for column rendering
-				template: function (row) {
-					var status = {
-						1: {
-							'title': 'Pending',
-							'class': 'm-badge--brand'
-						},
-						2: {
-							'title': 'Success',
-							'class': ' m-badge--success'
-						}
-					};
-					return '<span class="m-badge ' + status[row.Status].class + ' m-badge--wide">' + status[row.Status].title + '</span>';
-				}
-			}, {
 				field: "Actions",
 				width: 110,
 				title: "Actions",

@@ -4,8 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 		console.log(listValue);
-		var dataJSONArray = JSON.parse('[{"sessionId":1,"start":"22/05/2018 15:00","end":"24/05/2018 15:00","book":"aladin","group":"SIL","Status":1},{"sessionId":2,"start":"25/05/2018 15:00","end":"26/05/2018 15:00","book":"the Little Prince","group":"SIT","Status":2}]');
-
+		var dataJSONArray = listValue.sessionJsonList ;
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
 			data: {

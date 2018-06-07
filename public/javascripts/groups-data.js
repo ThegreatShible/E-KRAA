@@ -4,7 +4,7 @@ var DatatableDataLocalDemo = function () {
 	// demo initializer
 	var demo = function () {
 		console.log(groups);
-		var dataJSONArray = JSON.parse('[{"groupId":1,"groupName":"SIT","Status":2},{"groupId":2,"groupName":"SIL","Status":1}]');
+		var dataJSONArray = groups.groupListJson;
 
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
@@ -37,33 +37,9 @@ var DatatableDataLocalDemo = function () {
 
 			// columns definition
 			columns: [{
-				field: "groupId",
-				title: "#",
-				width: 50,
-				sortable: false,
-				selector: false,
-				textAlign: 'center'
-			}, {
 				field: "groupName",
 				title: "Group Name"
 			},{
-				field: "Status",
-				title: "Status",
-				// callback function support for column rendering
-				template: function (row) {
-					var status = {
-						1: {
-							'title': 'Pending',
-							'class': 'm-badge--brand'
-						},
-						2: {
-							'title': 'Success',
-							'class': ' m-badge--success'
-						}
-					};
-					return '<span class="m-badge ' + status[row.Status].class + ' m-badge--wide">' + status[row.Status].title + '</span>';
-				}
-			}, {
 				field: "Actions",
 				width: 110,
 				title: "Actions",
