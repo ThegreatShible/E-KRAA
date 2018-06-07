@@ -588,8 +588,9 @@
 	// demo initializer
 	var demo = function() {
 
-		var dataJSONArray = JSON.parse(listValue);
 
+        console.log(listValue.bookJsonList);
+        dataJSONArray = listValue.bookJsonList;
 		var datatable = $('.m_datatable').mDatatable({
 			// datasource definition
 			data: {
@@ -629,10 +630,6 @@
 				responsive: {
 					visible: 'lg'
 				}
-			}, {
-				field: "Categorie",
-				title: "Category",
-				width: 100
 			}, {
 				field: "language",
 				title: "Language",
